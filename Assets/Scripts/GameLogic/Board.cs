@@ -1,12 +1,11 @@
 using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class Board : MonoBehaviour
 {
     [Header("판떼기")]
     [SerializeField] GameObject board_object;
+    [SerializeField] GameObject board_pivot;
 
     [Header("스폰할 오브젝트들")]
     [SerializeField] GameObject highlight;
@@ -27,10 +26,11 @@ public class Board : MonoBehaviour
     private AIManager aiManager;
 
     public const int BOARD_SIZE = 8;
-    private float TILE_WIDTH_ORIGIN;
-    private float TILE_HEIGHT_ORIGIN;
-    private float TILE_DW;
-    private float TILE_DH;
+    private float TILE_X_ORIGIN;
+    private float TILE_Y_ORIGIN;
+    private float TILE_Z_ORIGIN;
+    private float TILE_DX;
+    private float TILE_DZ;
     private GameObject[,] pieces = new GameObject[BOARD_SIZE + 1, BOARD_SIZE + 1];
     private GameObject[,] highlights = new GameObject[BOARD_SIZE + 1, BOARD_SIZE + 1];
 
@@ -49,56 +49,58 @@ public class Board : MonoBehaviour
 
     public void SetBoard()
     {
-        TILE_WIDTH_ORIGIN = board_object.transform.position.x;
-        TILE_HEIGHT_ORIGIN = board_object.transform.position.y;
-        SpriteRenderer board_sr = board_object.GetComponent<SpriteRenderer>();
-        TILE_DW = board_sr.bounds.size.x / 16;
-        TILE_DH = board_sr.bounds.size.y / 16;
+        TILE_Z_ORIGIN = board_pivot.transform.position.x;
+        TILE_Y_ORIGIN = board_pivot.transform.position.y + 0.01f;
+        TILE_X_ORIGIN = board_pivot.transform.position.z;
+        MeshRenderer board_mr = board_object.GetComponent<MeshRenderer>();
+        TILE_DX = board_mr.bounds.size.x / 16;
+        TILE_DZ = board_mr.bounds.size.z / 16;
 
         for (int i = 1; i <= 8; i++)
         {
             for (int j = 1; j <= 8; j++)
             {
-                highlights[i, j] = Instantiate(highlight, GridIdxToBoardPos((i, j)), Quaternion.identity);
+                highlights[i, j] = Instantiate(highlight, GridIdxToBoardPos((i, j)), Quaternion.Euler(90, 0, 0));
                 highlights[i, j].SetActive(false);
             }
         }
 
         for (int i = 1; i <= 8; i++)
         {
-            pieces[i, 2] = Instantiate(white_Pawn, GridIdxToBoardPos((i, 2)), Quaternion.identity);
-            pieces[i, 7] = Instantiate(black_Pawn, GridIdxToBoardPos((i, 7)), Quaternion.identity);
+            pieces[i, 2] = Instantiate(white_Pawn, GridIdxToBoardPos((i, 2)), Quaternion.Euler(-90, 0, 0));
+            pieces[i, 7] = Instantiate(black_Pawn, GridIdxToBoardPos((i, 7)), Quaternion.Euler(-90, 0, 0));
         }
 
-        pieces[1, 1] = Instantiate(white_Rook, GridIdxToBoardPos((1, 1)), Quaternion.identity);
-        pieces[2, 1] = Instantiate(white_Knight, GridIdxToBoardPos((2, 1)), Quaternion.identity);
-        pieces[3, 1] = Instantiate(white_Bishop, GridIdxToBoardPos((3, 1)), Quaternion.identity);
-        pieces[4, 1] = Instantiate(white_Queen, GridIdxToBoardPos((4, 1)), Quaternion.identity);
-        pieces[5, 1] = Instantiate(white_King, GridIdxToBoardPos((5, 1)), Quaternion.identity);
-        pieces[6, 1] = Instantiate(white_Bishop, GridIdxToBoardPos((6, 1)), Quaternion.identity);
-        pieces[7, 1] = Instantiate(white_Knight, GridIdxToBoardPos((7, 1)), Quaternion.identity);
-        pieces[8, 1] = Instantiate(white_Rook, GridIdxToBoardPos((8, 1)), Quaternion.identity);
+        pieces[1, 1] = Instantiate(white_Rook, GridIdxToBoardPos((1, 1)), Quaternion.Euler(-90, 0, 0));
+        pieces[2, 1] = Instantiate(white_Knight, GridIdxToBoardPos((2, 1)), Quaternion.Euler(-90, 0, 0));
+        pieces[3, 1] = Instantiate(white_Bishop, GridIdxToBoardPos((3, 1)), Quaternion.Euler(-90, 0, 0));
+        pieces[4, 1] = Instantiate(white_Queen, GridIdxToBoardPos((4, 1)), Quaternion.Euler(-90, 0, 0));
+        pieces[5, 1] = Instantiate(white_King, GridIdxToBoardPos((5, 1)), Quaternion.Euler(-90, 0, 0));
+        pieces[6, 1] = Instantiate(white_Bishop, GridIdxToBoardPos((6, 1)), Quaternion.Euler(-90, 0, 0));
+        pieces[7, 1] = Instantiate(white_Knight, GridIdxToBoardPos((7, 1)), Quaternion.Euler(-90, 0, 0));
+        pieces[8, 1] = Instantiate(white_Rook, GridIdxToBoardPos((8, 1)), Quaternion.Euler(-90, 0, 0));
 
-        pieces[1, 8] = Instantiate(black_Rook, GridIdxToBoardPos((1, 8)), Quaternion.identity);
-        pieces[2, 8] = Instantiate(black_Knight, GridIdxToBoardPos((2, 8)), Quaternion.identity);
-        pieces[3, 8] = Instantiate(black_Bishop, GridIdxToBoardPos((3, 8)), Quaternion.identity);
-        pieces[4, 8] = Instantiate(black_Queen, GridIdxToBoardPos((4, 8)), Quaternion.identity);
-        pieces[5, 8] = Instantiate(black_King, GridIdxToBoardPos((5, 8)), Quaternion.identity);
-        pieces[6, 8] = Instantiate(black_Bishop, GridIdxToBoardPos((6, 8)), Quaternion.identity);
-        pieces[7, 8] = Instantiate(black_Knight, GridIdxToBoardPos((7, 8)), Quaternion.identity);
-        pieces[8, 8] = Instantiate(black_Rook, GridIdxToBoardPos((8, 8)), Quaternion.identity);
+        pieces[1, 8] = Instantiate(black_Rook, GridIdxToBoardPos((1, 8)), Quaternion.Euler(-90, 0, 0));
+        pieces[2, 8] = Instantiate(black_Knight, GridIdxToBoardPos((2, 8)), Quaternion.Euler(-90, 0, 0));
+        pieces[3, 8] = Instantiate(black_Bishop, GridIdxToBoardPos((3, 8)), Quaternion.Euler(-90, 0, 0));
+        pieces[4, 8] = Instantiate(black_Queen, GridIdxToBoardPos((4, 8)), Quaternion.Euler(-90, 0, 0));
+        pieces[5, 8] = Instantiate(black_King, GridIdxToBoardPos((5, 8)), Quaternion.Euler(-90, 0, 0));
+        pieces[6, 8] = Instantiate(black_Bishop, GridIdxToBoardPos((6, 8)), Quaternion.Euler(-90, 0, 0));
+        pieces[7, 8] = Instantiate(black_Knight, GridIdxToBoardPos((7, 8)), Quaternion.Euler(-90, 0, 0));
+        pieces[8, 8] = Instantiate(black_Rook, GridIdxToBoardPos((8, 8)), Quaternion.Euler(-90, 0, 0));
     }
 
     /// <summary>
-    /// 가로 인덱스 x, 세로 인덱스 y에 해당하는 씬 위치 반환
+    /// 가로 인덱스 i, 세로 인덱스 j에 해당하는 씬 위치 반환
     /// </summary>
-    public Vector2 GridIdxToBoardPos((int, int) idx)
+    public Vector3 GridIdxToBoardPos((int, int) idx)
     {
-        int x = idx.Item1;
-        int y = idx.Item2;
-        float x_pos = TILE_WIDTH_ORIGIN + (2 * x - 1) * TILE_DW;
-        float y_pos = TILE_HEIGHT_ORIGIN + (2 * y - 1) * TILE_DH;
-        return new Vector2(x_pos, y_pos);
+        int i = idx.Item1;
+        int j = idx.Item2;
+        float x_pos = TILE_Z_ORIGIN + (2 * i - 1) * TILE_DX;
+        float y_pos = TILE_Y_ORIGIN;
+        float z_pos = TILE_X_ORIGIN + (2 * j - 1) * TILE_DZ;
+        return new Vector3(x_pos, y_pos, z_pos);
     }
 
     /// <summary>
@@ -106,8 +108,8 @@ public class Board : MonoBehaviour
     /// </summary>
     public (int, int) BoardPosToGridIdx(Vector2 pos)
     {
-        int x = (int)((pos.x - TILE_WIDTH_ORIGIN) / (2 * TILE_DW) + 1);
-        int y = (int)((pos.y - TILE_HEIGHT_ORIGIN) / (2 * TILE_DH) + 1);
+        int x = (int)((pos.x - TILE_Z_ORIGIN) / (2 * TILE_DX) + 1);
+        int y = (int)((pos.y - TILE_X_ORIGIN) / (2 * TILE_DZ) + 1);
         return (x, y);
     }
 
