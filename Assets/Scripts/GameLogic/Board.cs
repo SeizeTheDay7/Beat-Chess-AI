@@ -26,9 +26,9 @@ public class Board : MonoBehaviour
     private AIManager aiManager;
 
     public const int BOARD_SIZE = 8;
-    private float TILE_X_ORIGIN;
-    private float TILE_Y_ORIGIN;
     private float TILE_Z_ORIGIN;
+    private float TILE_Y_ORIGIN;
+    private float TILE_X_ORIGIN;
     private float TILE_DX;
     private float TILE_DZ;
     private GameObject[,] pieces = new GameObject[BOARD_SIZE + 1, BOARD_SIZE + 1];
@@ -49,9 +49,9 @@ public class Board : MonoBehaviour
 
     public void SetBoard()
     {
-        TILE_Z_ORIGIN = board_pivot.transform.position.x;
+        TILE_X_ORIGIN = board_pivot.transform.position.x;
         TILE_Y_ORIGIN = board_pivot.transform.position.y + 0.01f;
-        TILE_X_ORIGIN = board_pivot.transform.position.z;
+        TILE_Z_ORIGIN = board_pivot.transform.position.z;
         MeshRenderer board_mr = board_object.GetComponent<MeshRenderer>();
         TILE_DX = board_mr.bounds.size.x / 16;
         TILE_DZ = board_mr.bounds.size.z / 16;
@@ -97,20 +97,20 @@ public class Board : MonoBehaviour
     {
         int i = idx.Item1;
         int j = idx.Item2;
-        float x_pos = TILE_Z_ORIGIN + (2 * i - 1) * TILE_DX;
+        float x_pos = TILE_X_ORIGIN + (2 * i - 1) * TILE_DX;
         float y_pos = TILE_Y_ORIGIN;
-        float z_pos = TILE_X_ORIGIN + (2 * j - 1) * TILE_DZ;
+        float z_pos = TILE_Z_ORIGIN + (2 * j - 1) * TILE_DZ;
         return new Vector3(x_pos, y_pos, z_pos);
     }
 
     /// <summary>
     /// 씬에서의 위치 좌표에 해당하는 가로 인덱스 x, 세로 인덱스 y 반환
     /// </summary>
-    public (int, int) BoardPosToGridIdx(Vector2 pos)
+    public (int, int) BoardPosToGridIdx(Vector3 pos)
     {
-        int x = (int)((pos.x - TILE_Z_ORIGIN) / (2 * TILE_DX) + 1);
-        int y = (int)((pos.y - TILE_X_ORIGIN) / (2 * TILE_DZ) + 1);
-        return (x, y);
+        int x = (int)((pos.x - TILE_X_ORIGIN) / (2 * TILE_DX) + 1);
+        int z = (int)((pos.z - TILE_Z_ORIGIN) / (2 * TILE_DZ) + 1);
+        return (x, z);
     }
 
     /// <summary>
