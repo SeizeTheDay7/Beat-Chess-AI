@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 4758734508956661312}
   - component: {fileID: 3933791379985435124}
   - component: {fileID: 1279909383866376579}
-  m_Layer: 0
+  - component: {fileID: 971112259426222502}
+  m_Layer: 3
   m_Name: Black_Queen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,3 +103,24 @@ MonoBehaviour:
   cached: 0
   isWhite: 0
   FirstMove: 1
+--- !u!65 &971112259426222502
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6836587703988815549}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.01941093, y: 0.019410927, z: 0.05099278}
+  m_Center: {x: 0, y: 1.8116277e-16, z: 0.02549639}

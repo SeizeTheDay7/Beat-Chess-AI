@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 6653379449634577758}
   - component: {fileID: 3034145878104979591}
   - component: {fileID: 5577361984078201203}
-  m_Layer: 0
+  - component: {fileID: -7077187571836737499}
+  m_Layer: 3
   m_Name: Black_Knight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,3 +103,24 @@ MonoBehaviour:
   cached: 0
   isWhite: 0
   FirstMove: 1
+--- !u!65 &-7077187571836737499
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2685566698176758572}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.0046550697, y: 0.00577511, z: 0.010239823}
+  m_Center: {x: 0, y: -0.0004994251, z: 0.0051199114}

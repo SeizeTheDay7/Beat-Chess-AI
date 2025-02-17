@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 330929374538806274}
   - component: {fileID: 6274157890821905595}
   - component: {fileID: 2494421308819883523}
-  m_Layer: 0
+  - component: {fileID: -5522968946687987438}
+  m_Layer: 3
   m_Name: Black_King
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,3 +103,24 @@ MonoBehaviour:
   cached: 0
   isWhite: 0
   FirstMove: 1
+--- !u!65 &-5522968946687987438
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5975478358545529569}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.025342334, y: 0.011500235, z: 0.0741757}
+  m_Center: {x: 0, y: -0.000000002561137, z: 0.037088133}

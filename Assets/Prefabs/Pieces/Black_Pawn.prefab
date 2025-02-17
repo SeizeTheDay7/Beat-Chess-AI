@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 609258876896627220}
   - component: {fileID: 3987434431117613024}
   - component: {fileID: 3681772825187338621}
-  m_Layer: 0
+  - component: {fileID: 678469410219769750}
+  m_Layer: 3
   m_Name: Black_Pawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,3 +103,24 @@ MonoBehaviour:
   cached: 0
   isWhite: 0
   FirstMove: 1
+--- !u!65 &678469410219769750
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2090892415558888136}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.0018130325, y: 0.0018130323, z: 0.0029140168}
+  m_Center: {x: 0, y: -5.820765e-11, z: 0.0014570084}
