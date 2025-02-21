@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 6572412914101880093}
   - component: {fileID: 7044374492431018713}
   - component: {fileID: 5489138613977520002}
-  - component: {fileID: -1769402036190768986}
+  - component: {fileID: 2961219603300215588}
+  - component: {fileID: 6422731128512616390}
   m_Layer: 3
   m_Name: White_King_new
   m_TagString: Untagged
@@ -28,13 +29,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9067341901164565465}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+  m_LocalRotation: {x: -0.7069834, y: 0, z: 0, w: 0.7072302}
   m_LocalPosition: {x: -0.028944038, y: 0.017392656, z: -0.20260827}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -89.98, y: 0, z: 0}
 --- !u!33 &6572412914101880093
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -103,7 +104,7 @@ MonoBehaviour:
   cached: 0
   isWhite: 1
   FirstMove: 1
---- !u!65 &-1769402036190768986
+--- !u!65 &2961219603300215588
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -122,5 +123,26 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.0016610862, y: 0.0016688042, z: 0.0038001267}
-  m_Center: {x: 0.000000451284, y: -0.0000001574808, z: 0.0019000634}
+  m_Size: {x: 0.0016610859, y: 0.0016688042, z: 0.0006214592}
+  m_Center: {x: -0.00000045128166, y: 0.00000015750528, z: 0.0003107306}
+--- !u!65 &6422731128512616390
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9067341901164565465}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.0009297275, y: 0.0010719183, z: 0.003169568}
+  m_Center: {x: 0.000004501324, y: -0.000028503613, z: 0.0022153473}
