@@ -26,9 +26,9 @@ public abstract class Piece : MonoBehaviour
     /// <summary>
     /// 이동 가능한 경로 중 적에게 체크가 되는 경로를 제거한다.
     /// </summary>
-    public void ExcludeCheckMoves(int x, int y)
+    public void ExcludeCheckMoves(int x, int z)
     {
-        moves.RemoveAll(move => moveValidator.SimulateEnemyCheck(x, y, move.Item1, move.Item2));
+        moves.RemoveAll(move => moveValidator.SimulateEnemyCheck(x, z, move.Item1, move.Item2));
     }
 
     public void ResetMoves()

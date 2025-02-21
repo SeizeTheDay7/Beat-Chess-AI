@@ -109,37 +109,37 @@ public class MoveValidator : MonoBehaviour
     /// 특정 위치에 있는 기물이 새 위치로 이동하면 체크될 것인지 확인해보는 함수
     /// </summary>
     /// <param name="x">기존 x좌표</param>
-    /// <param name="y">기존 y좌표</param>
+    /// <param name="z">기존 z좌표</param>
     /// <param name="newx">이동해볼 x좌표</param>
-    /// <param name="newy">이동해볼 y좌표</param>
+    /// <param name="newz">이동해볼 z좌표</param>
     /// <returns>킹이 체크된다면 true 반환</returns>
-    public bool SimulateEnemyCheck(int x, int y, int newx, int newy)
+    public bool SimulateEnemyCheck(int x, int z, int newx, int newz)
     {
         bool isCheckedMove = false; // 체크되는지 여부
         bool didCastling = false; // 캐슬링 여부
         bool didEnPassant = false; // 앙파상 여부
 
-        GameObject piece = board.GetPieceAt(x, y); // 원래 위치의 기물
-        Piece pieceScript = board.GetPieceScriptAt(x, y); // 원래 위치의 기물의 스크립트
+        GameObject piece = board.GetPieceAt(x, z); // 원래 위치의 기물
+        Piece pieceScript = board.GetPieceScriptAt(x, z); // 원래 위치의 기물의 스크립트
         bool isWhite = pieceScript.isWhite; // 원래 위치의 기물의 편
-        GameObject temp = board.GetPieceAt(newx, newy); // 이동할 위치에 기물이 있다면 임시로 저장해놓는다
+        GameObject temp = board.GetPieceAt(newx, newz); // 이동할 위치에 기물이 있다면 임시로 저장해놓는다
         GameObject temp_pawn = null;
 
         // 앙파상이라면 앙파상 처리, 캐슬링이라면 캐슬링으로 처리해줘야 함. 그 외의 경우는 그냥 이동
-        if (pieceScript is Pawn) didEnPassant = CheckEnpassant(pieceScript as Pawn, newx, newy);
-        if (pieceScript is King) didCastling = TryCastling(pieceScript as King, newx, newy);
+        if (pieceScript is Pawn) didEnPassant = CheckEnpassant(pieceScript as Pawn, newx, newz);
+        if (pieceScript is King) didCastling = TryCastling(pieceScript as King, newx, newz);
         if (didEnPassant)
         {
-            temp_pawn = board.GetPieceAt(newx, newy - 1);
-            board.SetPieceAt(null, newx, newy - 1);
+            temp_pawn = board.GetPieceAt(newx, newz - 1);
+            board.SetPieceAt(null, newx, newz - 1);
         }
 
         // 원래 위치의 기물을 없애고, 이동할 위치에 기물을 놓는다
-        board.SetPieceAt(null, x, y);
-        board.SetPieceAt(piece, newx, newy);
+        board.SetPieceAt(null, x, z);
+        board.SetPieceAt(piece, newx, newz);
 
         (int, int) kingPosition = isWhite ? whiteKingPosition : blackKingPosition; // 현재 킹의 위치를 가져온다
-        if (pieceScript is King) kingPosition = (newx, newy); // 킹이 자신의 이동을 점검하려는 거면 킹의 위치를 수정
+        if (pieceScript is King) kingPosition = (newx, newz); // 킹이 자신의 이동을 점검하려는 거면 킹의 위치를 수정
 
 
         // 모든 적 기물들이 킹의 위치로 이동할 수 있는지 확인
@@ -161,26 +161,26 @@ public class MoveValidator : MonoBehaviour
         }
 
         // 시뮬레이션을 마쳤다면 원래대로 되돌린다
-        board.SetPieceAt(temp, newx, newy);
-        board.SetPieceAt(piece, x, y);
+        board.SetPieceAt(temp, newx, newz);
+        board.SetPieceAt(piece, x, z);
 
         // 앙파상 했었다면 폰을 되살린다
         if (didEnPassant)
         {
-            board.SetPieceAt(temp_pawn, newx, newy - 1);
+            board.SetPieceAt(temp_pawn, newx, newz - 1);
         }
         // 캐슬링 했었다면 룩을 되돌려놓는다
         if (didCastling)
         {
             if (newx == 3)
             {
-                board.SetPieceAt(board.GetPieceAt(4, newy), 1, newy);
-                board.SetPieceAt(null, 4, newy);
+                board.SetPieceAt(board.GetPieceAt(4, newz), 1, newz);
+                board.SetPieceAt(null, 4, newz);
             }
             if (newx == 7)
             {
-                board.SetPieceAt(board.GetPieceAt(6, newy), 8, newy);
-                board.SetPieceAt(null, 6, newy);
+                board.SetPieceAt(board.GetPieceAt(6, newz), 8, newz);
+                board.SetPieceAt(null, 6, newz);
             }
         }
 

@@ -41,7 +41,7 @@ public class King : Piece
             {
                 Piece ps = board.GetPieceScriptAt(newX, newY);
                 // 기물이 없거나 다른 편의 기물이라면 이동 가능
-                if ((ps == null || ps.isWhite != isWhite))
+                if (ps == null || ps.isWhite != isWhite)
                 {
                     moves.Add((newX, newY));
                 }
@@ -73,12 +73,19 @@ public class King : Piece
         if (leftRook != null && leftRook.FirstMove)
         {
             bool canLeftCastling = true;
-            for (int i = 2; i <= 4; i++)
+            if (board.GetPieceAt(x - 3, y) != null)
             {
-                if (board.GetPieceAt(i, y) != null || moveValidator.SimulateEnemyCheck(x, y, i, y))
+                canLeftCastling = false;
+            }
+            else
+            {
+                for (int i = 3; i <= 4; i++)
                 {
-                    canLeftCastling = false;
-                    break;
+                    if (board.GetPieceAt(i, y) != null || moveValidator.SimulateEnemyCheck(x, y, i, y))
+                    {
+                        canLeftCastling = false;
+                        break;
+                    }
                 }
             }
             if (canLeftCastling) moves.Add((x - 2, y));
