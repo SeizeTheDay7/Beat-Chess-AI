@@ -143,41 +143,41 @@ public class Board : MonoBehaviour
         pieces[x, y] = piece;
     }
 
-    public bool DestroyPieceAt(int x, int y)
+    public bool DestroyPieceAt(int x, int z)
     {
-        if (pieces[x, y] == null) { return false; }
-        Destroy(pieces[x, y]);
+        if (pieces[x, z] == null) { return false; }
+        Destroy(pieces[x, z]);
         return true;
     }
 
-    public GameObject GetPieceAt(int x, int y)
+    public GameObject GetPieceAt(int x, int z)
     {
-        if (x < 1 || x > 8 || y < 1 || y > 8)
+        if (x < 1 || x > 8 || z < 1 || z > 8)
         {
             return null;
         }
 
-        if (pieces[x, y] == null)
+        if (pieces[x, z] == null)
         {
             return null;
         }
 
-        return pieces[x, y];
+        return pieces[x, z];
     }
 
-    public Piece GetPieceScriptAt(int x, int y)
+    public Piece GetPieceScriptAt(int x, int z)
     {
-        if (x < 1 || x > 8 || y < 1 || y > 8)
+        if (x < 1 || x > 8 || z < 1 || z > 8)
         {
             return null;
         }
 
-        if (pieces[x, y] == null)
+        if (pieces[x, z] == null)
         {
             return null;
         }
 
-        return pieces[x, y].GetComponent<Piece>();
+        return pieces[x, z].GetComponent<Piece>();
     }
 
     public void SetHighlights(List<(int, int)> moves)
@@ -188,9 +188,9 @@ public class Board : MonoBehaviour
         }
     }
 
-    public void RemoveHighlight(int x, int y)
+    public void RemoveHighlight(int x, int z)
     {
-        highlights[x, y].SetActive(false);
+        highlights[x, z].SetActive(false);
     }
 
     public void RemoveAllHighlights()
