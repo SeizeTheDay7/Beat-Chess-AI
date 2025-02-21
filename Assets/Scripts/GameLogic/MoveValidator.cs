@@ -29,10 +29,11 @@ public class MoveValidator : MonoBehaviour
         if (!king.FirstMove) return false; // 첫 이동이 아니라면 캐슬링 불가능
 
         // 처음 움직인 것인데 특정한 x축 좌표로 이동했다면 캐슬링
-        // King의 PossibleMove()에서 캐슬링을 검증했으므로, 여기선 이동만 하면 된다
+        // 캐슬링을 검증할 때 TryCastling이 호출될 때도 있으므로, 혹시 기물이 이미 있지는 않은지 확인한다
         // 킹은 이후 로직에서 이동할 예정이므로, 룩의 좌표만 이동시켜준다 (룩 오브젝트의 위치는 MoveTo로 돌아가서 바꿈)
         if (mx == 3)
         {
+            if (board.GetPieceAt(4, my) != null) return false; // 퀸이 있다면 캐슬링 시뮬 불가
             board.SetPieceAt(board.GetPieceAt(1, my), 4, my);
             board.SetPieceAt(null, 1, my);
             return true;
