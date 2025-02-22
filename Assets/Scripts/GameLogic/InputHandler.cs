@@ -50,6 +50,8 @@ public class InputHandler : MonoBehaviour
             (int, int) clickedGridIdx = board.BoardPosToGridIdx(clickedObject.transform.position);
             board.DestroyPieceAt(clickedGridIdx.Item1, clickedGridIdx.Item2);
 
+            print("기물 삭제 : " + clickedObject.name);
+
             // 체크메이트 당했을 경우를 대비하여 모든 기물의 이동 가능한 위치를 초기화
             for (int i = 1; i <= 8; i++)
             {
