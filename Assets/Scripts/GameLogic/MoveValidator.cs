@@ -217,15 +217,15 @@ public class MoveValidator : MonoBehaviour
     /// <summary>
     /// 킹의 현재 위치를 업데이트하는 함수
     /// </summary>
-    public void UpdateKingPosition(Piece pieceScript, int mx, int my)
+    public void UpdateKingPosition(Piece pieceScript, int mx, int mz)
     {
         if (pieceScript.isWhite)
         {
-            whiteKingPosition = (mx, my);
+            whiteKingPosition = (mx, mz);
         }
         else
         {
-            blackKingPosition = (mx, my);
+            blackKingPosition = (mx, mz);
         }
     }
 

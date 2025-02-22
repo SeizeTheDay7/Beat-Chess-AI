@@ -404,6 +404,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoboticArm
       objectReference: {fileID: 0}
+    - target: {fileID: 7973682553042370572, guid: 9a2a7f344ff9f3545a8903c0a7de5f61, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.97523946
+      objectReference: {fileID: 0}
+    - target: {fileID: 7973682553042370572, guid: 9a2a7f344ff9f3545a8903c0a7de5f61, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.21532919
+      objectReference: {fileID: 0}
+    - target: {fileID: 7973682553042370572, guid: 9a2a7f344ff9f3545a8903c0a7de5f61, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.0070239576
+      objectReference: {fileID: 0}
+    - target: {fileID: 7973682553042370572, guid: 9a2a7f344ff9f3545a8903c0a7de5f61, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.04992065
+      objectReference: {fileID: 0}
+    - target: {fileID: 7973682553042370572, guid: 9a2a7f344ff9f3545a8903c0a7de5f61, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 24.79
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

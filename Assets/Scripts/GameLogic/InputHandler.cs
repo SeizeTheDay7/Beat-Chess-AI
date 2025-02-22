@@ -224,17 +224,17 @@ public class InputHandler : MonoBehaviour
     /// <summary>
     /// 킹이라면 캐슬링 여부 검사
     /// </summary>
-    private void TryKingSpecial(Piece pieceScript, int mx, int my)
+    private void TryKingSpecial(Piece pieceScript, int mx, int mz)
     {
         // 캐슬링 검사및 배열 위치 변경
-        if (moveValidator.TryCastling(pieceScript as King, mx, my))
+        if (moveValidator.TryCastling(pieceScript as King, mx, mz))
         {
             // 캐슬링 이후 룩의 오브젝트 위치 변경
-            if (mx == 3) board.GetPieceAt(4, my).transform.position = board.GridIdxToBoardPos((4, my));
-            else board.GetPieceAt(6, my).transform.position = board.GridIdxToBoardPos((6, my));
+            if (mx == 3) board.GetPieceAt(4, mz).transform.position = board.GridIdxToBoardPos((4, mz));
+            else board.GetPieceAt(6, mz).transform.position = board.GridIdxToBoardPos((6, mz));
         }
 
-        moveValidator.UpdateKingPosition(pieceScript, mx, my);
+        moveValidator.UpdateKingPosition(pieceScript, mx, mz);
     }
 
     /// <summary>

@@ -295,6 +295,11 @@ public class Board : MonoBehaviour
         halfMoveCount = 0;
     }
 
+    public int GetHalfMoveCount()
+    {
+        return halfMoveCount;
+    }
+
     public void IncreaseHalfMoveCount()
     {
         halfMoveCount++;
