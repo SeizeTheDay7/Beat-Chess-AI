@@ -91,7 +91,7 @@ public class InputHandler : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Board")))
+            if (selectedPiece != clickedObject && Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Board")))
             {
                 Vector3 clickedPos = hit.point; // 클릭한 씬 위치
                 (int, int) clickedGridIdx = board.BoardPosToGridIdx(clickedPos); // 클릭한 칸의 가로 세로 인덱스
