@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7830192875199184661}
   - component: {fileID: 6614343311274780905}
   - component: {fileID: 8458300615053496637}
-  - component: {fileID: -6549739757900698089}
+  - component: {fileID: 5965802839872995713}
   m_Layer: 3
   m_Name: White_pawn_new
   m_TagString: Untagged
@@ -103,8 +103,8 @@ MonoBehaviour:
   cached: 0
   isWhite: 1
   FirstMove: 1
---- !u!65 &-6549739757900698089
-BoxCollider:
+--- !u!64 &5965802839872995713
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -118,9 +118,10 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.001156162, y: 0.0011549732, z: 0.0021481335}
-  m_Center: {x: -0.0000012611272, y: -0.00000012965754, z: 0.0010740665}
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 1692356532026151812, guid: eb321880dabd6ac44a17d585229350bb, type: 3}

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4115478324163189354}
   - component: {fileID: 1391667802456756937}
   - component: {fileID: 5862205048417821270}
-  - component: {fileID: -896089164587174019}
+  - component: {fileID: -2309662662967508684}
   m_Layer: 3
   m_Name: White_Knight_new
   m_TagString: Untagged
@@ -103,8 +103,8 @@ MonoBehaviour:
   cached: 0
   isWhite: 1
   FirstMove: 1
---- !u!65 &-896089164587174019
-BoxCollider:
+--- !u!64 &-2309662662967508684
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -118,9 +118,10 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.0015517992, y: 0.0018152857, z: 0.002999943}
-  m_Center: {x: -0.0000002394372, y: -0.000067753674, z: 0.0014999713}
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -1563149767652576483, guid: eb321880dabd6ac44a17d585229350bb, type: 3}

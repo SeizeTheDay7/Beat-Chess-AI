@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1145511567436103053}
   - component: {fileID: 4661939211798917049}
   - component: {fileID: 3132943804777648635}
-  - component: {fileID: -5936809132285547498}
+  - component: {fileID: -5002811005029775599}
   m_Layer: 3
   m_Name: White_Bishop_new
   m_TagString: Untagged
@@ -103,8 +103,8 @@ MonoBehaviour:
   cached: 0
   isWhite: 1
   FirstMove: 1
---- !u!65 &-5936809132285547498
-BoxCollider:
+--- !u!64 &-5002811005029775599
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -118,9 +118,10 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.0012876466, y: 0.0012886095, z: 0.0034324864}
-  m_Center: {x: -0.0000010798976, y: 0.000002289889, z: 0.0017162432}
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -421900898781056358, guid: eb321880dabd6ac44a17d585229350bb, type: 3}

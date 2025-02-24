@@ -15,7 +15,7 @@ public class RoboticArm : MonoBehaviour
 
     void Start()
     {
-        hand_offset = -tongs_part.localPosition.y * 100;
+        hand_offset = -tongs_part.localPosition.y * 110;
         r1 = (hand_part.position - x_axis_part_2.position).magnitude;
         r2 = (x_axis_part_2.position - x_axis_part.position).magnitude;
     }
@@ -30,8 +30,6 @@ public class RoboticArm : MonoBehaviour
         if (target_for_math == null) return;
         Sync_Y_Rotation();
         Adjust_X_Axis_Angles();
-        // hand_part.position = fake_target.position + new Vector3(0, hand_offset, 0); // place hand at target
-        // hand_part.rotation = Quaternion.Euler(0, 0, 0);
     }
 
     private void Sync_Y_Rotation()
@@ -46,6 +44,7 @@ public class RoboticArm : MonoBehaviour
     private void Adjust_X_Axis_Angles()
     {
         (float angle2, float angle3) = Find_Angle_Set();
+        if (float.IsNaN(angle2) || float.IsNaN(angle3)) return;
         x_axis_part.localRotation = Quaternion.Euler(angle2, 0, 0);
         x_axis_part_2.localRotation = Quaternion.Euler(angle3, 0, 0);
         float angle1 = 90 - angle2 - angle3;
@@ -104,6 +103,4 @@ public class RoboticArm : MonoBehaviour
         float angleDeg = angleRad * Mathf.Rad2Deg;  // 라디안을 도(degree)로 변환
         return angleDeg;
     }
-
-
 }
