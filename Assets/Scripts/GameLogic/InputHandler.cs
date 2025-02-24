@@ -23,7 +23,7 @@ public class InputHandler : MonoBehaviour
         moveValidator = serviceLocator.GetComponentInChildren<MoveValidator>();
         aiManager = serviceLocator.GetComponentInChildren<AIManager>();
 
-        targetLayer = LayerMask.GetMask("Piece");
+        targetLayer = LayerMask.GetMask("Piece", "Button");
     }
 
     /// <summary>
@@ -32,6 +32,14 @@ public class InputHandler : MonoBehaviour
     public void HandleClick(bool whiteTurn)
     {
         GameObject clickedObject = ClickObject();
+
+        if (clickedObject != null && clickedObject.name == "DeleteButton")
+        {
+            clickedObject.GetComponent<PressButton>().pressButton();
+            EnableDeleteMode();
+            return;
+        }
+
 
         if (deleteMode)
         {
