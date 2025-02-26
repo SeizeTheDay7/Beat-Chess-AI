@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Unity.Collections;
+using UnityEngine.UI;
 
 public class InputHandler : MonoBehaviour
 {
@@ -23,7 +24,7 @@ public class InputHandler : MonoBehaviour
         moveValidator = serviceLocator.GetComponentInChildren<MoveValidator>();
         aiManager = serviceLocator.GetComponentInChildren<AIManager>();
 
-        targetLayer = LayerMask.GetMask("Piece", "Button");
+        targetLayer = LayerMask.GetMask("Piece", "Furniture");
     }
 
     /// <summary>
@@ -33,11 +34,22 @@ public class InputHandler : MonoBehaviour
     {
         GameObject clickedObject = ClickObject();
 
-        if (clickedObject != null && clickedObject.name == "DeleteButton")
+
+
+        if (clickedObject != null)
         {
-            clickedObject.GetComponent<PressButton>().pressButton();
-            EnableDeleteMode();
-            return;
+            if (clickedObject.name == "DeleteButton")
+            {
+                clickedObject.GetComponent<PressButton>().pressButton();
+                ToggleDeleteMode();
+                return;
+            }
+
+            if (clickedObject.name == "SurrenderBell")
+            {
+                clickedObject.GetComponent<SurrenderBell>().Ring();
+                return;
+            }
         }
 
 
@@ -52,7 +64,7 @@ public class InputHandler : MonoBehaviour
 
     private void HandleEnemyPieces(bool whiteTurn, GameObject clickedObject)
     {
-        // 선택한 오브젝트가 없고, 클릭한 오브젝트가 적 기물이라면 삭제
+        // 선택한 오브젝트가 있고, 클릭한 오브젝트가 적 기물이라면 삭제
         if (clickedObject != null && clickedObject.GetComponent<Piece>().isWhite != whiteTurn)
         {
             (int, int) clickedGridIdx = board.BoardPosToGridIdx(clickedObject.transform.position);
@@ -74,6 +86,11 @@ public class InputHandler : MonoBehaviour
             }
         }
         DisableDeleteMode();
+    }
+
+    private void ToggleDeleteMode()
+    {
+        deleteMode = !deleteMode;
     }
 
     public void EnableDeleteMode()
