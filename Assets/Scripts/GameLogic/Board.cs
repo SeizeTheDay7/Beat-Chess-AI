@@ -90,6 +90,22 @@ public class Board : MonoBehaviour
         pieces[8, 8] = Instantiate(black_Rook, GridIdxToBoardPos((8, 8)), Quaternion.Euler(-90, 0, 0));
     }
 
+    public void ResetBoard()
+    {
+        for (int i = 1; i <= 8; i++)
+        {
+            for (int j = 1; j <= 8; j++)
+            {
+                if (pieces[i, j] != null)
+                {
+                    Destroy(pieces[i, j]);
+                }
+            }
+        }
+        moveValidator.ResetBoardInfo();
+        SetBoard();
+    }
+
     /// <summary>
     /// 가로 인덱스 i, 세로 인덱스 j에 해당하는 씬 위치 반환
     /// </summary>

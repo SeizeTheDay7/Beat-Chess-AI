@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 
     private IGameState currentState; // 현재 활성 상태
     public bool whiteTurn = true; // 턴을 나타내는 변수. whiteTurn이 true면 백(플레이어), false면 흑(AI)
+    [SerializeField] private Canvas gameoverCanvas; // 게임 오버 캔버스
 
 
     // 상태 스크립트 인스턴스들
@@ -64,5 +65,18 @@ public class GameManager : MonoBehaviour
         whiteTurn = !whiteTurn;
 
         currentState.EnterState();
+    }
+
+    public void RestartGame()
+    {
+        ResetGame();
+        gameoverCanvas.gameObject.SetActive(false);
+    }
+
+    public void ResetGame()
+    {
+        board.ResetBoard();
+        whiteTurn = true;
+        currentState = playerTurnState;
     }
 }

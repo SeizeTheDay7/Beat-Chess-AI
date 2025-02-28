@@ -21,6 +21,17 @@ public class MoveValidator : MonoBehaviour
         board = serviceLocator.GetComponentInChildren<Board>();
     }
 
+    public void ResetBoardInfo()
+    {
+        whiteEnPassantCandidate = (-1, -1);
+        blackEnPassantCandidate = (-1, -1);
+        blackKingPosition = (5, 8);
+        whiteKingPosition = (5, 1);
+        isBlackKingChecked = false;
+        isWhiteKingChecked = false;
+    }
+
+
     /// <summary>
     /// 캐슬링 이동이라면 캐슬링에 맞게 배열을 수정하는 함수
     /// </summary>

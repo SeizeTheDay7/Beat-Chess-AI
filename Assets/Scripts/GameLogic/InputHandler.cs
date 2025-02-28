@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using Unity.Collections;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class InputHandler : MonoBehaviour
 {
@@ -32,12 +33,13 @@ public class InputHandler : MonoBehaviour
     /// </summary>
     public void HandleClick(bool whiteTurn)
     {
+        if (EventSystem.current.IsPointerOverGameObject()) return;
+
         GameObject clickedObject = ClickObject();
-
-
 
         if (clickedObject != null)
         {
+
             if (clickedObject.name == "DeleteButton")
             {
                 clickedObject.GetComponent<PressButton>().pressButton();

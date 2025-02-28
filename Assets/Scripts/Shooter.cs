@@ -17,6 +17,8 @@ public class Shooter : MonoBehaviour
     [SerializeField] private float footstepIncrement = 1f; // 볼륨 배수
     [SerializeField] private float reloadDelay = 1.5f; // 재장전 딜레이
     [SerializeField] private float shotDelay = 1f; // 발사 딜레이
+    [SerializeField] private Canvas gameoverCanvas;
+    private GameManager gameManager;
 
     // [SerializeField] private float fadeDuration = 1.5f; // 페이드 인 지속 시간
     // [SerializeField] private float min3DDistance = 1f; // 3D 최소 거리
@@ -27,6 +29,8 @@ public class Shooter : MonoBehaviour
     void Start()
     {
         // Setup3DAudio(); // 3D 설정 적용
+        GameObject ServiceLocator = GameObject.FindGameObjectWithTag("ServiceLocator");
+        gameManager = ServiceLocator.GetComponentInChildren<GameManager>();
     }
 
     public void PlayShooterFootstep()
@@ -61,6 +65,7 @@ public class Shooter : MonoBehaviour
         audioMixer.SetFloat("ShooterVolume", shot_volume);
         audioSource.clip = shotSound;
         audioSource.Play();
+        gameoverCanvas.gameObject.SetActive(true);
     }
 
     // void Setup3DAudio()
