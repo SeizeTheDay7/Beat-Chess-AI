@@ -2,43 +2,51 @@ using UnityEngine;
 
 public class RoboticArm : MonoBehaviour
 {
-    [SerializeField] private Transform target_for_math;
     [SerializeField] private Transform target_to_reach;
     [SerializeField] private Transform y_axis_part;
     [SerializeField] private Transform x_axis_part;
     [SerializeField] private Transform x_axis_part_2;
     [SerializeField] private Transform hand_part;
     [SerializeField] private Transform tongs_part;
-    private float hand_offset;
+    [SerializeField][Range(0, 1f)] private float length_magic_number_subt;
+    private float hand_y_offset;
+    private float hand_angle_offset;
     private float r1;
     private float r2;
 
     void Start()
     {
-        hand_offset = -tongs_part.localPosition.y * 110;
+        hand_y_offset = -tongs_part.localPosition.y * 110;
+
         r1 = (hand_part.position - x_axis_part_2.position).magnitude;
         r2 = (x_axis_part_2.position - x_axis_part.position).magnitude;
     }
 
-    public void SetTarget()
+    private void Set_Angle_Offset()
     {
-
+        Vector3 a = tongs_part.position - x_axis_part.position;
+        Vector3 b = hand_part.position - x_axis_part.position;
+        a.y = 0;
+        b.y = 0;
+        hand_angle_offset = Vector3.Angle(a, b);
     }
 
     void Update()
     {
-        if (target_for_math == null) return;
+        if (target_to_reach == null) return;
+        Set_Angle_Offset();
         Sync_Y_Rotation();
         Adjust_X_Axis_Angles();
     }
 
+
     private void Sync_Y_Rotation()
     {
-        Vector3 direction = target_for_math.position - y_axis_part.position;
+        Vector3 direction = target_to_reach.position - y_axis_part.position;
         direction.y = 0; // 불연속적 계산 방지
 
         float angle = Vector3.SignedAngle(Vector3.forward, direction, Vector3.up);
-        y_axis_part.rotation = Quaternion.Euler(-90, angle, 0);
+        y_axis_part.rotation = Quaternion.Euler(-90, angle - hand_angle_offset, 0);
     }
 
     private void Adjust_X_Axis_Angles()
@@ -53,12 +61,13 @@ public class RoboticArm : MonoBehaviour
 
     private (float, float) Find_Angle_Set()
     {
-        Vector2 a = new Vector2(0, hand_offset);
+        Vector2 a = new Vector2(0, hand_y_offset);
 
-        float y_offset_c = x_axis_part.position.y - target_for_math.position.y;
-        float offset_c = (target_for_math.position - x_axis_part.position).magnitude;
-        float x_c = GetHeight(y_offset_c, offset_c);
-        Vector2 c = new Vector2(x_c, y_offset_c);
+        float y_c = x_axis_part.position.y - target_to_reach.position.y;
+        Vector3 base_to_target = target_to_reach.position - x_axis_part.position;
+        base_to_target.y = 0;
+        float x_c = base_to_target.magnitude;
+        Vector2 c = new Vector2(x_c - length_magic_number_subt, y_c);
 
         Vector2 b = FindCircleIntersections(a, r1, c, r2);
 
@@ -66,11 +75,6 @@ public class RoboticArm : MonoBehaviour
         float angle3 = GetAngleBetweenPoints(b, a) + 180 - angle2;
 
         return (angle2, angle3);
-    }
-
-    private float GetHeight(float mit_byun, float bit_byun)
-    {
-        return Mathf.Sqrt(bit_byun * bit_byun - mit_byun * mit_byun);
     }
 
     /// <summary>
