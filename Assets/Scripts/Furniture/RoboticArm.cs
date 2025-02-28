@@ -10,60 +10,116 @@ public class RoboticArm : MonoBehaviour
     [SerializeField] private Transform tongs_part;
     [SerializeField][Range(0, 1f)] private float length_magic_number_subt;
     private float hand_y_offset;
-    private float hand_angle_offset;
+    private float hand_tongs_distance;
+    private float hand_tongs_angle;
+    private float bonus_h;
+    private float bonus_w;
+    private float angle_offset;
     private float r1;
     private float r2;
+    private Quaternion y_axis_part_rotation_goal;
+    private Quaternion x_axis_part_rotation_goal;
+    private Quaternion x_axis_part_2_rotation_goal;
+    private Quaternion hand_part_rotation_goal;
+    private float move_time = 1f;
 
     void Start()
     {
-        hand_y_offset = -tongs_part.localPosition.y * 110;
+        y_axis_part_rotation_goal = y_axis_part.rotation; // 이상한 초기값으로 가버리지 않도록 현재 회전으로 초기화
 
+        hand_y_offset = -tongs_part.localPosition.y * 110; // 원 교점 구할 때 쓰이는 손 길이
         r1 = (hand_part.position - x_axis_part_2.position).magnitude;
         r2 = (x_axis_part_2.position - x_axis_part.position).magnitude;
+
+        Init_Arm();
+        Set_Hand_Tongs_Offset();
+
+        Fold_Arm();
     }
 
-    private void Set_Angle_Offset()
+    private void Init_Arm()
     {
-        Vector3 a = tongs_part.position - x_axis_part.position;
-        Vector3 b = hand_part.position - x_axis_part.position;
-        a.y = 0;
-        b.y = 0;
-        hand_angle_offset = Vector3.Angle(a, b);
+        y_axis_part.localRotation = Quaternion.Euler(-90, 0, 0);
+        x_axis_part.localRotation = Quaternion.Euler(-90, 0, 0);
+        x_axis_part_2.localRotation = Quaternion.Euler(90, 0, 0);
+        hand_part.localRotation = Quaternion.Euler(90, 0, 0);
+    }
+
+    private void Set_Hand_Tongs_Offset()
+    {
+        Vector3 handPosXZ = hand_part.position;
+        Vector3 tongsPosXZ = tongs_part.position;
+        handPosXZ.y = 0;
+        tongsPosXZ.y = 0;
+        hand_tongs_distance = Vector3.Distance(handPosXZ, tongsPosXZ);
+
+        Vector3 handToXAxis = hand_part.position - x_axis_part.position;
+        Vector3 tongsToHand = tongs_part.position - hand_part.position;
+        handToXAxis.y = 0;
+        tongsToHand.y = 0;
+        hand_tongs_angle = Vector3.Angle(handToXAxis, tongsToHand);
+
+        bonus_h = hand_tongs_distance * Mathf.Cos(hand_tongs_angle * Mathf.Deg2Rad);
+        bonus_w = hand_tongs_distance * Mathf.Sin(hand_tongs_angle * Mathf.Deg2Rad);
     }
 
     private void Fold_Arm()
     {
-        x_axis_part.localRotation = Quaternion.Euler(-90, 0, 0);
-        x_axis_part_2.localRotation = Quaternion.Euler(0, 0, 0);
-        hand_part.localRotation = Quaternion.Euler(180, 0, 0);
+        x_axis_part_rotation_goal = Quaternion.Euler(-90, 0, 0);
+        x_axis_part_2_rotation_goal = Quaternion.Euler(0, 0, 0);
+        hand_part_rotation_goal = Quaternion.Euler(180, 0, 0);
     }
 
     void Update()
     {
         if (target_to_reach == null) return;
-        Set_Angle_Offset();
-        Sync_Y_Rotation();
-        Adjust_X_Axis_Angles();
+        Rotate_To_Goal_Continously();
     }
 
+    private void Rotate_To_Goal_Continously()
+    {
+        y_axis_part.rotation = Quaternion.RotateTowards(y_axis_part.rotation, y_axis_part_rotation_goal, move_time); // local이 아니라 월드 좌표계 기준 회전 해야 함
+        x_axis_part.localRotation = Quaternion.RotateTowards(x_axis_part.localRotation, x_axis_part_rotation_goal, move_time);
+        x_axis_part_2.localRotation = Quaternion.RotateTowards(x_axis_part_2.localRotation, x_axis_part_2_rotation_goal, move_time);
+        hand_part.localRotation = Quaternion.RotateTowards(hand_part.localRotation, hand_part_rotation_goal, move_time);
+    }
 
-    private void Sync_Y_Rotation()
+    public void SetTarget(Transform target, float time)
+    {
+        target_to_reach = target;
+        move_time = time;
+        Set_Angle_Offset();
+        Set_Y_Rotation();
+        Set_X_Axis_Angles();
+    }
+
+    private void Set_Angle_Offset()
+    {
+        Vector3 a = target_to_reach.position - x_axis_part.position;
+        a.y = 0;
+        float h = a.magnitude;
+
+        angle_offset = Mathf.Atan2(bonus_w, h + bonus_h) * Mathf.Rad2Deg;
+    }
+
+    private void Set_Y_Rotation()
     {
         Vector3 direction = target_to_reach.position - y_axis_part.position;
         direction.y = 0; // 불연속적 계산 방지
 
         float angle = Vector3.SignedAngle(Vector3.forward, direction, Vector3.up);
-        y_axis_part.rotation = Quaternion.Euler(-90, angle - hand_angle_offset, 0);
+        y_axis_part_rotation_goal = Quaternion.Euler(-90, angle - angle_offset, 0);
+        // y_axis_part.rotation = Quaternion.Euler(-90, angle - hand_angle_offset, 0); // local이 아니라 월드 좌표계 기준 회전 해야 함
     }
 
-    private void Adjust_X_Axis_Angles()
+    private void Set_X_Axis_Angles()
     {
         (float angle2, float angle3) = Find_Angle_Set();
         if (float.IsNaN(angle2) || float.IsNaN(angle3)) return;
-        x_axis_part.localRotation = Quaternion.Euler(angle2, 0, 0);
-        x_axis_part_2.localRotation = Quaternion.Euler(angle3, 0, 0);
+        x_axis_part_rotation_goal = Quaternion.Euler(angle2, 0, 0);
+        x_axis_part_2_rotation_goal = Quaternion.Euler(angle3, 0, 0);
         float angle1 = 90 - angle2 - angle3;
-        hand_part.localRotation = Quaternion.Euler(angle1, 0, 0);
+        hand_part_rotation_goal = Quaternion.Euler(angle1, 0, 0);
     }
 
     private (float, float) Find_Angle_Set()
