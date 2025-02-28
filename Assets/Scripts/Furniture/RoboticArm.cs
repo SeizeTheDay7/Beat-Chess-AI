@@ -31,6 +31,13 @@ public class RoboticArm : MonoBehaviour
         hand_angle_offset = Vector3.Angle(a, b);
     }
 
+    private void Fold_Arm()
+    {
+        x_axis_part.localRotation = Quaternion.Euler(-90, 0, 0);
+        x_axis_part_2.localRotation = Quaternion.Euler(0, 0, 0);
+        hand_part.localRotation = Quaternion.Euler(180, 0, 0);
+    }
+
     void Update()
     {
         if (target_to_reach == null) return;
