@@ -591,7 +591,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roboticArm: {fileID: 427129217}
   target: {fileID: 526393603}
-  move_time: 600
+  time: 0.5
 --- !u!4 &206600232 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 75a33338d94310a4f908199394b33bc5, type: 3}

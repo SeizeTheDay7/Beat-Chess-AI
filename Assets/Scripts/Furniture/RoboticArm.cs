@@ -1,8 +1,9 @@
 using UnityEngine;
+using DG.Tweening;
 
 public class RoboticArm : MonoBehaviour
 {
-    [SerializeField] private Transform target_to_reach;
+    private Vector3 target_position;
     [SerializeField] private Transform y_axis_part;
     [SerializeField] private Transform x_axis_part;
     [SerializeField] private Transform x_axis_part_2;
@@ -17,16 +18,10 @@ public class RoboticArm : MonoBehaviour
     private float angle_offset;
     private float r1;
     private float r2;
-    private Quaternion y_axis_part_rotation_goal;
-    private Quaternion x_axis_part_rotation_goal;
-    private Quaternion x_axis_part_2_rotation_goal;
-    private Quaternion hand_part_rotation_goal;
-    private float move_time = 1f;
+    [SerializeField] private float move_time = 0.1f;
 
     void Start()
     {
-        y_axis_part_rotation_goal = y_axis_part.rotation; // 이상한 초기값으로 가버리지 않도록 현재 회전으로 초기화
-
         hand_y_offset = -tongs_part.localPosition.y * 110; // 원 교점 구할 때 쓰이는 손 길이
         r1 = (hand_part.position - x_axis_part_2.position).magnitude;
         r2 = (x_axis_part_2.position - x_axis_part.position).magnitude;
@@ -63,30 +58,38 @@ public class RoboticArm : MonoBehaviour
         bonus_w = hand_tongs_distance * Mathf.Sin(hand_tongs_angle * Mathf.Deg2Rad);
     }
 
-    private void Fold_Arm()
+    public void Fold_Arm()
     {
-        x_axis_part_rotation_goal = Quaternion.Euler(-90, 0, 0);
-        x_axis_part_2_rotation_goal = Quaternion.Euler(0, 0, 0);
-        hand_part_rotation_goal = Quaternion.Euler(180, 0, 0);
+        x_axis_part.DOLocalRotate(new Vector3(-90, 0, 0), 1f);
+        x_axis_part_2.DOLocalRotate(Vector3.zero, 1f);
+        hand_part.DOLocalRotate(new Vector3(180, 0, 0), 1f);
     }
 
-    void Update()
+    private void Open_Tongs()
     {
-        if (target_to_reach == null) return;
-        Rotate_To_Goal_Continously();
+
     }
 
-    private void Rotate_To_Goal_Continously()
+    private void Grip_Tongs()
     {
-        y_axis_part.rotation = Quaternion.RotateTowards(y_axis_part.rotation, y_axis_part_rotation_goal, move_time); // local이 아니라 월드 좌표계 기준 회전 해야 함
-        x_axis_part.localRotation = Quaternion.RotateTowards(x_axis_part.localRotation, x_axis_part_rotation_goal, move_time);
-        x_axis_part_2.localRotation = Quaternion.RotateTowards(x_axis_part_2.localRotation, x_axis_part_2_rotation_goal, move_time);
-        hand_part.localRotation = Quaternion.RotateTowards(hand_part.localRotation, hand_part_rotation_goal, move_time);
+
     }
 
-    public void SetTarget(Transform target, float time)
+    public void SetTarget(Vector3 point, float time)
     {
-        target_to_reach = target;
+        move_time = time;
+        Sequence seq = DOTween.Sequence();
+        seq.AppendCallback(() => Set_Course_Dot(point + new Vector3(0, 0.5f, 0), move_time));
+        seq.AppendInterval(move_time + 0.2f);
+        seq.AppendCallback(() =>
+        {
+            Set_Course_Dot(point, move_time / 2);
+        });
+    }
+
+    private void Set_Course_Dot(Vector3 point, float time)
+    {
+        target_position = point;
         move_time = time;
         Set_Angle_Offset();
         Set_Y_Rotation();
@@ -95,7 +98,7 @@ public class RoboticArm : MonoBehaviour
 
     private void Set_Angle_Offset()
     {
-        Vector3 a = target_to_reach.position - x_axis_part.position;
+        Vector3 a = target_position - x_axis_part.position;
         a.y = 0;
         float h = a.magnitude;
 
@@ -104,30 +107,29 @@ public class RoboticArm : MonoBehaviour
 
     private void Set_Y_Rotation()
     {
-        Vector3 direction = target_to_reach.position - y_axis_part.position;
+        Vector3 direction = target_position - y_axis_part.position;
         direction.y = 0; // 불연속적 계산 방지
 
         float angle = Vector3.SignedAngle(Vector3.forward, direction, Vector3.up);
-        y_axis_part_rotation_goal = Quaternion.Euler(-90, angle - angle_offset, 0);
-        // y_axis_part.rotation = Quaternion.Euler(-90, angle - hand_angle_offset, 0); // local이 아니라 월드 좌표계 기준 회전 해야 함
+        y_axis_part.DORotate(new Vector3(-90, angle - angle_offset, 0), move_time);
     }
 
     private void Set_X_Axis_Angles()
     {
         (float angle2, float angle3) = Find_Angle_Set();
         if (float.IsNaN(angle2) || float.IsNaN(angle3)) return;
-        x_axis_part_rotation_goal = Quaternion.Euler(angle2, 0, 0);
-        x_axis_part_2_rotation_goal = Quaternion.Euler(angle3, 0, 0);
+        x_axis_part.DOLocalRotate(new Vector3(angle2, 0, 0), move_time);
+        x_axis_part_2.DOLocalRotate(new Vector3(angle3, 0, 0), move_time);
         float angle1 = 90 - angle2 - angle3;
-        hand_part_rotation_goal = Quaternion.Euler(angle1, 0, 0);
+        hand_part.DOLocalRotate(new Vector3(angle1, 0, 0), move_time);
     }
 
     private (float, float) Find_Angle_Set()
     {
         Vector2 a = new Vector2(0, hand_y_offset);
 
-        float y_c = x_axis_part.position.y - target_to_reach.position.y;
-        Vector3 base_to_target = target_to_reach.position - x_axis_part.position;
+        float y_c = x_axis_part.position.y - target_position.y;
+        Vector3 base_to_target = target_position - x_axis_part.position;
         base_to_target.y = 0;
         float x_c = base_to_target.magnitude;
         Vector2 c = new Vector2(x_c - length_magic_number_subt, y_c);
