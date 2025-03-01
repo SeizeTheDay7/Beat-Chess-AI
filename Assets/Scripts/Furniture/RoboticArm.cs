@@ -8,6 +8,7 @@ public class RoboticArm : MonoBehaviour
     [SerializeField] private Transform x_axis_part;
     [SerializeField] private Transform x_axis_part_2;
     [SerializeField] private Transform hand_part;
+    [SerializeField] private Transform hand_part_2;
     [SerializeField] private Transform tongs_part;
     private Transform[] tongs_arr = new Transform[3];
     [SerializeField][Range(0, 1f)] private float length_magic_number_subt;
@@ -23,7 +24,7 @@ public class RoboticArm : MonoBehaviour
 
     void Start()
     {
-        hand_y_offset = -tongs_part.localPosition.y * 110; // 원 교점 구할 때 쓰이는 손 길이
+        hand_y_offset = (hand_part.position - tongs_part.position).y; // 원 교점 구할 때 쓰이는 손 길이
         r1 = (hand_part.position - x_axis_part_2.position).magnitude;
         r2 = (x_axis_part_2.position - x_axis_part.position).magnitude;
 
@@ -68,31 +69,60 @@ public class RoboticArm : MonoBehaviour
         hand_part.DOLocalRotate(new Vector3(180, 0, 0), 1f);
     }
 
-    public void Open_Tongs()
+    public void Open_Tongs(float time)
     {
         foreach (Transform tongs in tongs_arr)
-            tongs.DOLocalRotate(tongs.transform.localRotation.eulerAngles - new Vector3(8, 0, 0), 1f);
+            tongs.DOLocalRotate(tongs.transform.localRotation.eulerAngles - new Vector3(15, 0, 0), time);
     }
 
-    public void Grip_Tongs()
+    public void Grip_Tongs(float time)
     {
         foreach (Transform tongs in tongs_arr)
-            tongs.DOLocalRotate(tongs.transform.localRotation.eulerAngles + new Vector3(8, 0, 0), 1f);
+            tongs.DOLocalRotate(tongs.transform.localRotation.eulerAngles + new Vector3(15, 0, 0), time);
     }
 
-    public void SetTarget(Vector3 point, float time)
+    /// <summary>
+    /// 로봇 팔을 이용해 기물을 특정 위치로 움직인다
+    /// </summary>
+    public void MovePieceToPos(GameObject piece, Vector3 moveToPos, float time)
     {
-        move_time = time;
+        Vector3 piecePos = piece.transform.position;
+        float pieceHeight = piece.transform.GetComponent<MeshRenderer>().bounds.size.y;
+        Quaternion pieceRotation = piece.transform.rotation;
         Sequence seq = DOTween.Sequence();
-        seq.AppendCallback(() => Set_Course_Dot(point + new Vector3(0, 0.5f, 0), move_time));
-        seq.AppendInterval(move_time + 0.2f);
+        seq.AppendCallback(() => Set_Course_Point(piecePos + new Vector3(0, pieceHeight + 0.5f, 0), time)); // 기물 머리 위까지 간다
+        seq.AppendInterval(time + 0.2f);
+        // 기물을 집는다
         seq.AppendCallback(() =>
         {
-            Set_Course_Dot(point, move_time / 2);
+            Set_Course_Point(piecePos + new Vector3(0, pieceHeight, 0), time / 2);
+            Grip_Tongs(time / 2);
+        });
+        seq.AppendInterval(time / 2 + 0.1f);
+        // 기물을 원하는 위치 위까지 옮긴다
+        seq.AppendCallback(() =>
+        {
+            piece.transform.SetParent(tongs_part.transform);
+            Set_Course_Point(moveToPos + new Vector3(0, pieceHeight + 0.5f, 0), time);
+        });
+        seq.AppendInterval(time + 0.2f);
+        // 기물을 내려놓는다
+        seq.AppendCallback(() =>
+        {
+            Set_Course_Point(moveToPos + new Vector3(0, pieceHeight, 0), time / 2);
+            hand_part_2.DOLocalRotate((hand_part_2.localRotation * pieceRotation * Quaternion.Inverse(piece.transform.rotation)).eulerAngles, time / 2);
+        });
+        seq.AppendInterval(time / 2 + 0.1f);
+        // 기물을 놓고 제자리로 돌아간다
+        seq.AppendCallback(() =>
+        {
+            piece.transform.SetParent(null);
+            Open_Tongs(time / 2);
+            Fold_Arm();
         });
     }
 
-    private void Set_Course_Dot(Vector3 point, float time)
+    private void Set_Course_Point(Vector3 point, float time)
     {
         target_position = point;
         move_time = time;
