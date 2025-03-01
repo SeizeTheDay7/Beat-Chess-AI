@@ -9,6 +9,7 @@ public class RoboticArm : MonoBehaviour
     [SerializeField] private Transform x_axis_part_2;
     [SerializeField] private Transform hand_part;
     [SerializeField] private Transform tongs_part;
+    private Transform[] tongs_arr = new Transform[3];
     [SerializeField][Range(0, 1f)] private float length_magic_number_subt;
     private float hand_y_offset;
     private float hand_tongs_distance;
@@ -38,6 +39,8 @@ public class RoboticArm : MonoBehaviour
         x_axis_part.localRotation = Quaternion.Euler(-90, 0, 0);
         x_axis_part_2.localRotation = Quaternion.Euler(90, 0, 0);
         hand_part.localRotation = Quaternion.Euler(90, 0, 0);
+
+        for (int i = 0; i < 3; i++) tongs_arr[i] = tongs_part.GetChild(i);
     }
 
     private void Set_Hand_Tongs_Offset()
@@ -65,14 +68,16 @@ public class RoboticArm : MonoBehaviour
         hand_part.DOLocalRotate(new Vector3(180, 0, 0), 1f);
     }
 
-    private void Open_Tongs()
+    public void Open_Tongs()
     {
-
+        foreach (Transform tongs in tongs_arr)
+            tongs.DOLocalRotate(tongs.transform.localRotation.eulerAngles - new Vector3(8, 0, 0), 1f);
     }
 
-    private void Grip_Tongs()
+    public void Grip_Tongs()
     {
-
+        foreach (Transform tongs in tongs_arr)
+            tongs.DOLocalRotate(tongs.transform.localRotation.eulerAngles + new Vector3(8, 0, 0), 1f);
     }
 
     public void SetTarget(Vector3 point, float time)
