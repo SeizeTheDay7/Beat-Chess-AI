@@ -37,7 +37,7 @@ public class RoboticArm : MonoBehaviour
 
     private void Init_Arm()
     {
-        y_axis_part.localRotation = Quaternion.Euler(-90, 0, 0);
+        y_axis_part.localRotation = Quaternion.Euler(-90, 0, -30);
         x_axis_part.localRotation = Quaternion.Euler(-90, 0, 0);
         x_axis_part_2.localRotation = Quaternion.Euler(90, 0, 0);
         hand_part.localRotation = Quaternion.Euler(90, 0, 0);
