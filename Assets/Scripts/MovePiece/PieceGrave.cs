@@ -7,12 +7,12 @@ public class PieceGrave : MonoBehaviour
     private float dz;
     private int xIdx = 0;
     private int zIdx = 0;
-    private List<GameObject> died_pieces = new List<GameObject>();
+    private List<GameObject> dead_pieces = new List<GameObject>();
 
-    public void InitPieceGrave(float dx, float dy)
+    public void InitPieceGrave(float dx, float dz)
     {
         this.dx = dx;
-        this.dz = dy;
+        this.dz = dz;
     }
 
     public void ResetGrave()
@@ -20,7 +20,7 @@ public class PieceGrave : MonoBehaviour
         xIdx = 0;
         zIdx = 0;
 
-        foreach (GameObject piece in died_pieces)
+        foreach (GameObject piece in dead_pieces)
         {
             Destroy(piece);
         }
@@ -31,7 +31,7 @@ public class PieceGrave : MonoBehaviour
     /// </summary>
     public Vector3 GetAIGravePos(GameObject piece)
     {
-        died_pieces.Add(piece);
+        dead_pieces.Add(piece);
 
         Vector3 gravePos = transform.position + new Vector3(xIdx * dx, 0, zIdx * dz);
         xIdx++;
