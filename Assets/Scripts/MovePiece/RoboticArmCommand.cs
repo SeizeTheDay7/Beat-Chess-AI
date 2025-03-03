@@ -1,13 +1,13 @@
 using UnityEngine;
 
-public class PieceMoveCommand
+public class RoboticArmCommand : ICommand
 {
     private RoboticArm roboticArm;
     private GameObject piece;
     private Vector3 targetPos;
     private float time;
 
-    public PieceMoveCommand(GameObject piece, Vector3 targetPos, float time, RoboticArm roboticArm)
+    public RoboticArmCommand(GameObject piece, Vector3 targetPos, float time, RoboticArm roboticArm)
     {
         this.piece = piece;
         this.targetPos = targetPos;

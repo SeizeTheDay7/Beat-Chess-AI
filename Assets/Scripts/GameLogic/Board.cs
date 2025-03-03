@@ -24,6 +24,8 @@ public class Board : MonoBehaviour
 
     private MoveValidator moveValidator;
     private AIManager aiManager;
+    private GameManager gameManager;
+    private PieceCommandManager pieceCommandManager;
 
     public const int BOARD_SIZE = 8;
     private float TILE_Z_ORIGIN;
@@ -45,6 +47,8 @@ public class Board : MonoBehaviour
         GameObject serviceLocator = GameObject.FindGameObjectWithTag("ServiceLocator");
         moveValidator = serviceLocator.GetComponentInChildren<MoveValidator>();
         aiManager = serviceLocator.GetComponentInChildren<AIManager>();
+        gameManager = serviceLocator.GetComponentInChildren<GameManager>();
+        pieceCommandManager = serviceLocator.GetComponentInChildren<PieceCommandManager>();
     }
 
     public void SetBoard()
@@ -162,7 +166,18 @@ public class Board : MonoBehaviour
     public bool DestroyPieceAt(int x, int z)
     {
         if (pieces[x, z] == null) { return false; }
-        Destroy(pieces[x, z]);
+
+        bool isWhiteNow = gameManager.whiteTurn; // 백이 플레이어
+
+        if (isWhiteNow)
+        {
+            Destroy(pieces[x, z]);
+        }
+        else
+        {
+            pieceCommandManager.EnQueueRoboticArmMove(pieces[x, z], new Vector3(7, 2, -2), 1.0f);
+        }
+
         return true;
     }
 

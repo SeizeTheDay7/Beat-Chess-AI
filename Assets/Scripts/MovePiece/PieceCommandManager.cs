@@ -3,12 +3,11 @@ using UnityEngine;
 
 public class PieceCommandManager : MonoBehaviour
 {
-    private Queue<PieceMoveCommand> moveQueue = new Queue<PieceMoveCommand>();
+    private Queue<ICommand> moveQueue = new Queue<ICommand>();
     [SerializeField] private RoboticArm roboticArm;
     private GameManager gameManager;
+    private bool isWorking = false;
 
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         GameObject serviceLocator = GameObject.FindGameObjectWithTag("ServiceLocator");
@@ -20,9 +19,12 @@ public class PieceCommandManager : MonoBehaviour
     /// </summary>
     public void ExecuteNextCommand()
     {
+        if (isWorking) return;
+
         if (moveQueue.Count > 0)
         {
             moveQueue.Dequeue().Execute();
+            isWorking = true;
         }
         else
         {
@@ -30,10 +32,15 @@ public class PieceCommandManager : MonoBehaviour
         }
     }
 
-    public void EnQueueMoveCommand(GameObject piece, Vector3 targetPos, float time)
+    public void CompleteCommand()
     {
-        PieceMoveCommand pieceMoveCommand = new PieceMoveCommand(piece, targetPos, time, roboticArm);
-        moveQueue.Enqueue(pieceMoveCommand);
-        if (moveQueue.Count == 1) ExecuteNextCommand();
+        isWorking = false;
+        ExecuteNextCommand();
+    }
+
+    public void EnQueueRoboticArmMove(GameObject piece, Vector3 targetPos, float time)
+    {
+        moveQueue.Enqueue(new RoboticArmCommand(piece, targetPos, time, roboticArm));
+        ExecuteNextCommand();
     }
 }

@@ -281,7 +281,7 @@ public class InputHandler : MonoBehaviour
         }
         else
         {
-            pieceCommandManager.EnQueueMoveCommand(piece, moveto_position, 0.5f);
+            pieceCommandManager.EnQueueRoboticArmMove(piece, moveto_position, 0.5f);
         }
 
         piece.GetComponent<Piece>().FirstMove = false;

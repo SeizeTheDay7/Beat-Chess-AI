@@ -122,7 +122,7 @@ public class RoboticArm : MonoBehaviour
             Fold_Arm();
         });
         seq.AppendInterval(time / 2 + 0.1f);
-        seq.AppendCallback(() => pieceCommandManager.ExecuteNextCommand());
+        seq.AppendCallback(() => pieceCommandManager.CompleteCommand());
     }
 
     private void Set_Course_Point(Vector3 point, float time)
