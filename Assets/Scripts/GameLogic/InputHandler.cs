@@ -14,6 +14,7 @@ public class InputHandler : MonoBehaviour
     private Board board;
     private MoveValidator moveValidator;
     private AIManager aiManager;
+    private PieceCommandManager pieceCommandManager;
 
     private List<(int, int)> validMoves = new List<(int, int)>();
 
@@ -24,6 +25,7 @@ public class InputHandler : MonoBehaviour
         board = serviceLocator.GetComponentInChildren<Board>();
         moveValidator = serviceLocator.GetComponentInChildren<MoveValidator>();
         aiManager = serviceLocator.GetComponentInChildren<AIManager>();
+        pieceCommandManager = serviceLocator.GetComponentInChildren<PieceCommandManager>();
 
         targetLayer = LayerMask.GetMask("Piece", "Furniture");
     }
@@ -211,7 +213,7 @@ public class InputHandler : MonoBehaviour
 
         if (!gameManager.whiteTurn) board.IncreaseFullMoveCount(); // 흑 끝나면 전체 턴 수 증가
 
-        gameManager.EndTurn();
+        if (gameManager.whiteTurn) gameManager.EndTurn();
     }
 
 
@@ -273,8 +275,15 @@ public class InputHandler : MonoBehaviour
     {
         board.SetPieceAt(piece, mx, mz);
         board.SetPieceAt(null, x, z);
+        if (gameManager.whiteTurn)
+        {
+            piece.transform.position = moveto_position;
+        }
+        else
+        {
+            pieceCommandManager.EnQueueMoveCommand(piece, moveto_position, 0.5f);
+        }
 
-        piece.transform.position = moveto_position;
         piece.GetComponent<Piece>().FirstMove = false;
     }
 }

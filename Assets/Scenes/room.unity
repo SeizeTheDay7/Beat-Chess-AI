@@ -764,7 +764,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &287284460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5016,6 +5016,10 @@ PrefabInstance:
       propertyPath: board_object
       value: 
       objectReference: {fileID: 1660971545}
+    - target: {fileID: 2440270694474458606, guid: ab55c06b0513eeb42a3c3a0acfc242a8, type: 3}
+      propertyPath: roboticArm
+      value: 
+      objectReference: {fileID: 7742447059075778724}
     - target: {fileID: 4249037436535120474, guid: ab55c06b0513eeb42a3c3a0acfc242a8, type: 3}
       propertyPath: m_Name
       value: ServiceLocator

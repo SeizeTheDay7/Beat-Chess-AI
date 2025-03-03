@@ -3,6 +3,7 @@ using DG.Tweening;
 
 public class RoboticArm : MonoBehaviour
 {
+    [SerializeField] PieceCommandManager pieceCommandManager;
     private Vector3 target_position;
     [SerializeField] private Transform y_axis_part;
     [SerializeField] private Transform x_axis_part;
@@ -120,6 +121,8 @@ public class RoboticArm : MonoBehaviour
             Open_Tongs(time / 2);
             Fold_Arm();
         });
+        seq.AppendInterval(time / 2 + 0.1f);
+        seq.AppendCallback(() => pieceCommandManager.ExecuteNextCommand());
     }
 
     private void Set_Course_Point(Vector3 point, float time)
