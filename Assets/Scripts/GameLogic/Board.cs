@@ -6,6 +6,7 @@ public class Board : MonoBehaviour
     [Header("판떼기")]
     [SerializeField] GameObject board_object;
     [SerializeField] GameObject board_pivot;
+    [SerializeField] PieceGrave piece_grave;
 
     [Header("스폰할 오브젝트들")]
     [SerializeField] GameObject highlight;
@@ -60,6 +61,8 @@ public class Board : MonoBehaviour
         TILE_DX = board_mr.bounds.size.x / 16;
         TILE_DZ = board_mr.bounds.size.z / 16;
 
+        piece_grave.InitPieceGrave(2 * TILE_DX, 2 * TILE_DZ);
+
         for (int i = 1; i <= 8; i++)
         {
             for (int j = 1; j <= 8; j++)
@@ -107,6 +110,7 @@ public class Board : MonoBehaviour
             }
         }
         moveValidator.ResetBoardInfo();
+        piece_grave.ResetGrave();
         SetBoard();
     }
 
@@ -175,8 +179,10 @@ public class Board : MonoBehaviour
         }
         else
         {
-            pieceCommandManager.EnQueueRoboticArmMove(pieces[x, z], new Vector3(7, 2, -2), 1.0f);
+            pieceCommandManager.EnQueueRoboticArmMove(pieces[x, z], piece_grave.GetAIGravePos(pieces[x, z]), 1.0f);
         }
+
+        pieces[x, z] = null;
 
         return true;
     }
