@@ -200,13 +200,26 @@ public class MoveValidator : MonoBehaviour
     }
 
     /// <summary>
-    /// 자신의 움직임이 체크를 발생시키는지 확인하는 함수
+    /// 자신의 움직인 후 상대방이 체크되는지 확인하는 함수
     /// </summary>
-    /// <param name="pieceScript"></param>
     public void MoveCheckCheck(Piece pieceScript)
     {
         var kingPosition = pieceScript.isWhite ? blackKingPosition : whiteKingPosition;
-        if (pieceScript.PossibleMove(CheckFrom.OtherSide).Contains(kingPosition))
+
+        List<(int, int)> my_moves_to_enemy = new List<(int, int)>();
+        for (int i = 1; i <= 8; i++)
+        {
+            for (int j = 1; j <= 8; j++)
+            {
+                Piece piece = board.GetPieceScriptAt(i, j);
+                if (piece != null && piece.isWhite == pieceScript.isWhite)
+                {
+                    my_moves_to_enemy.AddRange(piece.PossibleMove(CheckFrom.OtherSide));
+                }
+            }
+        }
+
+        if (my_moves_to_enemy.Contains(kingPosition))
         {
             if (pieceScript.isWhite)
                 isBlackKingChecked = true;
