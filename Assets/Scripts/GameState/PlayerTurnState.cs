@@ -47,10 +47,6 @@ public class PlayerTurnState : IGameState
         {
             inputHandler.HandleClick(gameManager.whiteTurn);
         }
-        else if (Input.GetKeyDown(KeyCode.D))
-        {
-            inputHandler.EnableDeleteMode();
-        }
     }
 
     public void ExitState()

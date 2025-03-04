@@ -1,8 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
-using Unity.Collections;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using TMPro;
 
 public class InputHandler : MonoBehaviour
 {
@@ -15,6 +14,7 @@ public class InputHandler : MonoBehaviour
     private MoveValidator moveValidator;
     private AIManager aiManager;
     private PieceCommandManager pieceCommandManager;
+    private TerminalText terminalText;
 
     private List<(int, int)> validMoves = new List<(int, int)>();
 
@@ -26,6 +26,7 @@ public class InputHandler : MonoBehaviour
         moveValidator = serviceLocator.GetComponentInChildren<MoveValidator>();
         aiManager = serviceLocator.GetComponentInChildren<AIManager>();
         pieceCommandManager = serviceLocator.GetComponentInChildren<PieceCommandManager>();
+        terminalText = serviceLocator.GetComponentInChildren<TerminalText>();
 
         targetLayer = LayerMask.GetMask("Piece", "Furniture");
     }
@@ -44,8 +45,7 @@ public class InputHandler : MonoBehaviour
 
             if (clickedObject.name == "DeleteButton")
             {
-                clickedObject.GetComponent<PressButton>().pressButton();
-                ToggleDeleteMode();
+                clickedObject.GetComponent<PressButton>().pressButton(ref deleteMode);
                 return;
             }
 
@@ -76,6 +76,9 @@ public class InputHandler : MonoBehaviour
 
             print("기물 삭제 : " + clickedObject.name);
 
+            deleteMode = false;
+            terminalText.BackToOriginalText();
+
             // 체크메이트 당했을 경우를 대비하여 모든 기물의 이동 가능한 위치를 초기화
             for (int i = 1; i <= 8; i++)
             {
@@ -89,22 +92,6 @@ public class InputHandler : MonoBehaviour
                 }
             }
         }
-        DisableDeleteMode();
-    }
-
-    private void ToggleDeleteMode()
-    {
-        deleteMode = !deleteMode;
-    }
-
-    public void EnableDeleteMode()
-    {
-        deleteMode = true;
-    }
-
-    public void DisableDeleteMode()
-    {
-        deleteMode = false;
     }
 
     private void HandleMyPieces(bool whiteTurn, GameObject clickedObject)
