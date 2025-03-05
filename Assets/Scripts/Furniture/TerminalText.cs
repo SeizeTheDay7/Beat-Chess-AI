@@ -1,7 +1,6 @@
 using TMPro;
 using UnityEngine;
 using System.Collections;
-using System.Text;
 
 public class TerminalText : MonoBehaviour
 {
@@ -10,9 +9,6 @@ public class TerminalText : MonoBehaviour
     [SerializeField] private float cursorBlinkSpeed = 0.5f;
     private string originalText = "It's your turn.";
     private Coroutine typingCoroutine;
-
-    private string fullText;
-    private StringBuilder displayedText = new StringBuilder();
 
     void Start()
     {
@@ -23,6 +19,11 @@ public class TerminalText : MonoBehaviour
     void Update()
     {
 
+    }
+
+    public void BackToOriginalTextWith(string context)
+    {
+        SetTerminalText(context + "\n" + originalText);
     }
 
     public void BackToOriginalText()
@@ -37,7 +38,14 @@ public class TerminalText : MonoBehaviour
         typingCoroutine = StartCoroutine(TypeText());
     }
 
-    IEnumerator TypeText()
+    public void SetTemporalTerminalText(string text)
+    {
+        if (typingCoroutine != null) StopCoroutine(typingCoroutine);
+        terminalText.text = text;
+        typingCoroutine = StartCoroutine(TypeText(true));
+    }
+
+    IEnumerator TypeText(bool isTemporal = false)
     {
         terminalText.ForceMeshUpdate();
         TMP_TextInfo textInfo = terminalText.textInfo;
@@ -51,6 +59,15 @@ public class TerminalText : MonoBehaviour
             yield return new WaitForSeconds(typingSpeed);
         }
 
-        typingCoroutine = null;
+        if (isTemporal)
+        {
+            yield return new WaitForSeconds(1.5f);
+            typingCoroutine = null;
+            SetTerminalText(originalText);
+        }
+        else
+        {
+            typingCoroutine = null;
+        }
     }
 }

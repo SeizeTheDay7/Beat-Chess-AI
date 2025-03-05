@@ -15,6 +15,7 @@ public class InputHandler : MonoBehaviour
     private AIManager aiManager;
     private PieceCommandManager pieceCommandManager;
     private TerminalText terminalText;
+    private int deleteCount = 3;
 
     private List<(int, int)> validMoves = new List<(int, int)>();
 
@@ -45,7 +46,7 @@ public class InputHandler : MonoBehaviour
 
             if (clickedObject.name == "DeleteButton")
             {
-                clickedObject.GetComponent<PressButton>().pressButton(ref deleteMode);
+                clickedObject.GetComponent<PressButton>().pressButton(ref deleteMode, deleteCount);
                 return;
             }
 
@@ -75,9 +76,10 @@ public class InputHandler : MonoBehaviour
             board.DestroyPieceAt(clickedGridIdx.Item1, clickedGridIdx.Item2);
 
             print("기물 삭제 : " + clickedObject.name);
+            deleteCount--;
+            terminalText.BackToOriginalTextWith("Delete count left : " + deleteCount);
 
             deleteMode = false;
-            terminalText.BackToOriginalText();
 
             // 체크메이트 당했을 경우를 대비하여 모든 기물의 이동 가능한 위치를 초기화
             for (int i = 1; i <= 8; i++)
