@@ -121,7 +121,7 @@ public class GameManager : MonoBehaviour
 
         board.ResetBoard();
         inputHandler.ResetInputHandler(stage);
-        terminalText.BackToOriginalTextWith("Stage " + stage + "\n");
+        terminalText.BackToOriginalTextWith("Stage " + stage);
     }
 
     /// <summary>

@@ -2154,7 +2154,7 @@ MonoBehaviour:
   monitor_vcam: {fileID: 1827153918}
   introTexts:
   - Checkmate, stalemate, or capture all of the AI's pieces to win.
-  - If you fail, you lose.
+  - If you fail, you lose and die.
   - You can delete up to 3 pieces.
   - This will decrease by one after each stage.
   - Stage 1

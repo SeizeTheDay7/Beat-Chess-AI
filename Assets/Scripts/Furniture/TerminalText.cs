@@ -25,7 +25,7 @@ public class TerminalText : MonoBehaviour
     /// </summary>
     public void BackToOriginalTextWith(string context)
     {
-        SetTerminalText(context + "\n" + originalText);
+        SetTerminalText(context + "\n\n" + originalText);
     }
 
     /// <summary>

@@ -125,6 +125,11 @@ public class AIManager : MonoBehaviour
     /// </summary>
     void SendAIMoveToGameManager(string move)
     {
+        if (move == "(none)")
+        {
+            UnityEngine.Debug.Log("Stockfish가 수를 선택하지 않았습니다.");
+            return;
+        }
         (int x, int y) = StringToGrid(move.Substring(0, 2));
         (int mx, int my) = StringToGrid(move.Substring(2, 2));
         inputHandler.AIMoveTo(x, y, mx, my);
