@@ -44,7 +44,5 @@ public class SurrenderBell : MonoBehaviour
                 RotateMode.Fast
             ).SetEase(Ease.InQuad);
         });
-
-
     }
 }

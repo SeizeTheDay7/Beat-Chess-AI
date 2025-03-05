@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     private IGameState currentState; // 현재 활성 상태
     public bool whiteTurn = true; // 턴을 나타내는 변수. whiteTurn이 true면 백(플레이어), false면 흑(AI)
     [SerializeField] private Canvas gameoverCanvas; // 게임 오버 캔버스
+    [SerializeField] Shooter shooter;
+    [SerializeField] Light spotLight;
 
 
     // 상태 스크립트 인스턴스들
@@ -20,21 +22,19 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector] public PlayerTurnState playerTurnState;
     [HideInInspector] public AITurnState aiTurnState;
+    [HideInInspector] public WaitingState waitingState;
 
     private int stage = 1;
 
     void Start()
     {
         SetComponents();
-        board.SetBoard();
-
-        // whiteTurnState = new WhiteTurnState(this);
-        // blackTurnState = new BlackTurnState(this);
 
         playerTurnState = new PlayerTurnState(this);
         aiTurnState = new AITurnState(this);
+        waitingState = new WaitingState(this);
 
-        currentState = playerTurnState;
+        currentState = waitingState;
     }
 
     void SetComponents()
@@ -71,19 +71,64 @@ public class GameManager : MonoBehaviour
         currentState.EnterState();
     }
 
+    /// <summary>
+    /// 맨 처음 게임 시작할 때 호출되는 함수
+    /// </summary>
+    public void StartGame()
+    {
+        currentState = playerTurnState;
+        terminalText.BackToOriginalText();
+        board.SetBoard();
+    }
+
+    /// <summary>
+    /// 다음 스테이지로 넘어가는 함수
+    /// </summary>
+    public void NextStage()
+    {
+        spotLight.enabled = false;
+        currentState = waitingState;
+        terminalText.SetTerminalText("Stage Clear!");
+
+        stage++;
+
+        // if (stage > 3)
+        // {
+        //     게임 종료 시퀀스 시작
+        //     return;
+        // }
+
+        Invoke("ResetGame", 3f);
+    }
+
+    /// <summary>
+    /// 게임 오버 후에 restart 눌렀을 때 호출
+    /// </summary>
     public void RestartGame()
     {
         ResetGame();
         gameoverCanvas.gameObject.SetActive(false);
     }
 
+    /// <summary>
+    /// 새 게임을 시작하기 위해 정보를 초기화하는 함수
+    /// </summary>
     public void ResetGame()
     {
         whiteTurn = true;
         currentState = playerTurnState;
+        spotLight.enabled = true;
 
         board.ResetBoard();
         inputHandler.ResetInputHandler(stage);
-        terminalText.BackToOriginalText();
+        terminalText.BackToOriginalTextWith("Stage " + stage + "\n");
+    }
+
+    /// <summary>
+    /// 종 치거나 게임 지면 호출되는 함수
+    /// </summary>
+    public void GameOver()
+    {
+        shooter.PlayShooterFootstep();
     }
 }

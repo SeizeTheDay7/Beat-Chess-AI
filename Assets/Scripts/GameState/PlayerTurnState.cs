@@ -36,6 +36,8 @@ public class PlayerTurnState : IGameState
             {
                 Debug.Log("스테일메이트!");
             }
+
+            gameManager.GameOver();
         }
     }
 

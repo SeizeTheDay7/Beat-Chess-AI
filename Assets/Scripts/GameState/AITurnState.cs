@@ -34,7 +34,11 @@ public class AITurnState : IGameState
             {
                 Debug.Log("스테일메이트!");
             }
+
+            gameManager.NextStage();
         }
+
+
     }
 
     public void UpdateState()
