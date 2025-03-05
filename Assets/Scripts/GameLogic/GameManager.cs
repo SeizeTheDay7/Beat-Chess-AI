@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     private Board board;
     private MoveValidator moveValidator;
     private InputHandler inputHandler;
+    private TerminalText terminalText;
 
     private IGameState currentState; // 현재 활성 상태
     public bool whiteTurn = true; // 턴을 나타내는 변수. whiteTurn이 true면 백(플레이어), false면 흑(AI)
@@ -19,6 +20,8 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector] public PlayerTurnState playerTurnState;
     [HideInInspector] public AITurnState aiTurnState;
+
+    private int stage = 1;
 
     void Start()
     {
@@ -40,6 +43,7 @@ public class GameManager : MonoBehaviour
         board = serviceLocator.GetComponentInChildren<Board>();
         moveValidator = serviceLocator.GetComponentInChildren<MoveValidator>();
         inputHandler = serviceLocator.GetComponentInChildren<InputHandler>();
+        terminalText = serviceLocator.GetComponentInChildren<TerminalText>();
     }
 
     void Update()
@@ -75,8 +79,11 @@ public class GameManager : MonoBehaviour
 
     public void ResetGame()
     {
-        board.ResetBoard();
         whiteTurn = true;
         currentState = playerTurnState;
+
+        board.ResetBoard();
+        inputHandler.ResetInputHandler(stage);
+        terminalText.BackToOriginalText();
     }
 }

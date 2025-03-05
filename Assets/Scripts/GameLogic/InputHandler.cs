@@ -32,6 +32,12 @@ public class InputHandler : MonoBehaviour
         targetLayer = LayerMask.GetMask("Piece", "Furniture");
     }
 
+    public void ResetInputHandler(int stage)
+    {
+        deleteCount = 4 - stage;
+        deleteMode = false;
+    }
+
     /// <summary>
     /// 플레이어가 플레이어 턴에 마우스 좌클하면 호출되어 기물 선택, 이동, 삭제를 처리하는 함수
     /// </summary>
