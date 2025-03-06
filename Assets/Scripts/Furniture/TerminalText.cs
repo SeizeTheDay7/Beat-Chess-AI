@@ -86,13 +86,44 @@ public class TerminalText : MonoBehaviour
     }
 
     /// <summary>
-    /// 터미널에 출력되고 있던 텍스트 아래에 텍스트를 추가한다.
+    /// 현재 진행중이던 타이핑은 즉시 출력하고, 다음 텍스트의 타이핑을 시작한다.
     /// </summary>
-    public void AddTerminalText(string text)
+    public void SkipToNewTerminalText(string text)
     {
         if (typingCoroutine != null) StopCoroutine(typingCoroutine);
         int preLen = terminalText.text.Length;
         terminalText.text += "\n" + text;
+        typingCoroutine = StartCoroutine(SkipToNewText(preLen));
+    }
+
+    /// <summary>
+    /// 텍스트 스킵 코루틴
+    /// </summary>
+    IEnumerator SkipToNewText(int preLen)
+    {
+        terminalText.ForceMeshUpdate();
+        TMP_TextInfo textInfo = terminalText.textInfo;
+        int totalCharacters = textInfo.characterCount;
+
+        terminalText.maxVisibleCharacters = preLen;
+
+        for (int i = preLen; i < totalCharacters; i++)
+        {
+            terminalText.maxVisibleCharacters = i + 1;
+            yield return new WaitForSeconds(typingSpeed);
+        }
+
+        typingCoroutine = null;
+    }
+
+    /// <summary>
+    /// 현재 진행중이던 타이핑 효과에 텍스트를 추가한다.
+    /// </summary>
+    public void QueueTerminalText(string text)
+    {
+        if (typingCoroutine != null) StopCoroutine(typingCoroutine);
+        terminalText.text += text;
+        int preLen = terminalText.maxVisibleCharacters;
         typingCoroutine = StartCoroutine(AddText(preLen));
     }
 
@@ -109,8 +140,16 @@ public class TerminalText : MonoBehaviour
 
         for (int i = preLen; i < totalCharacters; i++)
         {
+            if (i > totalCharacters) break;
             terminalText.maxVisibleCharacters = i + 1;
-            yield return new WaitForSeconds(typingSpeed);
+            i++;
+
+            float elapsedTime = 0;
+            while (elapsedTime < typingSpeed / 1000)
+            {
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
         }
 
         typingCoroutine = null;

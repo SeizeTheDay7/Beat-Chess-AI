@@ -6,6 +6,7 @@ public class PlayerTurnState : IGameState
     private MoveValidator moveValidator;
     private InputHandler inputHandler;
     private Board board;
+    private TerminalText terminalText;
 
     public PlayerTurnState(GameManager gameManager)
     {
@@ -13,10 +14,13 @@ public class PlayerTurnState : IGameState
         moveValidator = gameManager.transform.parent.GetComponentInChildren<MoveValidator>();
         inputHandler = gameManager.transform.parent.GetComponentInChildren<InputHandler>();
         board = gameManager.transform.parent.GetComponentInChildren<Board>();
+        terminalText = gameManager.transform.parent.GetComponentInChildren<TerminalText>();
     }
 
     public void EnterState()
     {
+        terminalText.BackToOriginalText();
+
         Debug.Log("Entering White Turn");
         moveValidator.ResetAllPieceMoves(); // 캐싱했던 데이터를 전부 리셋하고
         moveValidator.CalculateMyMoves(gameManager.whiteTurn); // 미리 경로를 전부 계산해놓는다

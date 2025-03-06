@@ -5,16 +5,20 @@ public class AITurnState : IGameState
     private GameManager gameManager;
     private MoveValidator moveValidator;
     private Board board;
+    private TerminalText terminalText;
 
     public AITurnState(GameManager gameManager)
     {
         this.gameManager = gameManager;
         moveValidator = gameManager.transform.parent.GetComponentInChildren<MoveValidator>();
         board = gameManager.transform.parent.GetComponentInChildren<Board>();
+        terminalText = gameManager.transform.parent.GetComponentInChildren<TerminalText>();
     }
 
     public void EnterState()
     {
+        terminalText.SetTerminalText("");
+
         Debug.Log("Entering Black Turn");
         moveValidator.ResetAllPieceMoves(); // 캐싱했던 데이터를 전부 리셋하고
         moveValidator.CalculateMyMoves(gameManager.whiteTurn); // 미리 경로를 전부 계산해놓는다

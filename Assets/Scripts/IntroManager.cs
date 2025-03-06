@@ -50,7 +50,7 @@ public class IntroManager : MonoBehaviour
         }
 
         if (introTextsType[textIdx])
-            terminalText.AddTerminalText(introTexts[textIdx]);
+            terminalText.SkipToNewTerminalText(introTexts[textIdx]);
         else
             terminalText.SetTerminalText(introTexts[textIdx]);
 

@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Collections.Concurrent;
 using UnityEngine;
+using DG.Tweening;
 
 public class AIManager : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class AIManager : MonoBehaviour
     // 별도의 큐를 이용해 이벤트 핸들러에서 받은 메시지를 메인 스레드로 전달
     private ConcurrentQueue<string> outputQueue = new ConcurrentQueue<string>();
 
+    private TerminalText terminalText;
     private InputHandler inputHandler;
     private Board board;
     private string moves = " moves "; // 플레이어의 수를 기록하는 변수
@@ -22,6 +24,7 @@ public class AIManager : MonoBehaviour
         GameObject serviceLocator = GameObject.FindGameObjectWithTag("ServiceLocator");
         inputHandler = serviceLocator.GetComponentInChildren<InputHandler>();
         board = serviceLocator.GetComponentInChildren<Board>();
+        terminalText = serviceLocator.GetComponentInChildren<TerminalText>();
         StartStockfish();
     }
 
@@ -91,12 +94,16 @@ public class AIManager : MonoBehaviour
             input.Flush();
             UnityEngine.Debug.Log("uciok를 받았고, ucinewgame를 stockfish에게 보냈다.");
         }
+        else if (response.Contains("info"))
+        {
+            terminalText.QueueTerminalText(response);
+        }
         else if (response.StartsWith("bestmove"))
         {
             string bestMove = response.Split(' ')[1];
             moves += " " + bestMove;
             UnityEngine.Debug.Log("Stockfish가 선택한 수: " + bestMove);
-            SendAIMoveToGameManager(bestMove);
+            DOVirtual.DelayedCall(1f, () => SendAIMoveToGameManager(bestMove));
         }
     }
 
