@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     private MoveValidator moveValidator;
     private InputHandler inputHandler;
     private TerminalText terminalText;
+    [SerializeField] private AudioSource stageClaerSound;
+    [SerializeField] private AudioSource gameClearSound;
     [SerializeField] private RoboticArm roboticArm;
 
     private IGameState currentState; // 현재 활성 상태
@@ -104,10 +106,12 @@ public class GameManager : MonoBehaviour
 
         if (stage > 3)
         {
-            GetComponent<AudioSource>().Play();
+            gameClearSound.Play();
             endingCanvas.gameObject.SetActive(true);
             return;
         }
+
+        stageClaerSound.Play();
 
         Invoke("ResetGame", 3f);
     }
