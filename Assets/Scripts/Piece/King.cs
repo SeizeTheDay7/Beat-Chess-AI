@@ -13,9 +13,6 @@ public class King : Piece
     {
         // 내 기물을 조회하고 있는거고, 캐싱된 값이 있다면 그 값을 반환한다
         if (checkFrom == CheckFrom.MySide && cached) { return moves; }
-        // 캐슬링 확인 무한 루프를 막기 위해, 다른 편 킹을 조회할 땐 정보를 반환하지 않는다.
-        // 상대편 킹은 내 킹을 체크할 수 없기 때문에, 상대편 킹을 조회할 필요는 없다.
-        if (checkFrom == CheckFrom.OtherSide) { return new List<(int, int)>(); }
 
         int x = board.PieceToGridX(gameObject);
         int y = board.PieceToGridY(gameObject);
