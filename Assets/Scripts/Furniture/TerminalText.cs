@@ -9,10 +9,11 @@ public class TerminalText : MonoBehaviour
     [SerializeField] private float cursorBlinkSpeed = 0.5f;
     private string originalText = "It's your turn.";
     private Coroutine typingCoroutine;
+    private AudioSource audioSource;
 
     void Start()
     {
-
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -70,6 +71,7 @@ public class TerminalText : MonoBehaviour
         for (int i = 0; i < totalCharacters; i++)
         {
             terminalText.maxVisibleCharacters = i + 1;
+            if (i % 3 == 0) audioSource.Play();
             yield return new WaitForSeconds(typingSpeed);
         }
 
@@ -110,6 +112,7 @@ public class TerminalText : MonoBehaviour
         for (int i = preLen; i < totalCharacters; i++)
         {
             terminalText.maxVisibleCharacters = i + 1;
+            if (i % 3 == 0) audioSource.Play();
             yield return new WaitForSeconds(typingSpeed);
         }
 
