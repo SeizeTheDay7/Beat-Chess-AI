@@ -8,10 +8,12 @@ public class GameManager : MonoBehaviour
     private MoveValidator moveValidator;
     private InputHandler inputHandler;
     private TerminalText terminalText;
+    [SerializeField] private RoboticArm roboticArm;
 
     private IGameState currentState; // 현재 활성 상태
     public bool whiteTurn = true; // 턴을 나타내는 변수. whiteTurn이 true면 백(플레이어), false면 흑(AI)
     [SerializeField] private Canvas gameoverCanvas; // 게임 오버 캔버스
+    [SerializeField] private Canvas endingCanvas; // 엔딩 캔버스
     [SerializeField] Shooter shooter;
     [SerializeField] Light spotLight;
 
@@ -60,15 +62,18 @@ public class GameManager : MonoBehaviour
 
     void ChangeState()
     {
-        if (currentState != null)
-        {
-            currentState.ExitState();
-        }
+        if (currentState != null) currentState.ExitState();
 
         currentState = whiteTurn ? aiTurnState : playerTurnState;
         whiteTurn = !whiteTurn;
 
         currentState.EnterState();
+    }
+
+    void ChangeToWaitingState()
+    {
+        currentState = waitingState;
+        waitingState.EnterState();
     }
 
     /// <summary>
@@ -87,16 +92,17 @@ public class GameManager : MonoBehaviour
     public void NextStage()
     {
         spotLight.enabled = false;
-        currentState = waitingState;
+        ChangeToWaitingState();
         terminalText.SetTerminalText("Stage Clear!");
 
         stage++;
 
-        // if (stage > 3)
-        // {
-        //     게임 종료 시퀀스 시작
-        //     return;
-        // }
+        if (stage > 3)
+        {
+            GetComponent<AudioSource>().Play();
+            endingCanvas.gameObject.SetActive(true);
+            return;
+        }
 
         Invoke("ResetGame", 3f);
     }
@@ -129,6 +135,20 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void GameOver()
     {
+        ChangeToWaitingState();
         shooter.PlayShooterFootstep();
+    }
+
+    /// <summary>
+    /// 게임 종료
+    /// </summary>
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
+
+    public void Wishlist()
+    {
+        Application.OpenURL("https://store.steampowered.com");
     }
 }
