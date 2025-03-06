@@ -96,16 +96,12 @@ public class AIManager : MonoBehaviour
             input.Flush();
             UnityEngine.Debug.Log("uciok를 받았고, ucinewgame를 stockfish에게 보냈다.");
         }
-        else if (response.Contains("info"))
-        {
-            terminalText.QueueTerminalText(response);
-        }
         else if (response.StartsWith("bestmove"))
         {
             string bestMove = response.Split(' ')[1];
             moves += " " + bestMove;
             UnityEngine.Debug.Log("Stockfish가 선택한 수: " + bestMove);
-            DOVirtual.DelayedCall(1f, () => SendAIMoveToGameManager(bestMove));
+            SendAIMoveToGameManager(bestMove);
         }
     }
 

@@ -17,7 +17,7 @@ public class AITurnState : IGameState
 
     public void EnterState()
     {
-        terminalText.SetTerminalText("");
+        terminalText.SetTerminalText("AI Turn...");
 
         Debug.Log("Entering Black Turn");
         moveValidator.ResetAllPieceMoves(); // 캐싱했던 데이터를 전부 리셋하고

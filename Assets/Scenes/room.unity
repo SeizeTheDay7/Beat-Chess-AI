@@ -6841,9 +6841,21 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4994404767001449947, guid: c689e32216a46a14ea7a20258446b265, type: 3}
+      propertyPath: drill
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4994404767001449947, guid: c689e32216a46a14ea7a20258446b265, type: 3}
+      propertyPath: long_drill
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4994404767001449947, guid: c689e32216a46a14ea7a20258446b265, type: 3}
       propertyPath: hand_part_2
       value: 
       objectReference: {fileID: 9143872702710353054}
+    - target: {fileID: 4994404767001449947, guid: c689e32216a46a14ea7a20258446b265, type: 3}
+      propertyPath: short_drill
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4994404767001449947, guid: c689e32216a46a14ea7a20258446b265, type: 3}
       propertyPath: pieceCommandManager
       value: 
