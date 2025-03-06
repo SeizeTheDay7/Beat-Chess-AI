@@ -11,17 +11,23 @@ public class SurrenderBell : MonoBehaviour
     private AudioSource audioSource;
     private float initialAngle;
     private bool isBellRinged = false;
+    private GameManager gameManager;
 
 
     void Start()
     {
         initialAngle = handle.transform.localEulerAngles.x;
         audioSource = GetComponent<AudioSource>();
+
+        GameObject serviceLocator = GameObject.FindGameObjectWithTag("ServiceLocator");
+        gameManager = serviceLocator.GetComponentInChildren<GameManager>();
     }
 
     public void Ring()
     {
         print("Ring the bell!");
+
+        gameManager.ChangeToWaitingState();
 
         // if (isBellRinged) return;
         // isBellRinged = true;

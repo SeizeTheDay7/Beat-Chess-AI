@@ -1,15 +1,15 @@
 public class WaitingState : IGameState
 {
-    private GameManager gameManager;
+    private RoboticArm roboticArm;
 
-    public WaitingState(GameManager gameManager)
+    public WaitingState(RoboticArm roboticArm)
     {
-
+        this.roboticArm = roboticArm;
     }
 
     public void EnterState()
     {
-
+        roboticArm.Reset_Arm();
     }
 
     public void UpdateState()

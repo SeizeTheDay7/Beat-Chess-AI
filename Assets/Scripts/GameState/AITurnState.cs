@@ -42,7 +42,11 @@ public class AITurnState : IGameState
             gameManager.NextStage();
         }
 
-
+        if (moveValidator.NoPieceExceptMyKing(gameManager.whiteTurn))
+        {
+            Debug.Log("킹만 남았음");
+            gameManager.NextStage();
+        }
     }
 
     public void UpdateState()

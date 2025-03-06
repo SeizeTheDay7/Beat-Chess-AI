@@ -43,6 +43,12 @@ public class PlayerTurnState : IGameState
 
             gameManager.GameOver();
         }
+
+        if (moveValidator.NoPieceExceptMyKing(gameManager.whiteTurn))
+        {
+            Debug.Log("킹만 남았음");
+            gameManager.GameOver();
+        }
     }
 
     public void UpdateState()

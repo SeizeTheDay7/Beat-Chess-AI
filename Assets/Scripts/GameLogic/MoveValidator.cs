@@ -31,6 +31,22 @@ public class MoveValidator : MonoBehaviour
         isWhiteKingChecked = false;
     }
 
+    public bool NoPieceExceptMyKing(bool whiteTurn)
+    {
+        for (int i = 1; i <= 8; i++)
+        {
+            for (int j = 1; j <= 8; j++)
+            {
+                Piece pieceScript = board.GetPieceScriptAt(i, j);
+                if (pieceScript != null && pieceScript.isWhite == whiteTurn && !(pieceScript is King))
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
 
     /// <summary>
     /// 캐슬링 이동이라면 캐슬링에 맞게 배열을 수정하는 함수

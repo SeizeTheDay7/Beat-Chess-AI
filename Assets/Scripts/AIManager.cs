@@ -14,6 +14,7 @@ public class AIManager : MonoBehaviour
 
     private TerminalText terminalText;
     private InputHandler inputHandler;
+    private GameManager gameManager;
     private Board board;
     private string moves = " moves "; // 플레이어의 수를 기록하는 변수
 
@@ -25,6 +26,7 @@ public class AIManager : MonoBehaviour
         inputHandler = serviceLocator.GetComponentInChildren<InputHandler>();
         board = serviceLocator.GetComponentInChildren<Board>();
         terminalText = serviceLocator.GetComponentInChildren<TerminalText>();
+        gameManager = serviceLocator.GetComponentInChildren<GameManager>();
         StartStockfish();
     }
 
@@ -112,6 +114,8 @@ public class AIManager : MonoBehaviour
     /// </summary>
     public void SendPlayerMoveToStockfish(int x, int y, int mx, int my)
     {
+        if (gameManager.IsWaitingState()) return;
+
         string playermove = GridMoveToUCI(x, y, mx, my);
         UnityEngine.Debug.Log("플레이어의 수 : " + playermove);
         // moves += " " + playermove;

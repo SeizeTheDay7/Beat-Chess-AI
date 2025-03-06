@@ -5513,6 +5513,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 901753848}
     - target: {fileID: 5551505495975727110, guid: ab55c06b0513eeb42a3c3a0acfc242a8, type: 3}
+      propertyPath: roboticArm
+      value: 
+      objectReference: {fileID: 7742447059075778724}
+    - target: {fileID: 5551505495975727110, guid: ab55c06b0513eeb42a3c3a0acfc242a8, type: 3}
       propertyPath: endingCanvas
       value: 
       objectReference: {fileID: 1059939336}

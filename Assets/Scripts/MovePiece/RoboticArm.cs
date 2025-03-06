@@ -22,6 +22,7 @@ public class RoboticArm : MonoBehaviour
     private float r1;
     private float r2;
     [SerializeField] private float move_time = 0.1f;
+    private Sequence current_seq;
 
     void Start()
     {
@@ -63,6 +64,16 @@ public class RoboticArm : MonoBehaviour
         bonus_w = hand_tongs_distance * Mathf.Sin(hand_tongs_angle * Mathf.Deg2Rad);
     }
 
+    public void Reset_Arm()
+    {
+        if (current_seq != null)
+        {
+            current_seq.Kill();
+            print("RoboticArm :: Reset_Arm");
+        }
+        Fold_Arm();
+    }
+
     public void Fold_Arm()
     {
         x_axis_part.DOLocalRotate(new Vector3(-90, 0, 0), 1f);
@@ -91,6 +102,8 @@ public class RoboticArm : MonoBehaviour
         float pieceHeight = piece.transform.GetComponent<MeshRenderer>().bounds.size.y;
         Quaternion pieceRotation = piece.transform.rotation;
         Sequence seq = DOTween.Sequence();
+        current_seq = seq; // 중간에 취소하기 위해 저장
+
         seq.AppendCallback(() => Set_Course_Point(piecePos + new Vector3(0, pieceHeight + 0.5f, 0), time)); // 기물 머리 위까지 간다
         seq.AppendInterval(time + 0.2f);
         // 기물을 집는다

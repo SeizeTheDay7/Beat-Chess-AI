@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
 
         playerTurnState = new PlayerTurnState(this);
         aiTurnState = new AITurnState(this);
-        waitingState = new WaitingState(this);
+        waitingState = new WaitingState(roboticArm);
 
         currentState = waitingState;
     }
@@ -70,10 +70,15 @@ public class GameManager : MonoBehaviour
         currentState.EnterState();
     }
 
-    void ChangeToWaitingState()
+    public void ChangeToWaitingState()
     {
         currentState = waitingState;
         waitingState.EnterState();
+    }
+
+    public bool IsWaitingState()
+    {
+        return currentState == waitingState;
     }
 
     /// <summary>
