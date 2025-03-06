@@ -23,9 +23,12 @@ public class RoboticArm : MonoBehaviour
     private float r2;
     [SerializeField] private float move_time = 0.1f;
     private Sequence current_seq;
+    private AudioSource AI_drop_sfx;
 
     void Start()
     {
+        AI_drop_sfx = GetComponent<AudioSource>();
+
         hand_y_offset = (hand_part.position - tongs_part.position).y; // 원 교점 구할 때 쓰이는 손 길이
         r1 = (hand_part.position - x_axis_part_2.position).magnitude;
         r2 = (x_axis_part_2.position - x_axis_part.position).magnitude;
@@ -122,6 +125,7 @@ public class RoboticArm : MonoBehaviour
         // 기물을 내려놓는다
         seq.AppendCallback(() =>
         {
+            AI_drop_sfx.Play();
             Set_Course_Point(moveToPos + new Vector3(0, pieceHeight, 0), time / 2);
             hand_part_2.DOLocalRotate((hand_part_2.localRotation * pieceRotation * Quaternion.Inverse(piece.transform.rotation)).eulerAngles, time / 2);
         });

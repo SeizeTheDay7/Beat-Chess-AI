@@ -8,10 +8,12 @@ public class PressButton : MonoBehaviour
     private TerminalText terminalText;
     private Vector3 originalPos; // 원래 위치를 한 번만 저장
     private bool isAnimating = false; // 애니메이션 중복 방지
+    private AudioSource audioSource;
 
     void Start()
     {
         originalPos = transform.position; // 원래 위치 저장
+        audioSource = GetComponent<AudioSource>();
         GameObject serviceLocator = GameObject.FindGameObjectWithTag("ServiceLocator");
         terminalText = serviceLocator.GetComponentInChildren<TerminalText>();
     }
@@ -22,6 +24,7 @@ public class PressButton : MonoBehaviour
 
         if (isAnimating) return; // 이미 애니메이션 중이면 실행 안 함
         isAnimating = true; // 애니메이션 시작
+        audioSource.Play(); // 버튼 눌린 소리 재생
 
         // 아래로 이동 후 다시 원위치로 복귀 (Sequence 사용)
         Sequence sequence = DOTween.Sequence()
