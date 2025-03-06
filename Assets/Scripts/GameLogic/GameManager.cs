@@ -155,9 +155,4 @@ public class GameManager : MonoBehaviour
     {
         Application.Quit();
     }
-
-    public void Wishlist()
-    {
-        Application.OpenURL("https://store.steampowered.com");
-    }
 }
