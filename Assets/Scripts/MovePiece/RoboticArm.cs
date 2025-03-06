@@ -69,16 +69,15 @@ public class RoboticArm : MonoBehaviour
         if (current_seq != null)
         {
             current_seq.Kill();
-            print("RoboticArm :: Reset_Arm");
         }
         Fold_Arm();
     }
 
     public void Fold_Arm()
     {
-        x_axis_part.DOLocalRotate(new Vector3(-90, 0, 0), 1f);
-        x_axis_part_2.DOLocalRotate(Vector3.zero, 1f);
-        hand_part.DOLocalRotate(new Vector3(180, 0, 0), 1f);
+        x_axis_part.DOLocalRotate(new Vector3(-90, 0, 0), move_time);
+        x_axis_part_2.DOLocalRotate(Vector3.zero, move_time);
+        hand_part.DOLocalRotate(new Vector3(180, 0, 0), move_time);
     }
 
     public void Open_Tongs(float time)

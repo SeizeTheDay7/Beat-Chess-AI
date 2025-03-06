@@ -142,7 +142,7 @@ public class TerminalText : MonoBehaviour
         {
             if (i > totalCharacters) break;
             terminalText.maxVisibleCharacters = i + 1;
-            i++;
+            i += 2;
 
             float elapsedTime = 0;
             while (elapsedTime < typingSpeed / 1000)

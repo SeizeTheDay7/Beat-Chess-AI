@@ -179,7 +179,7 @@ public class Board : MonoBehaviour
         }
         else
         {
-            pieceCommandManager.EnQueueRoboticArmMove(pieces[x, z], piece_grave.GetAIGravePos(pieces[x, z]), 1.0f);
+            pieceCommandManager.EnQueueRoboticArmMove(pieces[x, z], piece_grave.GetAIGravePos(pieces[x, z]), 0.5f);
         }
 
         pieces[x, z] = null;
