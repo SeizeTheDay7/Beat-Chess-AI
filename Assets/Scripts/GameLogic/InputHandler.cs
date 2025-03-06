@@ -5,6 +5,7 @@ using TMPro;
 
 public class InputHandler : MonoBehaviour
 {
+    AudioSource player_drop_sfx;
     GameObject selectedPiece;
     bool deleteMode;
     int targetLayer;
@@ -21,6 +22,8 @@ public class InputHandler : MonoBehaviour
 
     void Awake()
     {
+        player_drop_sfx = GetComponent<AudioSource>();
+
         GameObject serviceLocator = GameObject.FindGameObjectWithTag("ServiceLocator");
         gameManager = serviceLocator.GetComponentInChildren<GameManager>();
         board = serviceLocator.GetComponentInChildren<Board>();
@@ -273,6 +276,7 @@ public class InputHandler : MonoBehaviour
         if (gameManager.whiteTurn)
         {
             piece.transform.position = moveto_position;
+            player_drop_sfx.Play();
         }
         else
         {
