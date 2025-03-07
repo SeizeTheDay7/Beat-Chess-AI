@@ -140,11 +140,12 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 종 치거나 게임 지면 호출되는 함수
+    /// 게임 지면 호출되는 함수
     /// </summary>
     public void GameOver()
     {
         ChangeToWaitingState();
+        terminalText.SetTerminalText("You lose.");
         shooter.PlayShooterFootstep();
     }
 
