@@ -78,8 +78,8 @@ public class InputHandler : MonoBehaviour
 
     private void HandleEnemyPieces(bool whiteTurn, GameObject clickedObject)
     {
-        // 선택한 오브젝트가 있고, 클릭한 오브젝트가 적 기물이라면 삭제
-        if (clickedObject != null && clickedObject.GetComponent<Piece>().isWhite != whiteTurn)
+        // 선택한 오브젝트가 있고, 클릭한 오브젝트가 적 기물이고, 킹이 아니라면 삭제
+        if (clickedObject != null && clickedObject.GetComponent<Piece>().isWhite != whiteTurn && !(clickedObject.GetComponent<Piece>() is King))
         {
             (int, int) clickedGridIdx = board.BoardPosToGridIdx(clickedObject.transform.position);
             board.DestroyPieceAt(clickedGridIdx.Item1, clickedGridIdx.Item2);
@@ -90,7 +90,7 @@ public class InputHandler : MonoBehaviour
 
             deleteMode = false;
 
-            // 체크메이트 당했을 경우를 대비하여 모든 기물의 이동 가능한 위치를 초기화
+            // 체크 당했을 경우를 대비하여 모든 기물의 이동 가능한 위치를 초기화
             for (int i = 1; i <= 8; i++)
             {
                 for (int j = 1; j <= 8; j++)
