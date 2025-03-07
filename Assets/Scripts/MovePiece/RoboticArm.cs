@@ -3,7 +3,7 @@ using DG.Tweening;
 
 public class RoboticArm : MonoBehaviour
 {
-    [SerializeField] PieceCommandManager pieceCommandManager;
+    PieceCommandManager pieceCommandManager;
     private Vector3 target_position;
     [SerializeField] private Transform y_axis_part;
     [SerializeField] private Transform x_axis_part;
@@ -28,6 +28,7 @@ public class RoboticArm : MonoBehaviour
     void Start()
     {
         AI_drop_sfx = GetComponent<AudioSource>();
+        pieceCommandManager = GameObject.FindGameObjectWithTag("ServiceLocator").GetComponentInChildren<PieceCommandManager>();
 
         hand_y_offset = (hand_part.position - tongs_part.position).y; // 원 교점 구할 때 쓰이는 손 길이
         r1 = (hand_part.position - x_axis_part_2.position).magnitude;

@@ -105,25 +105,25 @@ public class AIManager : MonoBehaviour
         }
     }
 
+    public void DebugPlayerMove(int x, int y, int mx, int my)
+    {
+        string playermove = GridMoveToUCI(x, y, mx, my);
+        UnityEngine.Debug.Log("플레이어의 수 : " + playermove);
+    }
+
     /// <summary>
     /// 플레이어의 착수를 Stockfish에게 전달
     /// </summary>
-    public void SendPlayerMoveToStockfish(int x, int y, int mx, int my)
+    public void SendPlayerMoveToStockfish()
     {
         if (gameManager.IsWaitingState()) return;
-
-        string playermove = GridMoveToUCI(x, y, mx, my);
-        UnityEngine.Debug.Log("플레이어의 수 : " + playermove);
-        // moves += " " + playermove;
-
-        // input.WriteLine("position startpos" + moves);
 
         UnityEngine.Debug.Log("플레이어가 둔 후의 FEN : " + board.GetFENstring());
 
         input.WriteLine("position fen " + board.GetFENstring());
         input.Flush();
 
-        input.WriteLine("go depth 10");
+        input.WriteLine("go depth 20");
         input.Flush();
     }
 

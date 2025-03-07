@@ -5,7 +5,6 @@ using TMPro;
 
 public class InputHandler : MonoBehaviour
 {
-    AudioSource player_drop_sfx;
     GameObject selectedPiece;
     bool deleteMode;
     int targetLayer;
@@ -22,8 +21,6 @@ public class InputHandler : MonoBehaviour
 
     void Awake()
     {
-        player_drop_sfx = GetComponent<AudioSource>();
-
         GameObject serviceLocator = GameObject.FindGameObjectWithTag("ServiceLocator");
         gameManager = serviceLocator.GetComponentInChildren<GameManager>();
         board = serviceLocator.GetComponentInChildren<Board>();
@@ -129,7 +126,7 @@ public class InputHandler : MonoBehaviour
                 {
                     (int x, int z) = board.BoardPosToGridIdx(selectedPiece.transform.position); // 위치를 이동하기 전의 인덱스를 저장해두었다가
                     MoveTo(selectedPiece, board.GridIdxToBoardPos(clickedGridIdx));
-                    aiManager.SendPlayerMoveToStockfish(x, z, clickedGridIdx.Item1, clickedGridIdx.Item2); // AI에게 움직임을 전달
+                    aiManager.DebugPlayerMove(x, z, clickedGridIdx.Item1, clickedGridIdx.Item2);
                 }
             }
 
@@ -210,8 +207,6 @@ public class InputHandler : MonoBehaviour
         else board.IncreaseHalfMoveCount();
 
         if (!gameManager.whiteTurn) board.IncreaseFullMoveCount(); // 흑 끝나면 전체 턴 수 증가
-
-        if (gameManager.whiteTurn) gameManager.EndTurn();
     }
 
 
@@ -275,8 +270,9 @@ public class InputHandler : MonoBehaviour
         board.SetPieceAt(null, x, z);
         if (gameManager.whiteTurn)
         {
-            piece.transform.position = moveto_position;
-            player_drop_sfx.Play();
+            // piece.transform.position = moveto_position;
+            pieceCommandManager.EnQueuePlayerMove(piece, moveto_position, 0.25f);
+
         }
         else
         {

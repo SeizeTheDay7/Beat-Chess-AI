@@ -5,6 +5,7 @@ public class PieceCommandManager : MonoBehaviour
 {
     private Queue<ICommand> moveQueue = new Queue<ICommand>();
     [SerializeField] private RoboticArm roboticArm;
+    private InvisibleHand invisibleHand;
     private GameManager gameManager;
     private bool isWorking = false;
 
@@ -12,6 +13,7 @@ public class PieceCommandManager : MonoBehaviour
     {
         GameObject serviceLocator = GameObject.FindGameObjectWithTag("ServiceLocator");
         gameManager = serviceLocator.GetComponentInChildren<GameManager>();
+        invisibleHand = serviceLocator.GetComponentInChildren<InvisibleHand>();
     }
 
     /// <summary>
@@ -40,7 +42,15 @@ public class PieceCommandManager : MonoBehaviour
 
     public void EnQueueRoboticArmMove(GameObject piece, Vector3 targetPos, float time)
     {
+        print("EnQueueRoboticArmMove");
         moveQueue.Enqueue(new RoboticArmCommand(piece, targetPos, time, roboticArm));
+        ExecuteNextCommand();
+    }
+
+    public void EnQueuePlayerMove(GameObject piece, Vector3 targetPos, float time)
+    {
+        print("EnQueuePlayerMove");
+        moveQueue.Enqueue(new InvisibleHandCommand(piece, targetPos, time, invisibleHand));
         ExecuteNextCommand();
     }
 }
