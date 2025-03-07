@@ -127,6 +127,7 @@ public class InputHandler : MonoBehaviour
                     (int x, int z) = board.BoardPosToGridIdx(selectedPiece.transform.position); // 위치를 이동하기 전의 인덱스를 저장해두었다가
                     MoveTo(selectedPiece, board.GridIdxToBoardPos(clickedGridIdx));
                     aiManager.DebugPlayerMove(x, z, clickedGridIdx.Item1, clickedGridIdx.Item2);
+                    gameManager.ChangeToWaitingState();
                 }
             }
 

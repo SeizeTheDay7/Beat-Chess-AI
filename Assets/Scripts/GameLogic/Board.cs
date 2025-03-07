@@ -65,12 +65,15 @@ public class Board : MonoBehaviour
 
         piece_grave.InitPieceGrave(2 * TILE_DX, 2 * TILE_DZ);
 
-        for (int i = 1; i <= 8; i++)
+        if (highlights[1, 1] == null)
         {
-            for (int j = 1; j <= 8; j++)
+            for (int i = 1; i <= 8; i++)
             {
-                highlights[i, j] = Instantiate(highlight, GridIdxToBoardPos((i, j)), Quaternion.Euler(90, 0, 0));
-                highlights[i, j].SetActive(false);
+                for (int j = 1; j <= 8; j++)
+                {
+                    highlights[i, j] = Instantiate(highlight, GridIdxToBoardPos((i, j)), Quaternion.Euler(90, 0, 0));
+                    highlights[i, j].SetActive(false);
+                }
             }
         }
 
@@ -109,6 +112,7 @@ public class Board : MonoBehaviour
                 {
                     Destroy(pieces[i, j]);
                 }
+                highlights[i, j].SetActive(false);
             }
         }
         moveValidator.ResetBoardInfo();
