@@ -27,6 +27,7 @@ public class Board : MonoBehaviour
     private AIManager aiManager;
     private GameManager gameManager;
     private PieceCommandManager pieceCommandManager;
+    private InvisibleHand invisibleHand;
 
     public const int BOARD_SIZE = 8;
     private float TILE_Z_ORIGIN;
@@ -50,6 +51,7 @@ public class Board : MonoBehaviour
         aiManager = serviceLocator.GetComponentInChildren<AIManager>();
         gameManager = serviceLocator.GetComponentInChildren<GameManager>();
         pieceCommandManager = serviceLocator.GetComponentInChildren<PieceCommandManager>();
+        invisibleHand = serviceLocator.GetComponentInChildren<InvisibleHand>();
     }
 
     public void SetBoard()
@@ -167,20 +169,28 @@ public class Board : MonoBehaviour
         pieces[x, y] = piece;
     }
 
-    public bool DestroyPieceAt(int x, int z)
+    public bool DestroyPieceAt(int x, int z, bool isTurnEnd = true)
     {
         if (pieces[x, z] == null) { return false; }
 
         bool isWhiteNow = gameManager.whiteTurn; // 백이 플레이어
 
-        if (isWhiteNow)
+        if (!isTurnEnd) // 버튼을 누른 거라면 턴을 종료하지 않고 무덤에만 보내기
         {
-            Destroy(pieces[x, z]);
+            invisibleHand.OnlyMovePieceToPos(pieces[x, z], piece_grave.GetPlayerGravePos(pieces[x, z]), 0.25f);
         }
         else
         {
-            pieceCommandManager.EnQueueRoboticArmMove(pieces[x, z], piece_grave.GetAIGravePos(pieces[x, z]), 0.5f);
+            if (isWhiteNow)
+            {
+                pieceCommandManager.EnQueuePlayerMove(pieces[x, z], piece_grave.GetPlayerGravePos(pieces[x, z]), 0.25f);
+            }
+            else
+            {
+                pieceCommandManager.EnQueueRoboticArmMove(pieces[x, z], piece_grave.GetAIGravePos(pieces[x, z]), 0.4f);
+            }
         }
+
 
         pieces[x, z] = null;
 

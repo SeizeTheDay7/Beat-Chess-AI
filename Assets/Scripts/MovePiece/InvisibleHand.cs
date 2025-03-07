@@ -28,4 +28,10 @@ public class InvisibleHand : MonoBehaviour
         piece.transform.DOJump(targetPos, jumpPower, numJumps, time)
              .OnComplete(() => { pieceCommandManager.CompleteCommand(); player_drop_sfx.Play(); });
     }
+
+    public void OnlyMovePieceToPos(GameObject piece, Vector3 targetPos, float time)
+    {
+        piece.transform.DOMove(targetPos, time)
+             .OnComplete(() => { player_drop_sfx.Play(); });
+    }
 }

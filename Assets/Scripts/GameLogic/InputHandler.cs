@@ -79,7 +79,7 @@ public class InputHandler : MonoBehaviour
         if (clickedObject != null && clickedObject.GetComponent<Piece>().isWhite != whiteTurn && !(clickedObject.GetComponent<Piece>() is King))
         {
             (int, int) clickedGridIdx = board.BoardPosToGridIdx(clickedObject.transform.position);
-            board.DestroyPieceAt(clickedGridIdx.Item1, clickedGridIdx.Item2);
+            board.DestroyPieceAt(clickedGridIdx.Item1, clickedGridIdx.Item2, false);
 
             print("기물 삭제 : " + clickedObject.name);
             deleteCount--;
@@ -276,7 +276,7 @@ public class InputHandler : MonoBehaviour
         }
         else
         {
-            pieceCommandManager.EnQueueRoboticArmMove(piece, moveto_position, 0.5f);
+            pieceCommandManager.EnQueueRoboticArmMove(piece, moveto_position, 0.4f);
         }
 
         piece.GetComponent<Piece>().FirstMove = false;
