@@ -1,8 +1,7 @@
 using UnityEngine;
 using Unity.Cinemachine;
-using UnityEngine.Playables;
+using System.Collections;
 using DG.Tweening;
-using System.Collections.Generic;
 
 public class IntroManager : MonoBehaviour
 {
@@ -26,8 +25,6 @@ public class IntroManager : MonoBehaviour
         terminalText = serviceLocator.GetComponentInChildren<TerminalText>();
 
         vcam_trans_time = brain.DefaultBlend.BlendTime;
-
-        StartIntro();
     }
 
     void Update()
@@ -57,10 +54,8 @@ public class IntroManager : MonoBehaviour
         textIdx++;
     }
 
-    private void StartIntro()
+    public void StartIntro()
     {
-        // 천이 벗겨짐, 카메라가 모니터 앞으로 감, 모니터에 대사 출력, 엔터 누르면 다음 대사, 마지막 대사 뜬 후에 카메라가 돌아오면 게임 시작돼있음.
-
         Sequence seq = DOTween.Sequence();
 
         seq.AppendCallback(() => ChangeVcam(monitor_vcam));
@@ -71,6 +66,15 @@ public class IntroManager : MonoBehaviour
             isWatchingMonitor = true;
             NextTerminalTexts();
         });
+    }
+
+    private IEnumerator IntroSequence()
+    {
+        ChangeVcam(monitor_vcam);
+        yield return new WaitForSeconds(vcam_trans_time);
+
+        isWatchingMonitor = true;
+        NextTerminalTexts();
     }
 
     private void ChangeVcam(CinemachineCamera vcam)

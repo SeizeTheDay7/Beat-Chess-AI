@@ -1,4 +1,5 @@
 using UnityEngine;
+
 namespace Shakfy.Core
 {
     public class Shakify : MonoBehaviour
@@ -38,6 +39,7 @@ namespace Shakfy.Core
             lastPosition = Vector3.zero;
             lastRotation = Quaternion.identity;
         }
+
         private void Update()
         {
             // calculate the modulo so if time passes the lastTime of the animation it will loop back to the first time
@@ -73,6 +75,7 @@ namespace Shakfy.Core
             );
             // rotate to the next rotation
             transform.localRotation *= lastRotation;
+            // cinemachineBrain.ManualUpdate();
         }
     }
 }
