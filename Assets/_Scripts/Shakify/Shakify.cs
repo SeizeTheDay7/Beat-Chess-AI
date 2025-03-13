@@ -42,6 +42,11 @@ namespace Shakfy.Core
 
         private void Update()
         {
+            // Shake();
+        }
+
+        public void Shake()
+        {
             // calculate the modulo so if time passes the lastTime of the animation it will loop back to the first time
             var time = (Time.time * _shakeData.FPS * speed) % lastTime;
 
@@ -75,7 +80,6 @@ namespace Shakfy.Core
             );
             // rotate to the next rotation
             transform.localRotation *= lastRotation;
-            // cinemachineBrain.ManualUpdate();
         }
     }
 }

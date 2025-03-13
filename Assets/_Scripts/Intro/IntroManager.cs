@@ -26,7 +26,7 @@ public class IntroManager : MonoBehaviour
 
         vcam_trans_time = brain.DefaultBlend.BlendTime;
 
-        StartTerminalSequence();
+        // StartTerminalSequence();
     }
 
     void Update()
