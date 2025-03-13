@@ -26,7 +26,7 @@ public class IntroManager : MonoBehaviour
 
         vcam_trans_time = brain.DefaultBlend.BlendTime;
 
-        StartIntro();
+        StartTerminalSequence();
     }
 
     void Update()
@@ -56,7 +56,7 @@ public class IntroManager : MonoBehaviour
         textIdx++;
     }
 
-    public void StartIntro()
+    public void StartTerminalSequence()
     {
         Sequence seq = DOTween.Sequence();
 
