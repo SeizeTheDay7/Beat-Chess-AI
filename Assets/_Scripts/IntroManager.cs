@@ -25,6 +25,8 @@ public class IntroManager : MonoBehaviour
         terminalText = serviceLocator.GetComponentInChildren<TerminalText>();
 
         vcam_trans_time = brain.DefaultBlend.BlendTime;
+
+        StartIntro();
     }
 
     void Update()
