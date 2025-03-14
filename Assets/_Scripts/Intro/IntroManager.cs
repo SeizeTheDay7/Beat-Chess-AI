@@ -16,6 +16,7 @@ public class IntroManager : MonoBehaviour
     [SerializeField] private CinemachineCamera monitor_vcam;
     [SerializeField] private string[] introTexts; // bool이 true면 기존 텍스트와 함께 출력
     [SerializeField] private bool[] introTextsType; // true면 기존 텍스트와 함께 출력
+
     private int textIdx = 0;
 
     private void Start()
@@ -25,8 +26,6 @@ public class IntroManager : MonoBehaviour
         terminalText = serviceLocator.GetComponentInChildren<TerminalText>();
 
         vcam_trans_time = brain.DefaultBlend.BlendTime;
-
-        // StartTerminalSequence();
     }
 
     void Update()
@@ -41,6 +40,8 @@ public class IntroManager : MonoBehaviour
     {
         if (textIdx == introTexts.Length)
         {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
             isWatchingMonitor = false;
             ChangeVcam(player_vacm);
             gameManager.StartGame();
@@ -58,16 +59,7 @@ public class IntroManager : MonoBehaviour
 
     public void StartTerminalSequence()
     {
-        Sequence seq = DOTween.Sequence();
-
-        seq.AppendCallback(() => ChangeVcam(monitor_vcam));
-
-        seq.AppendInterval(vcam_trans_time);
-        seq.AppendCallback(() =>
-        {
-            isWatchingMonitor = true;
-            NextTerminalTexts();
-        });
+        StartCoroutine(IntroSequence());
     }
 
     private IEnumerator IntroSequence()
