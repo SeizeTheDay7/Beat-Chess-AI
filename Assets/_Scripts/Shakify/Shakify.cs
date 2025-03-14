@@ -8,14 +8,19 @@ namespace Shakfy.Core
         [SerializeField] private ScriptableShakeData _shakeData;
         [SerializeField] float speed = 1f;
         [SerializeField] float strenght = 1f;
-        [SerializeField] AudioSource audioSource;
-        private bool walkChance = false;
+        [SerializeField] AudioClip[] audioClips;
+        AudioSource audioSource;
+        private int lastclip = 0;
         private int lastTime;
         private Vector3 lastPosition;
         private Quaternion lastRotation;
+        private int lastSecond = 0;
+        private float lastWalkTime = 0;
 
         private void Awake()
         {
+            audioSource = GetComponent<AudioSource>();
+
             // get the last frame of the animation
             // Some shadeData might not have any keys, so we need to check for all PosX, PosY, PosZ and RotX, RotY, RotZ
             int[] lengths = new int[6];
@@ -40,36 +45,34 @@ namespace Shakfy.Core
             lastRotation = Quaternion.identity;
         }
 
-        private void Update()
-        {
-            // Shake();
-        }
+        // private void Update()
+        // {
+        //     // Shake();
+        // }
 
         public void Shake()
         {
+            if (Time.time - lastWalkTime > 0.8f)
+            {
+                lastWalkTime = Time.time;
+                lastclip = lastclip == 0 ? 1 : 0;
+                audioSource.clip = audioClips[lastclip];
+                audioSource.Play();
+            }
+
             // calculate the modulo so if time passes the lastTime of the animation it will loop back to the first time
             var time = (Time.time * _shakeData.FPS * speed) % lastTime;
 
             // add shakedata to the current position and rotation of the object
             // First more back to the last position
             transform.localPosition -= lastPosition;
-            float beforeSign = lastPosition.y;
             lastPosition = new Vector3(
                 _shakeData.PosX.Evaluate(time) * strenght,
                 _shakeData.PosY.Evaluate(time) * strenght,
                 _shakeData.PosZ.Evaluate(time) * strenght
             );
-            float afterSign = lastPosition.y;
             // move to the next position
             transform.localPosition += lastPosition;
-
-            if (beforeSign > afterSign) walkChance = true;
-
-            if (walkChance && beforeSign < afterSign)
-            {
-                audioSource.Play();
-                walkChance = false;
-            }
 
             // rotate back to previous rotation
             transform.localRotation *= Quaternion.Inverse(lastRotation);

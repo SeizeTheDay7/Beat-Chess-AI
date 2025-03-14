@@ -8,6 +8,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] Shakify shakify;
     public float moveSpeed = 5f;
     private CharacterController characterController;
+    private bool sleeping = false;
 
     void Start()
     {
