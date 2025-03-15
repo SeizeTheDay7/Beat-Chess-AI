@@ -23,11 +23,15 @@ public class RoboticArm : MonoBehaviour
     private float r2;
     [SerializeField] private float move_time = 0.1f;
     private Sequence current_seq;
-    private AudioSource AI_drop_sfx;
+    [SerializeField] private AudioSource AI_drop_source;
+    [SerializeField] private AudioSource arm_source;
+    [SerializeField] private AudioClip arm_start_sfx;
+    [SerializeField] private AudioClip arm_detail_sfx;
+    [SerializeField] private AudioClip arm_move_sfx;
+    [SerializeField] private AudioClip arm_end_sfx;
 
     void Start()
     {
-        AI_drop_sfx = GetComponent<AudioSource>();
         pieceCommandManager = GameObject.FindGameObjectWithTag("ServiceLocator").GetComponentInChildren<PieceCommandManager>();
 
         hand_y_offset = (hand_part.position - tongs_part.position).y; // 원 교점 구할 때 쓰이는 손 길이
@@ -107,13 +111,20 @@ public class RoboticArm : MonoBehaviour
         Sequence seq = DOTween.Sequence();
         current_seq = seq; // 중간에 취소하기 위해 저장
 
-        seq.AppendCallback(() => Set_Course_Point(piecePos + new Vector3(0, pieceHeight + 0.5f, 0), time)); // 기물 머리 위까지 간다
+        seq.AppendCallback(() =>
+        {
+            Set_Course_Point(piecePos + new Vector3(0, pieceHeight + 0.5f, 0), time);
+            arm_source.clip = arm_start_sfx;
+            arm_source.Play();
+        }); // 기물 머리 위까지 간다
         seq.AppendInterval(time + 0.2f);
         // 기물을 집는다
         seq.AppendCallback(() =>
         {
             Set_Course_Point(piecePos + new Vector3(0, pieceHeight, 0), time / 2);
             Grip_Tongs(time / 2);
+            arm_source.clip = arm_detail_sfx;
+            arm_source.Play();
         });
         seq.AppendInterval(time / 2 + 0.1f);
         // 기물을 원하는 위치 위까지 옮긴다
@@ -121,14 +132,18 @@ public class RoboticArm : MonoBehaviour
         {
             piece.transform.SetParent(tongs_part.transform);
             Set_Course_Point(moveToPos + new Vector3(0, pieceHeight + 0.5f, 0), time);
+            arm_source.clip = arm_move_sfx;
+            arm_source.Play();
         });
         seq.AppendInterval(time + 0.2f);
         // 기물을 내려놓는다
         seq.AppendCallback(() =>
         {
-            AI_drop_sfx.Play();
             Set_Course_Point(moveToPos + new Vector3(0, pieceHeight, 0), time / 2);
             hand_part_2.DOLocalRotate((hand_part_2.localRotation * pieceRotation * Quaternion.Inverse(piece.transform.rotation)).eulerAngles, time / 2);
+            AI_drop_source.Play();
+            arm_source.clip = arm_detail_sfx;
+            arm_source.Play();
         });
         seq.AppendInterval(time / 2 + 0.1f);
         // 기물을 놓고 제자리로 돌아간다
@@ -137,6 +152,8 @@ public class RoboticArm : MonoBehaviour
             piece.transform.SetParent(null);
             Open_Tongs(time / 2);
             Fold_Arm();
+            arm_source.clip = arm_end_sfx;
+            arm_source.Play();
         });
         seq.AppendInterval(time / 2 + 0.1f);
         seq.AppendCallback(() => pieceCommandManager.CompleteCommand());
