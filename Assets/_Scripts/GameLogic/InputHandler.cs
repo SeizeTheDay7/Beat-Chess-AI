@@ -255,8 +255,11 @@ public class InputHandler : MonoBehaviour
         if (moveValidator.TryCastling(pieceScript as King, mx, mz))
         {
             // 캐슬링 이후 룩의 오브젝트 위치 변경
-            if (mx == 3) board.GetPieceAt(4, mz).transform.position = board.GridIdxToBoardPos((4, mz));
-            else board.GetPieceAt(6, mz).transform.position = board.GridIdxToBoardPos((6, mz));
+            // if (mx == 3) board.GetPieceAt(4, mz).transform.position = board.GridIdxToBoardPos((4, mz));
+            // else board.GetPieceAt(6, mz).transform.position = board.GridIdxToBoardPos((6, mz));
+
+            if (mx == 3) board.MovePieceAt(board.GetPieceAt(4, mz), 4, mz);
+            else board.MovePieceAt(board.GetPieceAt(6, mz), 6, mz);
         }
 
         moveValidator.UpdateKingPosition(pieceScript, mx, mz);

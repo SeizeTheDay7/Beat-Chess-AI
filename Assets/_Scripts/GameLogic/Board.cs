@@ -173,6 +173,18 @@ public class Board : MonoBehaviour
         pieces[x, y] = piece;
     }
 
+    public void MovePieceAt(GameObject piece, int x, int z)
+    {
+        if (gameManager.whiteTurn)
+        {
+            pieceCommandManager.EnQueuePlayerMove(piece, GridIdxToBoardPos((x, z)), 0.25f);
+        }
+        else
+        {
+            pieceCommandManager.EnQueueRoboticArmMove(piece, GridIdxToBoardPos((x, z)), 0.4f);
+        }
+    }
+
     public bool DestroyPieceAt(int x, int z, bool isTurnEnd = true)
     {
         if (pieces[x, z] == null) { return false; }
