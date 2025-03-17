@@ -8,12 +8,12 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Mahogany Sides and Legs
-    second: {fileID: 2100000, guid: 53bad3e0c08aa9b449b682b6b0f8fe31, type: 2}
+    second: {fileID: 2100000, guid: 03b9975938fc5724b96b783df71d9813, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Mahogany Top.001
-    second: {fileID: 2100000, guid: 827bb5263c17fcc4d966c273605a7a95, type: 2}
+    second: {fileID: 2100000, guid: 121271bd507dbd14abeefa0fb79a1b23, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
