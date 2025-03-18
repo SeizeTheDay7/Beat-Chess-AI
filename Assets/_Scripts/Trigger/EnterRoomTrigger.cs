@@ -12,7 +12,6 @@ public class EnterRoomTrigger : MonoBehaviour
     [SerializeField] private GameObject computerScreen;
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private GameObject frontDeskTrigger;
-    private MaterialPropertyBlock propBlock;
     private bool isTriggered = false;
 
     void Start()
