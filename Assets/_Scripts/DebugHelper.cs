@@ -19,7 +19,7 @@ public class DebugHelper : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.N))
         {
-            // gameManager.NextStage();
+            gameManager.NextStage();
         }
 
         if (Input.GetKeyDown(KeyCode.D))

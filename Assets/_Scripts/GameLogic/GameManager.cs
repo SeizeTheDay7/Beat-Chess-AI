@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class GameManager : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class GameManager : MonoBehaviour
     public bool whiteTurn = true; // 턴을 나타내는 변수. whiteTurn이 true면 백(플레이어), false면 흑(AI)
     [SerializeField] private Canvas gameoverCanvas; // 게임 오버 캔버스
     [SerializeField] private Canvas endingCanvas; // 엔딩 캔버스
+    [SerializeField] private Transform endingDoor;
+    [SerializeField] private AudioClip doorOpenSound;
     [SerializeField] Shooter shooter;
     [SerializeField] Light spotLight;
 
@@ -106,8 +109,10 @@ public class GameManager : MonoBehaviour
 
         if (stage > 3)
         {
-            gameClearSound.Play();
-            endingCanvas.gameObject.SetActive(true);
+            endingDoor.DOLocalRotate(new Vector3(0, 120f, 0), 2f).SetEase(Ease.Linear);
+            AudioSource audioSource = endingDoor.GetComponent<AudioSource>();
+            audioSource.clip = doorOpenSound;
+            audioSource.Play();
             return;
         }
 
