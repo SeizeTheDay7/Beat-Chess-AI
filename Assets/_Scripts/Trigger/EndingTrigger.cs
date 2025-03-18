@@ -1,50 +1,34 @@
 using UnityEngine;
-using Unity.Cinemachine;
 using System.Collections;
-using TMPro;
-using UnityEngine.UI;
-using UnityEditor.SearchService;
-using UnityEngine.SceneManagement;
 
 public class EndingTrigger : MonoBehaviour
 {
-    [SerializeField] private CinemachineCamera cake_cam;
-    [SerializeField] private AudioSource ending_sound;
     [SerializeField] private GameObject confetti;
-    [SerializeField] private GameObject ending_canvas;
-    [SerializeField] private Image background;
+    [SerializeField] private AudioSource ending_sound;
+    [SerializeField] private float balloon_pop_start_dealy = 1.0f;
+    [SerializeField] private float balloon_pop_dealy = 0.1f;
+    [SerializeField] private GameObject[] balloons;
+    private bool isTriggered = false;
 
     private void OnTriggerEnter(Collider other)
     {
-        other.gameObject.SetActive(false);
-        cake_cam.Priority = 11;
-        StartCoroutine(EndingCoroutine());
+        if (isTriggered) return;
+        isTriggered = true;
+        StartCoroutine(endingCoroutine());
     }
 
-    private IEnumerator EndingCoroutine()
+    private IEnumerator endingCoroutine()
     {
-        yield return new WaitForSeconds(1.5f);
         confetti.SetActive(true);
         ending_sound.Play(); // 폭죽 다음 타라
-        yield return new WaitForSeconds(ending_sound.clip.length + 2f);
-        StartCoroutine(CreditCoroutine());
-    }
-
-    private IEnumerator CreditCoroutine()
-    {
-        // 엔딩 캔버스 페이드 인        
-        ending_canvas.SetActive(true);
-
-        float fade_duration = 3.0f;
-        float fade_elapsed_time = 0f;
-
-        while (fade_elapsed_time < fade_duration)
+        yield return new WaitForSeconds(ending_sound.clip.length + balloon_pop_start_dealy);
+        foreach (GameObject balloon in balloons)
         {
-            background.color = new Color(background.color.r, background.color.g, background.color.b, Mathf.Lerp(0f, 1f, fade_elapsed_time / fade_duration));
-            fade_elapsed_time += Time.deltaTime;
-            yield return null;
+            balloon.GetComponent<ParticleSystem>().Play();
+            balloon.GetComponent<MeshRenderer>().enabled = false;
+            balloon.GetComponent<AudioSource>().Play();
+            yield return new WaitForSeconds(balloon_pop_dealy);
         }
-
-        SceneManager.LoadScene("credit");
+        Destroy(gameObject);
     }
 }

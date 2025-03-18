@@ -39,6 +39,7 @@ public class EnterRoomTrigger : MonoBehaviour
         computerScreen.SetActive(true);
 
         frontDeskTrigger.SetActive(true);
+        yield return new WaitForSeconds(1.0f);
         Destroy(gameObject);
     }
 }
