@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.Cinemachine;
 using UnityEngine;
 using DG.Tweening;
 
@@ -16,9 +17,10 @@ public class GameManager : MonoBehaviour
     private IGameState currentState; // 현재 활성 상태
     public bool whiteTurn = true; // 턴을 나타내는 변수. whiteTurn이 true면 백(플레이어), false면 흑(AI)
     [SerializeField] private Canvas gameoverCanvas; // 게임 오버 캔버스
-    [SerializeField] private Canvas endingCanvas; // 엔딩 캔버스
     [SerializeField] private Transform endingDoor;
     [SerializeField] private AudioClip doorOpenSound;
+    [SerializeField] private GameObject walking_player;
+    [SerializeField] private CinemachineCamera player_vacm;
     [SerializeField] Shooter shooter;
     [SerializeField] Light spotLight;
 
@@ -109,16 +111,28 @@ public class GameManager : MonoBehaviour
 
         if (stage > 3)
         {
-            endingDoor.DOLocalRotate(new Vector3(0, 120f, 0), 2f).SetEase(Ease.Linear);
-            AudioSource audioSource = endingDoor.GetComponent<AudioSource>();
-            audioSource.clip = doorOpenSound;
-            audioSource.Play();
+            Ending();
             return;
         }
 
         stageClaerSound.Play();
 
         Invoke("ResetGame", 3f);
+    }
+
+    private void Ending()
+    {
+        endingDoor.DOLocalRotate(new Vector3(0, -120f, 0), 2f).SetEase(Ease.Linear);
+
+        AudioSource audioSource = endingDoor.GetComponent<AudioSource>();
+        audioSource.clip = doorOpenSound;
+        audioSource.Play();
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        player_vacm.Priority = 11;
+
+        walking_player.SetActive(true);
     }
 
     /// <summary>
