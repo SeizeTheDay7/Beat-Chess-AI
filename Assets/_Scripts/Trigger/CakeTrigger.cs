@@ -11,7 +11,7 @@ public class CakeTrigger : MonoBehaviour
     [SerializeField] private GameObject EndMetalTrigger;
     private bool isTriggered = false;
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTakeCake()
     {
         if (isTriggered) return;
         isTriggered = true;

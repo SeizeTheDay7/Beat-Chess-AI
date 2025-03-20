@@ -1,6 +1,4 @@
 using UnityEngine;
-using System.Collections;
-using NUnit.Framework.Constraints;
 
 public class EnterRoomTrigger : MonoBehaviour
 {
