@@ -16,7 +16,6 @@ public class MonitorManager : MonoBehaviour
     [SerializeField] private CinemachineCamera playing_vcam;
     [SerializeField] private CinemachineCamera monitor_vcam;
     [SerializeField] private MetalDoor metalDoor;
-    [SerializeField] private MetalCover metalCover;
     private TerminalScript currentScript;
     private GameObject walking_player;
     private CinemachineCamera walking_vcam;
@@ -99,7 +98,6 @@ public class MonitorManager : MonoBehaviour
                     ChangeVcam(walking_vcam);
                     walking_player.SetActive(true);
                     metalDoor.MetalDoorOpen();
-                    metalCover.OpenCover();
                     Destroy(this);
                     break;
             }

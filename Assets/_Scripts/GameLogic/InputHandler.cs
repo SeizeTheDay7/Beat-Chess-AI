@@ -29,7 +29,7 @@ public class InputHandler : MonoBehaviour
         pieceCommandManager = serviceLocator.GetComponentInChildren<PieceCommandManager>();
         terminalText = serviceLocator.GetComponentInChildren<TerminalText>();
 
-        targetLayer = LayerMask.GetMask("Piece", "Furniture");
+        targetLayer = LayerMask.GetMask("Piece", "Apparatus");
     }
 
     public void ResetInputHandler(int stage)

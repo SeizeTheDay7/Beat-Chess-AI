@@ -1,12 +1,7 @@
 using UnityEngine;
 using DG.Tweening;
 
-public interface IRaycastReceiver
-{
-    void OnRaycastHit();
-}
-
-public class DoorCantOpen : MonoBehaviour, IRaycastReceiver
+public class DoorCantOpen : MonoBehaviour, IRaycastNonGame
 {
     [SerializeField] GameObject door;
     [SerializeField] GameObject handle;
@@ -21,7 +16,7 @@ public class DoorCantOpen : MonoBehaviour, IRaycastReceiver
         audioSource = GetComponent<AudioSource>();
     }
 
-    public void OnRaycastHit()
+    public void OnClicked(Transform player)
     {
         if (!isMoving)
         {
@@ -36,4 +31,7 @@ public class DoorCantOpen : MonoBehaviour, IRaycastReceiver
             .OnComplete(() => isMoving = false);
         }
     }
+
+    public void OnStartLooking() { }
+    public void OnEndLooking() { }
 }
