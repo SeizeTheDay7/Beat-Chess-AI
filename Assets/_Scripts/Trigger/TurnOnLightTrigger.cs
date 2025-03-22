@@ -9,7 +9,7 @@ public class TurnOnLightTrigger : MonoBehaviour
 
     void Start()
     {
-        computerScreen.SetActive(false); // 빌드에는 없어도 됨. 그냥 꺼놓을거임.
+        // computerScreen.SetActive(false); // 빌드에는 없어도 됨. 그냥 꺼놓을거임.
     }
 
     private void OnTriggerEnter(Collider other)

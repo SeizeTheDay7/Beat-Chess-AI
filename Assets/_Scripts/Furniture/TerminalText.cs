@@ -16,11 +16,6 @@ public class TerminalText : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
-    void Update()
-    {
-
-    }
-
     /// <summary>
     /// 터미널이 다른 텍스트와 함께 기본 텍스트를 출력한다.
     /// </summary>
