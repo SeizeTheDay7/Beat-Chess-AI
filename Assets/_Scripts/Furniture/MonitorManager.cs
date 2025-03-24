@@ -16,7 +16,7 @@ public class MonitorManager : MonoBehaviour
     [SerializeField] private CinemachineCamera playing_vcam;
     [SerializeField] private CinemachineCamera monitor_vcam;
     [SerializeField] private MetalDoor metalDoor;
-    private TerminalScript currentScript;
+    private ScriptContainer currentScript;
     private GameObject walking_player;
     private CinemachineCamera walking_vcam;
 
@@ -34,15 +34,15 @@ public class MonitorManager : MonoBehaviour
     /// <summary>
     /// 호출하여 터미널 시퀀스 시작
     /// </summary>
-    public void StartTerminalSequence(TerminalScript script, GameObject bumped_player)
+    public void StartTerminalSequence(ScriptContainer script, GameObject bumped_player)
     {
         walking_player = bumped_player;
         walking_player.SetActive(false);
         walking_vcam = walking_player.transform.GetChild(0).GetComponent<CinemachineCamera>();
 
         currentScript = script;
-        introTexts = script.introTexts;
-        introTextType = script.introTextType;
+        introTexts = script.Texts;
+        introTextType = script.ContinueLine;
         textIdx = 0;
 
         StartCoroutine(TerminalSequence());
@@ -85,16 +85,16 @@ public class MonitorManager : MonoBehaviour
         // 모든 텍스트 출력했다면 flag에 따라 다음 동작 수행
         if (textIdx == introTexts.Length)
         {
-            switch (currentScript.introOrEnding)
+            switch (currentScript.scriptType)
             {
-                case IntroOrEnding.Intro:
+                case ScriptType.Intro:
                     Cursor.lockState = CursorLockMode.None;
                     Cursor.visible = true;
                     isWatchingMonitor = false;
                     ChangeVcam(playing_vcam);
                     gameManager.StartGame();
                     break;
-                case IntroOrEnding.Ending:
+                case ScriptType.EnterSecondGame:
                     ChangeVcam(walking_vcam);
                     walking_player.SetActive(true);
                     metalDoor.MetalDoorOpen();

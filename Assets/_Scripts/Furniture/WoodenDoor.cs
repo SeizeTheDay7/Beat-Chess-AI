@@ -41,6 +41,12 @@ public class WoodenDoor : MonoBehaviour, IRaycastNonGame
         PlaySound(doorOpenSound);
     }
 
+    public void CloseDoor()
+    {
+        door.transform.localRotation = Quaternion.Euler(0, 0, 0);
+        // PlaySound(doorCloseSound);
+    }
+
     private void PlaySound(AudioClip clip)
     {
         audioSource.clip = clip;

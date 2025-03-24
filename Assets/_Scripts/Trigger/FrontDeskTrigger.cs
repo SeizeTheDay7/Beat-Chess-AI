@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class FrontDeskTrigger : MonoBehaviour
 {
-    [SerializeField] private TerminalScript introScript;
+    [SerializeField] private ScriptContainer introScript;
     [SerializeField] private MonitorManager MonitorManager;
     private bool triggered = false;
 

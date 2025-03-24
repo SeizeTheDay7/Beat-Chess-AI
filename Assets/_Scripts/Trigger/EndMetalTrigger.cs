@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EndMetalTrigger : MonoBehaviour
 {
-    [SerializeField] private TerminalScript endingScript;
+    [SerializeField] private ScriptContainer endingScript;
     [SerializeField] private MonitorManager monitorManager;
     [SerializeField] private MetalDoor metalDoor;
     private bool isTriggered = false;

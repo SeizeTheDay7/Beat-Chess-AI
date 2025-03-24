@@ -1,8 +1,5 @@
-using System;
-using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
-using DG.Tweening;
 
 public class GameManager : MonoBehaviour
 {
@@ -110,7 +107,7 @@ public class GameManager : MonoBehaviour
 
         if (stage > 3)
         {
-            Ending();
+            QuitChess();
             return;
         }
 
@@ -119,13 +116,12 @@ public class GameManager : MonoBehaviour
         Invoke("ResetGame", 3f);
     }
 
-    private void Ending()
+    private void QuitChess()
     {
         cakeRoomDoor.OpenDoor();
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        // player_vacm.Priority = 11;
 
         walking_player.SetActive(true);
     }
