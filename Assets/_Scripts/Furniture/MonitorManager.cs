@@ -60,13 +60,13 @@ public class MonitorManager : MonoBehaviour
     /// <summary>
     /// 현재 카메라 우선순위는 낮추고, 새로운 카메라 우선순위를 높임
     /// </summary>
-    private void ChangeVcam(CinemachineCamera vcam)
+    private void ChangeVcam(CinemachineCamera new_vcam)
     {
         if (current_vcam != null)
             current_vcam.Priority = 0;
 
-        vcam.Priority = 10;
-        current_vcam = vcam;
+        new_vcam.Priority = 10;
+        current_vcam = new_vcam;
     }
 
     /// <summary>

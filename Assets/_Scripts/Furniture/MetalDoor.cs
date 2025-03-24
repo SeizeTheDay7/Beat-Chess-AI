@@ -13,18 +13,17 @@ public class MetalDoor : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
-    public float MetalDoorOpen()
+    public void MetalDoorOpen()
     {
-        StartCoroutine(DoorOpenSound());
-        transform.DOLocalMoveX(4.3f, doorSlideTime);
-        return doorSlideTime;
+        StartCoroutine(DoorOpenCoroutine());
     }
 
-    private IEnumerator DoorOpenSound()
+    private IEnumerator DoorOpenCoroutine()
     {
         audioSource.clip = metalDoorSounds[0];
         audioSource.Play();
         yield return new WaitForSeconds(metalDoorSounds[0].length);
+        transform.DOLocalMoveX(4.3f, doorSlideTime);
         audioSource.clip = metalDoorSounds[1];
         audioSource.Play();
     }

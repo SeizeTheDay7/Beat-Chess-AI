@@ -156,7 +156,7 @@ GameObject:
   - component: {fileID: 65853957573790658}
   - component: {fileID: 82448484888686754}
   - component: {fileID: 2261863563547328473}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -367,6 +367,9 @@ MonoBehaviour:
   handleAngle: 30
   doorAngle: -1
   doorTime: 0.05
+  doorStuckSound: {fileID: 8300000, guid: ea45d8cd4e5cc2349b5a8bde8637a0f6, type: 3}
+  doorOpenSound: {fileID: 8300000, guid: f4864a82c039c2b42b39586438ba548c, type: 3}
+  doorCloseSound: {fileID: 8300000, guid: bbaccd2694b27f343b7fc075a7454a9d, type: 3}
 --- !u!1 &2361660772785507686
 GameObject:
   m_ObjectHideFlags: 0
@@ -378,7 +381,7 @@ GameObject:
   - component: {fileID: 269745431917705705}
   - component: {fileID: 1983383593169206069}
   - component: {fileID: 7881073662630931598}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -464,7 +467,7 @@ GameObject:
   - component: {fileID: 8786688636120671186}
   - component: {fileID: 3479517881193101794}
   - component: {fileID: 2241004681237820512}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: knobbody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
