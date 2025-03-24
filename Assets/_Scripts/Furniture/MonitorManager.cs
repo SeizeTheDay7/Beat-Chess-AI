@@ -2,12 +2,13 @@ using UnityEngine;
 using Unity.Cinemachine;
 using System.Collections;
 
+// 모니터 연출을 담당하는 클래스
 public class MonitorManager : MonoBehaviour
 {
     private GameManager gameManager;
     private TerminalText terminalText;
-    private string[] introTexts;
-    private bool[] introTextType;
+    private string[] textStrings;
+    private LineEffect[] lineEffects;
 
     private CinemachineCamera current_vcam;
     private bool isWatchingMonitor = false;
@@ -41,8 +42,8 @@ public class MonitorManager : MonoBehaviour
         walking_vcam = walking_player.transform.GetChild(0).GetComponent<CinemachineCamera>();
 
         currentScript = script;
-        introTexts = script.Texts;
-        introTextType = script.ContinueLine;
+        textStrings = script.Texts;
+        lineEffects = script.lineEffect;
         textIdx = 0;
 
         StartCoroutine(TerminalSequence());
@@ -83,33 +84,31 @@ public class MonitorManager : MonoBehaviour
     private void NextTerminalTexts()
     {
         // 모든 텍스트 출력했다면 flag에 따라 다음 동작 수행
-        if (textIdx == introTexts.Length)
+        if (textIdx == textStrings.Length)
         {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            isWatchingMonitor = false;
+            ChangeVcam(playing_vcam);
+
             switch (currentScript.scriptType)
             {
                 case ScriptType.Intro:
-                    Cursor.lockState = CursorLockMode.None;
-                    Cursor.visible = true;
-                    isWatchingMonitor = false;
-                    ChangeVcam(playing_vcam);
-                    gameManager.StartGame();
+                    gameManager.StartGame(1);
                     break;
                 case ScriptType.EnterSecondGame:
-                    ChangeVcam(walking_vcam);
-                    walking_player.SetActive(true);
-                    metalDoor.MetalDoorOpen();
-                    Destroy(this);
+                    gameManager.StartGame(2);
                     break;
             }
 
             return;
         }
 
-        // introTextType에 따라 출력 방식 다르게
-        if (introTextType[textIdx])
-            terminalText.SkipToNewTerminalText(introTexts[textIdx]);
+        // LineEffect에 따라 출력 방식 다르게
+        if (lineEffects[textIdx] == LineEffect.Continue)
+            terminalText.SkipToNewTerminalText(textStrings[textIdx]);
         else
-            terminalText.SetTerminalText(introTexts[textIdx]);
+            terminalText.SetTerminalText(textStrings[textIdx]);
 
         textIdx++;
     }

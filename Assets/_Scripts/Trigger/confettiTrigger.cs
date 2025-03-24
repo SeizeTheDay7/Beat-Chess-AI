@@ -8,7 +8,7 @@ public class confettiTrigger : MonoBehaviour
     [SerializeField] private float balloon_pop_start_dealy = 1.0f;
     [SerializeField] private float balloon_pop_dealy = 0.1f;
     [SerializeField] private GameObject[] balloons;
-    [SerializeField] private GameObject EndMetalTrigger;
+    [SerializeField] private GameObject SecondMatchTrigger;
     private bool isTriggered = false;
 
     private void OnTriggerEnter()
@@ -30,7 +30,7 @@ public class confettiTrigger : MonoBehaviour
             balloon.GetComponent<AudioSource>().Play();
             yield return new WaitForSeconds(balloon_pop_dealy);
         }
-        EndMetalTrigger.SetActive(true);
+        SecondMatchTrigger.SetActive(true);
         Destroy(gameObject);
     }
 }

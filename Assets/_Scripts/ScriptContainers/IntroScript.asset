@@ -18,4 +18,4 @@ MonoBehaviour:
   - You can delete up to 3 pieces.
   - This will decrease by one after each stage.
   - Stage 1
-  ContinueLine: 00000100
+  lineEffect: 00000000000000000100000000000000

@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6eb63f632fabcd4dbf169cf6444b984, type: 3}
-  m_Name: EndingScript
+  m_Name: SecondMatchScript
   m_EditorClassIdentifier: 
   scriptType: 1
   Texts:
   - test
   - test2
-  ContinueLine: 000100
+  lineEffect: 0000000000000000

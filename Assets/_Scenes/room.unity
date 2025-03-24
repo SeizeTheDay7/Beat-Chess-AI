@@ -269,7 +269,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!54 &29406808
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1093,7 +1093,7 @@ MonoBehaviour:
   - {fileID: 938108692}
   - {fileID: 677057055}
   - {fileID: 269726587}
-  EndMetalTrigger: {fileID: 1901245804}
+  SecondMatchTrigger: {fileID: 1901245804}
 --- !u!82 &108595318
 AudioSource:
   m_ObjectHideFlags: 0
@@ -8092,7 +8092,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!136 &285975291
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -31158,7 +31158,7 @@ GameObject:
   - component: {fileID: 1901245807}
   - component: {fileID: 1901245806}
   m_Layer: 0
-  m_Name: EndMetalTrigger
+  m_Name: SecondMatchTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31191,9 +31191,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f9ea3f70d358dd4e931257828b5fea3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endingScript: {fileID: 11400000, guid: fbfd546d9d1b9e94baa2bcb6860e067f, type: 2}
+  secondMatchScript: {fileID: 11400000, guid: fbfd546d9d1b9e94baa2bcb6860e067f, type: 2}
   monitorManager: {fileID: 674281195}
-  metalDoor: {fileID: 468944855}
 --- !u!65 &1901245807
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -33903,7 +33902,7 @@ Transform:
   m_GameObject: {fileID: 7475604681535118544}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.00017195057, z: 0, w: 1}
-  m_LocalPosition: {x: -0.96, y: 4.5, z: 8.67}
+  m_LocalPosition: {x: -0.96, y: 4.5, z: -77.99}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -34530,10 +34529,10 @@ SceneRoots:
   - {fileID: 4834535965232222092}
   - {fileID: 1599245896}
   - {fileID: 591985549}
-  - {fileID: 285975292}
-  - {fileID: 280201529}
-  - {fileID: 29406815}
-  - {fileID: 1551832916}
   - {fileID: 276480543}
   - {fileID: 715472302}
   - {fileID: 1166909049}
+  - {fileID: 1551832916}
+  - {fileID: 285975292}
+  - {fileID: 280201529}
+  - {fileID: 29406815}

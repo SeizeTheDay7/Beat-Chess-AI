@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public AITurnState aiTurnState;
     [HideInInspector] public WaitingState waitingState;
 
+    private int phase = 1;
     private int stage = 1;
 
     void Start()
@@ -87,11 +88,14 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// 맨 처음 게임 시작할 때 호출되는 함수
     /// </summary>
-    public void StartGame()
+    public void StartGame(int phase)
     {
+        this.phase = phase;
+        stage = 1;
         currentState = playerTurnState;
         terminalText.BackToOriginalText();
-        board.SetBoard();
+        if (phase == 1) board.SetBoard();
+        else ResetGame();
     }
 
     /// <summary>

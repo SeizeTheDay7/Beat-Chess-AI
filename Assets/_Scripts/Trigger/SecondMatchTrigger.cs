@@ -1,17 +1,16 @@
 using UnityEngine;
 
-public class EndMetalTrigger : MonoBehaviour
+public class SecondMatchTrigger : MonoBehaviour
 {
-    [SerializeField] private ScriptContainer endingScript;
+    [SerializeField] private ScriptContainer secondMatchScript;
     [SerializeField] private MonitorManager monitorManager;
-    [SerializeField] private MetalDoor metalDoor;
     private bool isTriggered = false;
 
     private void OnTriggerEnter(Collider other)
     {
         if (isTriggered) return;
         isTriggered = true;
-        monitorManager.StartTerminalSequence(endingScript, other.gameObject);
+        monitorManager.StartTerminalSequence(secondMatchScript, other.gameObject);
         Destroy(gameObject);
     }
 }
