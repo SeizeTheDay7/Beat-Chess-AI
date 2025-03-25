@@ -8,6 +8,7 @@ public class PieceCommandManager : MonoBehaviour
     private InvisibleHand invisibleHand;
     private GameManager gameManager;
     private bool isWorking = false;
+    private bool willEndTurn;
 
     void Start()
     {
@@ -25,10 +26,13 @@ public class PieceCommandManager : MonoBehaviour
 
         if (moveQueue.Count > 0)
         {
-            moveQueue.Dequeue().Execute();
+            ICommand command = moveQueue.Dequeue();
+            willEndTurn = command.WillEndTurn();
+            command.Execute();
+
             isWorking = true;
         }
-        else
+        else if (willEndTurn)
         {
             gameManager.EndTurn();
         }
@@ -40,17 +44,17 @@ public class PieceCommandManager : MonoBehaviour
         ExecuteNextCommand();
     }
 
-    public void EnQueueRoboticArmMove(GameObject piece, Vector3 targetPos, float time)
+    public void EnQueueRoboticArmMove(GameObject piece, Vector3 targetPos, float time, bool willEndTurn)
     {
         print("EnQueueRoboticArmMove");
-        moveQueue.Enqueue(new RoboticArmCommand(piece, targetPos, time, roboticArm));
+        moveQueue.Enqueue(new RoboticArmCommand(piece, targetPos, time, roboticArm, willEndTurn));
         ExecuteNextCommand();
     }
 
-    public void EnQueuePlayerMove(GameObject piece, Vector3 targetPos, float time)
+    public void EnQueuePlayerMove(GameObject piece, Vector3 targetPos, float time, bool willEndTurn)
     {
         print("EnQueuePlayerMove");
-        moveQueue.Enqueue(new InvisibleHandCommand(piece, targetPos, time, invisibleHand));
+        moveQueue.Enqueue(new InvisibleHandCommand(piece, targetPos, time, invisibleHand, willEndTurn));
         ExecuteNextCommand();
     }
 }

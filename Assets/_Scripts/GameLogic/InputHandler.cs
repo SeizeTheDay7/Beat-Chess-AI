@@ -274,13 +274,11 @@ public class InputHandler : MonoBehaviour
         board.SetPieceAt(null, x, z);
         if (gameManager.whiteTurn)
         {
-            // piece.transform.position = moveto_position;
-            pieceCommandManager.EnQueuePlayerMove(piece, moveto_position, 0.25f);
-
+            pieceCommandManager.EnQueuePlayerMove(piece, moveto_position, 0.25f, true);
         }
         else
         {
-            pieceCommandManager.EnQueueRoboticArmMove(piece, moveto_position, 0.4f);
+            pieceCommandManager.EnQueueRoboticArmMove(piece, moveto_position, 0.4f, true);
         }
 
         piece.GetComponent<Piece>().FirstMove = false;

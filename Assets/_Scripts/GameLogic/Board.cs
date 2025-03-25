@@ -115,6 +115,8 @@ public class Board : MonoBehaviour
                 highlights[i, j].SetActive(false);
             }
         }
+        ResetHalfMoveCount();
+        ResetFullMoveCount();
         moveValidator.ResetBoardInfo();
         piece_grave.ResetGrave();
         SetBoard();
@@ -177,11 +179,11 @@ public class Board : MonoBehaviour
     {
         if (gameManager.whiteTurn)
         {
-            pieceCommandManager.EnQueuePlayerMove(piece, GridIdxToBoardPos((x, z)), 0.25f);
+            pieceCommandManager.EnQueuePlayerMove(piece, GridIdxToBoardPos((x, z)), 0.25f, true);
         }
         else
         {
-            pieceCommandManager.EnQueueRoboticArmMove(piece, GridIdxToBoardPos((x, z)), 0.4f);
+            pieceCommandManager.EnQueueRoboticArmMove(piece, GridIdxToBoardPos((x, z)), 0.4f, true);
         }
     }
 
@@ -193,20 +195,14 @@ public class Board : MonoBehaviour
 
         if (!isTurnEnd) // 버튼을 누른 거라면 턴을 종료하지 않고 무덤에만 보내기
         {
-            invisibleHand.OnlyMovePieceToPos(pieces[x, z], piece_grave.GetPlayerGravePos(pieces[x, z]), 0.25f);
+            if (isWhiteNow) pieceCommandManager.EnQueuePlayerMove(pieces[x, z], piece_grave.GetPlayerGravePos(pieces[x, z]), 0.25f, false);
+            else pieceCommandManager.EnQueueRoboticArmMove(pieces[x, z], piece_grave.GetAIGravePos(pieces[x, z]), 0.4f, false);
         }
         else
         {
-            if (isWhiteNow)
-            {
-                pieceCommandManager.EnQueuePlayerMove(pieces[x, z], piece_grave.GetPlayerGravePos(pieces[x, z]), 0.25f);
-            }
-            else
-            {
-                pieceCommandManager.EnQueueRoboticArmMove(pieces[x, z], piece_grave.GetAIGravePos(pieces[x, z]), 0.4f);
-            }
+            if (isWhiteNow) pieceCommandManager.EnQueuePlayerMove(pieces[x, z], piece_grave.GetPlayerGravePos(pieces[x, z]), 0.25f, true);
+            else pieceCommandManager.EnQueueRoboticArmMove(pieces[x, z], piece_grave.GetAIGravePos(pieces[x, z]), 0.4f, true);
         }
-
 
         pieces[x, z] = null;
 
@@ -241,6 +237,31 @@ public class Board : MonoBehaviour
         }
 
         return pieces[x, z].GetComponent<Piece>();
+    }
+
+    /// <summary>
+    /// AI가 플레이어의 말을 랜덤하게 선택
+    /// </summary>
+    public Piece GetRandomPlayerPieceScript()
+    {
+        List<GameObject> playerPieces = new List<GameObject>();
+        for (int i = 1; i <= 8; i++)
+        {
+            for (int j = 1; j <= 8; j++)
+            {
+                if (pieces[i, j] == null) continue;
+
+                Piece pieceScript = pieces[i, j].GetComponent<Piece>();
+                if (!pieceScript.isWhite) continue;
+                if (pieceScript is King) continue;
+                if (pieceScript is Queen) continue;
+
+                playerPieces.Add(pieces[i, j]);
+            }
+        }
+
+        int randomIndex = Random.Range(0, playerPieces.Count);
+        return playerPieces[randomIndex].GetComponent<Piece>();
     }
 
     public void SetHighlights(List<(int, int)> moves)
@@ -341,7 +362,7 @@ public class Board : MonoBehaviour
 
     private string FEN_EnPassant()
     {
-        string fen_enpassant = "";
+        string fen_enpassant;
         (int ep_x, int ep_y) = moveValidator.blackEnPassantCandidate;
         if ((ep_x, ep_y) != (-1, -1)) fen_enpassant = aiManager.GridToUCI(ep_x, ep_y);
         else fen_enpassant = "-";
@@ -371,6 +392,11 @@ public class Board : MonoBehaviour
     private string FEN_FullMoveNumber()
     {
         return fullMoveCount.ToString();
+    }
+
+    public int GetFullMoveCount()
+    {
+        return fullMoveCount;
     }
 
     public void ResetFullMoveCount()

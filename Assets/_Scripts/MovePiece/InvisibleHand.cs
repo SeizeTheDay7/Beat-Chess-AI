@@ -14,12 +14,6 @@ public class InvisibleHand : MonoBehaviour
         player_drop_sfx = GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void MovePieceToPos(GameObject piece, Vector3 targetPos, float time)
     {
         float jumpPower = 0.25f; // 원하는 점프 높이를 설정
@@ -29,9 +23,9 @@ public class InvisibleHand : MonoBehaviour
              .OnComplete(() => { pieceCommandManager.CompleteCommand(); player_drop_sfx.Play(); });
     }
 
-    public void OnlyMovePieceToPos(GameObject piece, Vector3 targetPos, float time)
-    {
-        piece.transform.DOMove(targetPos, time)
-             .OnComplete(() => { player_drop_sfx.Play(); });
-    }
+    // public void OnlyMovePieceToPos(GameObject piece, Vector3 targetPos, float time)
+    // {
+    //     piece.transform.DOMove(targetPos, time)
+    //          .OnComplete(() => { player_drop_sfx.Play(); });
+    // }
 }
