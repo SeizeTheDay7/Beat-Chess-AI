@@ -3,6 +3,11 @@ using UnityEngine;
 
 public class Pawn : Piece
 {
+    public override string GetName()
+    {
+        return "Pawn";
+    }
+
     public override string GetFENchar()
     {
         return isWhite ? "P" : "p";

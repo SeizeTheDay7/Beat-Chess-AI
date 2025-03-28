@@ -22,7 +22,6 @@ public class AITurnState : IGameState
         terminalText.SetTerminalText("AI Turn...");
 
         Debug.Log("Entering Black Turn");
-        aiManager.SendPlayerMoveToStockfish();
         moveValidator.ResetAllPieceMoves(); // 캐싱했던 데이터를 전부 리셋하고
         moveValidator.CalculateMyMoves(gameManager.whiteTurn); // 미리 경로를 전부 계산해놓는다
 
@@ -43,13 +42,17 @@ public class AITurnState : IGameState
             }
 
             gameManager.NextStage();
+            return;
         }
 
         if (moveValidator.NoPieceExceptMyKing(gameManager.whiteTurn))
         {
             Debug.Log("킹만 남았음");
             gameManager.NextStage();
+            return;
         }
+
+        aiManager.SendPlayerMoveToStockfish();
     }
 
     public void UpdateState()

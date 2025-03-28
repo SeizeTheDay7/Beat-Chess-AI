@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Collections.Concurrent;
 using UnityEngine;
-using DG.Tweening;
 
 public class AIManager : MonoBehaviour
 {
@@ -17,8 +16,10 @@ public class AIManager : MonoBehaviour
     private GameManager gameManager;
     private Board board;
     private string moves = " moves "; // 플레이어의 수를 기록하는 변수
-
-
+    private Piece nextDeleteTarget; // 다음에 삭제할 기물
+    private int nextDeleteTurn; // 다음 삭제 턴
+    private int deleteCount = 3; // 삭제 가능 횟수
+    [SerializeField] private Material pieceEmissionMaterial;
 
     void Start()
     {
@@ -28,6 +29,11 @@ public class AIManager : MonoBehaviour
         terminalText = serviceLocator.GetComponentInChildren<TerminalText>();
         gameManager = serviceLocator.GetComponentInChildren<GameManager>();
         StartStockfish();
+    }
+
+    public void ResetAIManager()
+    {
+        ResetDeleteCond();
     }
 
     void StartStockfish()
@@ -116,7 +122,7 @@ public class AIManager : MonoBehaviour
     /// </summary>
     public void SendPlayerMoveToStockfish()
     {
-        if (gameManager.IsWaitingState()) return;
+        if (gameManager.phase == 2) TryDelete();
 
         UnityEngine.Debug.Log("플레이어가 둔 후의 FEN : " + board.GetFENstring());
 
@@ -125,6 +131,20 @@ public class AIManager : MonoBehaviour
 
         input.WriteLine("go depth 20");
         input.Flush();
+    }
+
+    /// <summary>
+    /// 삭제할 턴이 왔다면, 플레이어의 기물을 삭제하고 삭제 횟수를 감소시킴
+    /// </summary>
+    private void TryDelete()
+    {
+        if (deleteCount == 0) return;
+        if (nextDeleteTurn != board.GetFullMoveCount()) return;
+        // if (nextDeleteTarget == null) return;
+
+        board.DestroyPiece(nextDeleteTarget, false);
+        DecreaseDeleteCount();
+        UpdateNextDeleteCond();
     }
 
     /// <summary>
@@ -141,6 +161,49 @@ public class AIManager : MonoBehaviour
         (int mx, int my) = StringToGrid(move.Substring(2, 2));
         inputHandler.AIMoveTo(x, y, mx, my);
         UnityEngine.Debug.Log("AI가 둔 후의 FEN : " + board.GetFENstring());
+    }
+
+    /// <summary>
+    /// 1. 게임이 시작될 때
+    /// 2. 목표로 하던 기물이 게임 중 죽었을 때
+    /// 3. 예고한 턴에 목표 기물을 제거한 후
+    /// 삭제할 기물을 업데이트함
+    /// 만약 AI가 삭제 카운트를 모두 소모했다면, 더 이상 삭제하지 못하도록 설정
+    /// Cond는 Target과 Trun 모두를 의미
+    /// </summary>
+    public void UpdateNextDeleteCond()
+    {
+        if (deleteCount == 0)
+        {
+            terminalText.SetOriginalText("It's your turn.");
+            return;
+        }
+        SetNextDeleteTurn();
+        SetNextDeleteTarget();
+        terminalText.SetOriginalText("Next target : " + GetNextDeleteTarget().GetName() + " at Turn " + GetNextDeleteTurn() + "\n" + "It's your turn.");
+    }
+
+    private void ResetDeleteCond()
+    {
+        nextDeleteTurn = 0;
+        deleteCount = 3;
+        UpdateNextDeleteCond();
+    }
+
+    public Piece GetNextDeleteTarget() { return nextDeleteTarget; }
+    public int GetNextDeleteTurn() { return nextDeleteTurn; }
+    public void DecreaseDeleteCount() { deleteCount--; }
+
+    public void SetNextDeleteTarget()
+    {
+        nextDeleteTarget = board.GetRandomPlayerPieceScript();
+        nextDeleteTarget.GetComponent<Renderer>().material = pieceEmissionMaterial; // 다음 삭제할 기물의 색깔을 바꿈
+    }
+
+    private void SetNextDeleteTurn()
+    {
+        int baseTurn = board.GetFullMoveCount();
+        nextDeleteTurn = baseTurn + UnityEngine.Random.Range(5, 7);
     }
 
     /// <summary>

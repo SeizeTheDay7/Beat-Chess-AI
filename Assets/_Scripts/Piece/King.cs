@@ -4,6 +4,11 @@ using System.Linq;
 
 public class King : Piece
 {
+    public override string GetName()
+    {
+        return "King";
+    }
+
     public override string GetFENchar()
     {
         return isWhite ? "K" : "k";

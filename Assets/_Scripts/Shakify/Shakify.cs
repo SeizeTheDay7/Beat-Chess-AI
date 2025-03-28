@@ -14,12 +14,13 @@ namespace Shakfy.Core
         private int lastTime;
         private Vector3 lastPosition;
         private Quaternion lastRotation;
-        private int lastSecond = 0;
         private float lastWalkTime = 0;
 
         private void Awake()
         {
             audioSource = GetComponent<AudioSource>();
+            audioSource.Play();
+            audioSource.Stop();
 
             // get the last frame of the animation
             // Some shadeData might not have any keys, so we need to check for all PosX, PosY, PosZ and RotX, RotY, RotZ

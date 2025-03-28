@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class Queen : Piece
 {
+    public override string GetName()
+    {
+        return "Queen";
+    }
+
     public override string GetFENchar()
     {
         return isWhite ? "Q" : "q";

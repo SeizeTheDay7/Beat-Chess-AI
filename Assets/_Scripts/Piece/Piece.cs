@@ -19,7 +19,10 @@ public abstract class Piece : MonoBehaviour
         moveCountHelper = serviceLocator.GetComponentInChildren<MoveCountHelper>();
         moveValidator = serviceLocator.GetComponentInChildren<MoveValidator>();
     }
+
+    public abstract string GetName();
     public abstract string GetFENchar();
+
     public abstract List<(int, int)> PossibleMove(CheckFrom checkFrom);
 
 

@@ -2,6 +2,11 @@ using System.Collections.Generic;
 
 public class Rook : Piece
 {
+    public override string GetName()
+    {
+        return "Rook";
+    }
+
     public override string GetFENchar()
     {
         return isWhite ? "R" : "r";

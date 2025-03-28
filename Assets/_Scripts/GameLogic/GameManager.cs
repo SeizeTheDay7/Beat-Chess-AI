@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     private MoveValidator moveValidator;
     private InputHandler inputHandler;
     private TerminalText terminalText;
+    private AIManager aiManager;
     [SerializeField] private AudioSource stageClaerSound;
     [SerializeField] private AudioSource gameClearSound;
     [SerializeField] private RoboticArm roboticArm;
@@ -29,7 +30,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public AITurnState aiTurnState;
     [HideInInspector] public WaitingState waitingState;
 
-    private int phase = 1;
+    public int phase = 1;
     private int stage = 1;
 
     void Start()
@@ -50,6 +51,7 @@ public class GameManager : MonoBehaviour
         moveValidator = serviceLocator.GetComponentInChildren<MoveValidator>();
         inputHandler = serviceLocator.GetComponentInChildren<InputHandler>();
         terminalText = serviceLocator.GetComponentInChildren<TerminalText>();
+        aiManager = serviceLocator.GetComponentInChildren<AIManager>();
     }
 
     void Update()
@@ -149,6 +151,7 @@ public class GameManager : MonoBehaviour
         spotLight.enabled = true;
 
         board.ResetBoard();
+        if (phase == 2) aiManager.ResetAIManager();
         inputHandler.ResetInputHandler(stage);
         terminalText.BackToOriginalTextWith("Stage " + stage);
     }

@@ -161,6 +161,12 @@ public class Board : MonoBehaviour
         return BoardPosToGridIdx(piece.transform.position).Item2;
     }
 
+    public void DestroyPiece(Piece piece, bool isTurnEnd = true)
+    {
+        (int x, int z) = BoardPosToGridIdx(piece.transform.position);
+        DestroyPieceAt(x, z, isTurnEnd);
+    }
+
     /// ------------------------------------------------------------------------------------------------------------------------------
     // 이 아래부터는 전부 그리드 인덱스 기반으로 작성된 함수들
     /// ------------------------------------------------------------------------------------------------------------------------------
