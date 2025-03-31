@@ -76,7 +76,9 @@ namespace Shakfy.Core
             transform.localPosition += lastPosition;
 
             // rotate back to previous rotation
-            transform.localRotation *= Quaternion.Inverse(lastRotation);
+            if (transform.localRotation != Quaternion.identity)
+                transform.localRotation *= Quaternion.Inverse(lastRotation);
+            // transform.localRotation *= Quaternion.Inverse(lastRotation);
             lastRotation = Quaternion.Euler(
                 _shakeData.RotX.Evaluate(time) * strenght,
                 _shakeData.RotY.Evaluate(time) * strenght,

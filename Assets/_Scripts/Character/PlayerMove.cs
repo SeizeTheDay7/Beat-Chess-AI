@@ -41,7 +41,7 @@ public class PlayerMove : MonoBehaviour
         direction.y = 0f; // 점프를 구현하지 않는 이상 y 축 이동 방지 (중력 유지)
         direction.Normalize();
 
-        if (direction != Vector3.zero) shakify.Shake();
+        // if (direction != Vector3.zero) shakify.Shake();
 
         characterController.Move(direction * moveSpeed * Time.deltaTime);
     }

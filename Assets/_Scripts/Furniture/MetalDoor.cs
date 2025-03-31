@@ -23,7 +23,7 @@ public class MetalDoor : MonoBehaviour
         audioSource.clip = metalDoorSounds[0];
         audioSource.Play();
         yield return new WaitForSeconds(metalDoorSounds[0].length);
-        transform.DOLocalMoveX(4.3f, doorSlideTime);
+        transform.DOLocalMoveX(4.5f, doorSlideTime);
         audioSource.clip = metalDoorSounds[1];
         audioSource.Play();
     }
