@@ -93,7 +93,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: 1980608629ebf22438c08f304a3c8c7c, type: 2}
+  m_LightingDataAsset: {fileID: 112000000, guid: 1b26a9ade476f02489b5eb447ff53103, type: 2}
   m_LightingSettings: {fileID: 4890085278179872738, guid: 3361aea44ecdbe64db72d626413cdb23, type: 2}
 --- !u!196 &4
 NavMeshSettings:
@@ -412,6 +412,12 @@ MonoBehaviour:
   audioClips:
   - {fileID: 8300000, guid: 5e6d3ef7467f03a44b36bbe3adffa352, type: 3}
   - {fileID: 8300000, guid: c3697d7b22d7f1345ad3676391e88c72, type: 3}
+  audioSource: {fileID: 0}
+  lastclip: 0
+  lastTime: 0
+  lastPosition: {x: 0, y: 0, z: 0}
+  lastRotation: {x: 0, y: 0, z: 0, w: 0}
+  lastWalkTime: 0
 --- !u!114 &29406811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -439,6 +445,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player_vcam: {fileID: 66593850}
   walk_gap: 0.5
+  amplitudeGain_walk: 2
+  frequencyGain_walk: 1.5
   footstepSounds: []
   moveSpeed: 5
 --- !u!143 &29406813
@@ -8520,6 +8528,12 @@ MonoBehaviour:
   audioClips:
   - {fileID: 8300000, guid: 5e6d3ef7467f03a44b36bbe3adffa352, type: 3}
   - {fileID: 8300000, guid: c3697d7b22d7f1345ad3676391e88c72, type: 3}
+  audioSource: {fileID: 0}
+  lastclip: 0
+  lastTime: 0
+  lastPosition: {x: 0, y: 0, z: 0}
+  lastRotation: {x: 0, y: 0, z: 0, w: 0}
+  lastWalkTime: 0
 --- !u!114 &280201525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8547,6 +8561,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player_vcam: {fileID: 749259389}
   walk_gap: 0.5
+  amplitudeGain_walk: 2
+  frequencyGain_walk: 1.5
   footstepSounds: []
   moveSpeed: 5
 --- !u!143 &280201527
@@ -8627,7 +8643,6 @@ GameObject:
   - component: {fileID: 285975293}
   - component: {fileID: 285975299}
   - component: {fileID: 285975295}
-  - component: {fileID: 285975297}
   - component: {fileID: 285975296}
   - component: {fileID: 285975298}
   m_Layer: 0
@@ -8690,6 +8705,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player_vcam: {fileID: 1799883404}
   walk_gap: 0.75
+  amplitudeGain_walk: 2
+  frequencyGain_walk: 1.5
   footstepSounds:
   - {fileID: 8300000, guid: 5e6d3ef7467f03a44b36bbe3adffa352, type: 3}
   - {fileID: 8300000, guid: c3697d7b22d7f1345ad3676391e88c72, type: 3}
@@ -8831,24 +8848,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &285975297
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 285975290}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d84c14e9424cd040b25c6aa4450d6bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _shakeData: {fileID: 11400000, guid: 2b265e9700a58314dab4f9fe65036671, type: 2}
-  speed: 1.3
-  strenght: 20
-  audioClips:
-  - {fileID: 8300000, guid: 5e6d3ef7467f03a44b36bbe3adffa352, type: 3}
-  - {fileID: 8300000, guid: c3697d7b22d7f1345ad3676391e88c72, type: 3}
 --- !u!54 &285975298
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -23116,12 +23115,12 @@ GameObject:
   - component: {fileID: 1054395999}
   - component: {fileID: 1054395998}
   m_Layer: 0
-  m_Name: TurnOnLightTrigger
+  m_Name: InnerRoomLineTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1054395996
 Transform:
   m_ObjectHideFlags: 0
@@ -23131,7 +23130,7 @@ Transform:
   m_GameObject: {fileID: 1054395995}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.016176, y: -11, z: -18.242805}
+  m_LocalPosition: {x: 3.016176, y: -11, z: -15.93}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -23170,7 +23169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6bc6af25c6cc084885859c9ee75288b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deskLight: {fileID: 0}
+  bgmPlayer: {fileID: 1154388928}
 --- !u!1 &1059939332
 GameObject:
   m_ObjectHideFlags: 0
@@ -23487,7 +23486,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   metalDoor: {fileID: 7393565731776545476}
-  bgmPlayer: {fileID: 1154388928}
 --- !u!4 &1137931583
 Transform:
   m_ObjectHideFlags: 0
@@ -23807,7 +23805,7 @@ AudioSource:
       outWeight: 0
     - serializedVersion: 3
       time: 1
-      value: 0.15208131
+      value: 0
       inSlope: -0.30011982
       outSlope: -0.30011982
       tangentMode: 0
@@ -23822,7 +23820,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.847
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -31136,8 +31134,8 @@ ReflectionProbe:
   m_TimeSlicingMode: 0
   m_Resolution: 1024
   m_UpdateFrequency: 0
-  m_BoxSize: {x: 12.124243, y: 18.52494, z: 6.725601}
-  m_BoxOffset: {x: -0.35050178, y: -0.096035, z: 0.9842224}
+  m_BoxSize: {x: 5.186005, y: 9.819508, z: 6.725601}
+  m_BoxOffset: {x: -0.3075645, y: -4.909754, z: 0.9842224}
   m_NearClip: 0.3
   m_FarClip: 1000
   m_ShadowDistance: 100
@@ -33445,7 +33443,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4423045620967985251, guid: 53995a8f55b868149a6082894ce7a62f, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 0
+      value: 64
       objectReference: {fileID: 0}
     - target: {fileID: 9077926073120308842, guid: 53995a8f55b868149a6082894ce7a62f, type: 3}
       propertyPath: m_RenderingLayerMask

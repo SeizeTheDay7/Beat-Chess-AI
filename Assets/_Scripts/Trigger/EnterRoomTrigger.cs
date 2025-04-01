@@ -3,7 +3,6 @@ using UnityEngine;
 public class EnterRoomTrigger : MonoBehaviour
 {
     [SerializeField] private MetalDoor metalDoor;
-    [SerializeField] private BGM_Player bgmPlayer;
     private bool isTriggered = false;
 
     void OnTriggerEnter(Collider other)
@@ -11,7 +10,6 @@ public class EnterRoomTrigger : MonoBehaviour
         if (isTriggered) return;
         isTriggered = true;
         metalDoor.MetalDoorClose();
-        bgmPlayer.PermanentStopBGM();
         Destroy(gameObject);
     }
 }

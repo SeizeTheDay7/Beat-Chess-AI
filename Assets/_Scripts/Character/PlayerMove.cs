@@ -6,6 +6,8 @@ public class PlayerMove : MonoBehaviour
 {
     [SerializeField] CinemachineCamera player_vcam;
     [SerializeField] float walk_gap = 0.5f;
+    [SerializeField] float amplitudeGain_walk = 2f;
+    [SerializeField] float frequencyGain_walk = 1.5f;
     [SerializeField] AudioClip[] footstepSounds;
     AudioSource footstep;
     public float moveSpeed = 5f;
@@ -40,8 +42,8 @@ public class PlayerMove : MonoBehaviour
 
         if (direction != Vector3.zero)
         {
-            targetAmplitudeGain = 2.5f;
-            targetFrequencyGain = 1.5f;
+            targetAmplitudeGain = amplitudeGain_walk;
+            targetFrequencyGain = frequencyGain_walk;
             if (!wait_nextFootstep)
             {
                 wait_nextFootstep = true;

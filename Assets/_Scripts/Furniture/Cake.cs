@@ -77,7 +77,7 @@ public class Cake : MonoBehaviour, IRaycastNonGame
         meshRenderer.enabled = false;
         DontDestroyOnLoad(gameObject); // 케이크에 재생되는 엔딩 브금 끊기지 않게 하기 위해
 
-        SceneManager.LoadScene("Ending");
+        SceneManager.LoadScene("CakeEnding");
     }
 
     public void OnStartLooking()
