@@ -11,7 +11,7 @@ public class EnterRoomTrigger : MonoBehaviour
         if (isTriggered) return;
         isTriggered = true;
         metalDoor.MetalDoorClose();
-        bgmPlayer.StopBGM();
+        bgmPlayer.PermanentStopBGM();
         Destroy(gameObject);
     }
 }

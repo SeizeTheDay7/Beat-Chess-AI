@@ -28,4 +28,10 @@ public class BGM_Player : MonoBehaviour
         noise_bgm.loop = true;
         noise_bgm.Play();
     }
+
+    public void PermanentStopBGM()
+    {
+        if (main_bgm.isPlaying) main_bgm.Stop();
+        if (noise_bgm.isPlaying) noise_bgm.Stop();
+    }
 }

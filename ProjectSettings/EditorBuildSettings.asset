@@ -6,13 +6,13 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_Scenes/room.unity
+    path: Assets/_Scenes/Game.unity
     guid: 14f5c7a7a5a3ced42a779fbbf7583bd6
   - enabled: 1
-    path: Assets/_Scenes/credit.unity
+    path: Assets/_Scenes/Credit.unity
     guid: 8ae5c0196a466e54a8cb4f6671a8ea14
   - enabled: 1
-    path: Assets/_Scenes/CakeEnding.unity
+    path: Assets/_Scenes/Ending.unity
     guid: 8f4646cb00df07d4b88880f6fab1615c
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
