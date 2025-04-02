@@ -122,7 +122,7 @@ public class AIManager : MonoBehaviour
     /// </summary>
     public void SendPlayerMoveToStockfish()
     {
-        if (gameManager.phase == 2) TryDelete();
+        // if (gameManager.phase == 2) TryDelete();
 
         UnityEngine.Debug.Log("플레이어가 둔 후의 FEN : " + board.GetFENstring());
 
