@@ -151,7 +151,7 @@ public class GameManager : MonoBehaviour
         spotLight.enabled = true;
 
         board.ResetBoard();
-        if (phase == 2) aiManager.ResetAIManager();
+        // if (phase == 2) aiManager.ResetAIManager();
         inputHandler.ResetInputHandler(stage);
         terminalText.BackToOriginalTextWith("Stage " + stage);
     }
