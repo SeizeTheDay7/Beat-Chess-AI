@@ -4,9 +4,10 @@ using System.Collections;
 public class OpenDoorTrigger : MonoBehaviour
 {
     [SerializeField] private BGM_Player bgmPlayer;
-    [SerializeField] private MetalDoor metalDoor;
+    [SerializeField] private ElevatorDoor elevatorDoor;
     [SerializeField] private float waitTime_stopBGM = 3f;
     [SerializeField] private float waitTime_shotSeq = 2f;
+    [SerializeField] private float waitTime_changeSign = 0.5f;
     [SerializeField] private float waitTime_dooropen = 1f;
     [SerializeField] private float waitTime_BGMrestart = 1.5f;
 
@@ -35,8 +36,11 @@ public class OpenDoorTrigger : MonoBehaviour
         shotSequence.Play();
         yield return new WaitForSeconds(shotSequence.clip.length);
 
+        yield return new WaitForSeconds(waitTime_changeSign);
+        elevatorDoor.SetVacant();
+
         yield return new WaitForSeconds(waitTime_dooropen);
-        metalDoor.MetalDoorOpen();
+        elevatorDoor.ElevatorDoorOpen();
 
         yield return new WaitForSeconds(waitTime_BGMrestart);
         bgmPlayer.PlayBGM();

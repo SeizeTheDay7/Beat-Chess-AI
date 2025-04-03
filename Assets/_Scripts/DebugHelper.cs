@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class DebugHelper : MonoBehaviour
 {
-    [SerializeField] private RoboticArm roboticArm;
+    [SerializeField] private ElevatorDoor elevatorDoor;
     GameManager gameManager;
     InputHandler inputHandler;
 
@@ -26,6 +26,26 @@ public class DebugHelper : MonoBehaviour
         {
             // inputHandler.deleteMode = true;
         }
+
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            elevatorDoor.ElevatorDoorOpen();
+        }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            elevatorDoor.ElevatorDoorClose();
+        }
+
+        // if (Input.GetKeyDown(KeyCode.A))
+        // {
+        //     elevatorDoor.SetVacant();
+        // }
+
+        // if (Input.GetKeyDown(KeyCode.B))
+        // {
+        //     elevatorDoor.SetOcccupied();
+        // }
 
     }
 }

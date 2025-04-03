@@ -129,7 +129,9 @@ public class AIManager : MonoBehaviour
         input.WriteLine("position fen " + board.GetFENstring());
         input.Flush();
 
-        input.WriteLine("go depth 20");
+        if (gameManager.phase == 1) input.WriteLine("go depth 18");
+        else if (gameManager.phase == 2) input.WriteLine("go depth 20");
+        else if (gameManager.phase == 3) input.WriteLine("go depth 25");
         input.Flush();
     }
 

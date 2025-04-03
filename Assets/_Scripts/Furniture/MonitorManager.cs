@@ -37,9 +37,12 @@ public class MonitorManager : MonoBehaviour
     /// </summary>
     public void StartTerminalSequence(ScriptContainer script, GameObject bumped_player)
     {
-        walking_player = bumped_player;
-        walking_player.SetActive(false);
-        walking_vcam = walking_player.transform.GetChild(0).GetComponent<CinemachineCamera>();
+        if (bumped_player != null)
+        {
+            walking_player = bumped_player;
+            walking_player.SetActive(false);
+            walking_vcam = walking_player.transform.GetChild(0).GetComponent<CinemachineCamera>();
+        }
 
         currentScript = script;
         textStrings = script.Texts;
