@@ -15,12 +15,7 @@ MonoBehaviour:
   scriptType: 0
   Texts:
   - Welcome to Chess AI Lab
-  - Thank you for participating the experiment
-  - Your data will be used for wellfare of humanity
-  - A rule of the game is simple.
   - Checkmate, stalemate, or capture all of the AI's pieces to win.
   - You can delete up to 3 pieces.
-  - This will decrease by one after each stage.
-  - Good luck
   - Stage 1
-  lineEffect: 000000000100000001000000000000000100000000000000010000000000000000000000
+  lineEffect: 00000000000000000100000000000000

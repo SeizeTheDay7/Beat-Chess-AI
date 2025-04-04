@@ -8,11 +8,16 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] float walk_gap = 0.5f;
     [SerializeField] float amplitudeGain_walk = 2f;
     [SerializeField] float frequencyGain_walk = 1.5f;
+    [SerializeField] float run_gap = 0.25f;
+    [SerializeField] float amplitudeGain_run = 3f;
+    [SerializeField] float frequencyGain_run = 2.2f;
     [SerializeField] AudioClip[] footstepSounds;
     AudioSource footstep;
     public float moveSpeed = 5f;
+    [SerializeField] float runMult = 1.5f;
     private CharacterController characterController;
-    private CinemachineImpulseSource impulse;
+    [SerializeField] private CinemachineImpulseSource impulse_walk;
+    [SerializeField] private CinemachineImpulseSource impulse_run;
     private CinemachineBasicMultiChannelPerlin noise;
     private bool wait_nextFootstep = false;
     private float targetAmplitudeGain;
@@ -21,7 +26,6 @@ public class PlayerMove : MonoBehaviour
     void Start()
     {
         characterController = GetComponent<CharacterController>();
-        impulse = GetComponent<CinemachineImpulseSource>();
         noise = player_vcam.GetComponent<CinemachineBasicMultiChannelPerlin>();
         footstep = gameObject.AddComponent<AudioSource>();
         Cursor.lockState = CursorLockMode.Locked; // 마우스를 화면 중앙에 고정
@@ -37,19 +41,36 @@ public class PlayerMove : MonoBehaviour
         if (Input.GetKey(KeyCode.A)) direction += -player_vcam.transform.right;
         if (Input.GetKey(KeyCode.D)) direction += player_vcam.transform.right;
 
-        direction.y = 0f; // 점프를 구현하지 않는 이상 y 축 이동 방지 (중력 유지)
+        direction.y = 0f; // y축 이동 방지
         direction.Normalize();
+        if (Input.GetKey(KeyCode.LeftShift)) direction *= runMult;
 
         if (direction != Vector3.zero)
         {
-            targetAmplitudeGain = amplitudeGain_walk;
-            targetFrequencyGain = frequencyGain_walk;
-            if (!wait_nextFootstep)
+            // 뛰는거
+            if (Input.GetKey(KeyCode.LeftShift))
             {
-                wait_nextFootstep = true;
-                StartCoroutine(GenerateImpulseWithDelay());
+                targetAmplitudeGain = amplitudeGain_run;
+                targetFrequencyGain = frequencyGain_run;
+                if (!wait_nextFootstep)
+                {
+                    wait_nextFootstep = true;
+                    StartCoroutine(GenerateRunImpulseWithDelay());
+                }
+            }
+            // 걷는거
+            else
+            {
+                targetAmplitudeGain = amplitudeGain_walk;
+                targetFrequencyGain = frequencyGain_walk;
+                if (!wait_nextFootstep)
+                {
+                    wait_nextFootstep = true;
+                    StartCoroutine(GenerateWalkImpulseWithDelay());
+                }
             }
         }
+        // 가만히 있는거
         else
         {
             targetAmplitudeGain = 0.7f;
@@ -62,11 +83,19 @@ public class PlayerMove : MonoBehaviour
         characterController.Move(direction * moveSpeed * Time.deltaTime);
     }
 
-    private IEnumerator GenerateImpulseWithDelay()
+    private IEnumerator GenerateWalkImpulseWithDelay()
     {
-        impulse.GenerateImpulse();
+        impulse_walk.GenerateImpulse();
         PlayFootstepSound();
         yield return new WaitForSeconds(walk_gap);
+        wait_nextFootstep = false;
+    }
+
+    private IEnumerator GenerateRunImpulseWithDelay()
+    {
+        impulse_run.GenerateImpulse();
+        PlayFootstepSound();
+        yield return new WaitForSeconds(run_gap);
         wait_nextFootstep = false;
     }
 
