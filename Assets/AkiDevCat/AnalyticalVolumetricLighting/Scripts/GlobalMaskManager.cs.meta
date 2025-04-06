@@ -1,0 +1,11 @@
+﻿fileFormatVersion: 2
+guid: 642b9e1479584f018fbaf601eb807b1a
+timeCreated: 1697816266
+AssetOrigin:
+  serializedVersion: 1
+  productId: 266586
+  packageName: Analytical Volumetric Lighting [URP] - Performant Raytraced Volumetric
+    Lights
+  packageVersion: 1.2
+  assetPath: Assets/AkiDevCat/AnalyticalVolumetricLighting/Scripts/GlobalMaskManager.cs
+  uploadId: 708343

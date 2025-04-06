@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     private IGameState currentState; // 현재 활성 상태
     public bool whiteTurn = true; // 턴을 나타내는 변수. whiteTurn이 true면 백(플레이어), false면 흑(AI)
     [SerializeField] private Canvas gameoverCanvas; // 게임 오버 캔버스
-    [SerializeField] private WoodenDoor cakeRoomDoor;
+    [SerializeField] private GameObject endingTrigger;
     [SerializeField] private GameObject walking_player;
     [SerializeField] private CinemachineCamera player_vacm;
     [SerializeField] Shooter shooter;
@@ -124,7 +124,7 @@ public class GameManager : MonoBehaviour
 
     private void QuitChess()
     {
-        cakeRoomDoor.OpenDoor();
+        endingTrigger.SetActive(true);
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
