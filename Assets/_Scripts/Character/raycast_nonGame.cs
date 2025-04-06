@@ -19,23 +19,23 @@ public class raycast_nonGame : MonoBehaviour
         if (Physics.Raycast(ray, out hit, rayLength, targetLayer))
         {
             // 머테리얼 변경을 위해 현재 보고 있는 오브젝트 식별 및 함수 호출 (문은 아무 일도 안 일어남)
-            if (curLookObj != hit.collider.gameObject)
-            {
-                curLookObj?.GetComponent<IRaycastNonGame>().OnEndLooking();
-                curLookObj = hit.collider.gameObject;
-                curLookObj.GetComponent<IRaycastNonGame>().OnStartLooking();
-            }
+            // if (curLookObj != hit.collider.gameObject)
+            // {
+            //     curLookObj?.GetComponent<IRaycastNonGame>().OnEndLooking();
+            //     curLookObj = hit.collider.gameObject;
+            //     curLookObj.GetComponent<IRaycastNonGame>().OnStartLooking();
+            // }
 
             if (Input.GetMouseButtonDown(0))
             {
-                curLookObj.GetComponent<IRaycastNonGame>().OnClicked(transform);
+                hit.collider.gameObject.GetComponent<IRaycastNonGame>().OnClicked(transform);
             }
         }
-        else
-        {
-            curLookObj?.GetComponent<IRaycastNonGame>().OnEndLooking();
-            curLookObj = null;
-        }
+        // else
+        // {
+        //     curLookObj?.GetComponent<IRaycastNonGame>().OnEndLooking();
+        //     curLookObj = null;
+        // }
     }
 }
 
