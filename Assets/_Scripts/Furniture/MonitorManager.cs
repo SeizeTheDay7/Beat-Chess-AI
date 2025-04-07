@@ -15,11 +15,9 @@ public class MonitorManager : MonoBehaviour
     private float vcam_trans_time;
     [SerializeField] private CinemachineBrain brain;
     [SerializeField] private CinemachineCamera playing_vcam;
-    [SerializeField] private CinemachineCamera monitor_vcam;
-    [SerializeField] private MetalDoor metalDoor;
+    [SerializeField] private DeskLight deskLight;
     private ScriptContainer currentScript;
     private GameObject walking_player;
-    private CinemachineCamera walking_vcam;
 
     private int textIdx = 0;
 
@@ -41,7 +39,6 @@ public class MonitorManager : MonoBehaviour
         {
             walking_player = bumped_player;
             walking_player.SetActive(false);
-            walking_vcam = walking_player.transform.GetChild(0).GetComponent<CinemachineCamera>();
         }
 
         currentScript = script;
@@ -54,7 +51,7 @@ public class MonitorManager : MonoBehaviour
 
     private IEnumerator TerminalSequence()
     {
-        ChangeVcam(monitor_vcam);
+        // ChangeVcam(monitor_vcam);
         yield return new WaitForSeconds(vcam_trans_time);
 
         isWatchingMonitor = true;
@@ -89,21 +86,9 @@ public class MonitorManager : MonoBehaviour
         // 모든 텍스트 출력했다면 flag에 따라 다음 동작 수행
         if (textIdx == textStrings.Length)
         {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
             isWatchingMonitor = false;
             ChangeVcam(playing_vcam);
-
-            switch (currentScript.scriptType)
-            {
-                case ScriptType.Intro:
-                    gameManager.StartGame(1);
-                    break;
-                case ScriptType.EnterSecondGame:
-                    gameManager.StartGame(2);
-                    break;
-            }
-
+            StartCoroutine(StartLightOnOff());
             return;
         }
 
@@ -114,6 +99,16 @@ public class MonitorManager : MonoBehaviour
             terminalText.SetTerminalText(textStrings[textIdx]);
 
         textIdx++;
+    }
+
+    private IEnumerator StartLightOnOff()
+    {
+        deskLight.TurnOffLight();
+        gameManager.StartGame(1);
+        yield return new WaitForSeconds(3f);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        deskLight.TurnOnLight();
     }
 
 
