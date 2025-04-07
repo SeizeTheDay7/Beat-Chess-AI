@@ -14,6 +14,7 @@ public class MonitorManager : MonoBehaviour
     private bool isWatchingMonitor = false;
     private float vcam_trans_time;
     [SerializeField] private CinemachineBrain brain;
+    [SerializeField] private CinemachineCamera monitor_vcam;
     [SerializeField] private CinemachineCamera playing_vcam;
     [SerializeField] private DeskLight deskLight;
     private ScriptContainer currentScript;
@@ -51,7 +52,7 @@ public class MonitorManager : MonoBehaviour
 
     private IEnumerator TerminalSequence()
     {
-        // ChangeVcam(monitor_vcam);
+        ChangeVcam(monitor_vcam);
         yield return new WaitForSeconds(vcam_trans_time);
 
         isWatchingMonitor = true;
@@ -86,9 +87,12 @@ public class MonitorManager : MonoBehaviour
         // 모든 텍스트 출력했다면 flag에 따라 다음 동작 수행
         if (textIdx == textStrings.Length)
         {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
             isWatchingMonitor = false;
             ChangeVcam(playing_vcam);
-            StartCoroutine(StartLightOnOff());
+            gameManager.StartGame(1);
+            // StartCoroutine(StartLightOnOff());
             return;
         }
 

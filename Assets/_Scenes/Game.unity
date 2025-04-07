@@ -2114,6 +2114,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: c3697d7b22d7f1345ad3676391e88c72, type: 3}
   - {fileID: 8300000, guid: 84e18d930cccca842acef2ec2c6fb063, type: 3}
   - {fileID: 8300000, guid: c871cf60ba4cd2c4c9917c131fe22f47, type: 3}
+  footstep: {fileID: 285975296}
   moveSpeed: 5
   runMult: 2
   impulse_walk: {fileID: 285975299}
@@ -4762,6 +4763,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   brain: {fileID: 2596835475367476417}
+  monitor_vcam: {fileID: 1827153918}
   playing_vcam: {fileID: 458857212}
   deskLight: {fileID: 901753850}
 --- !u!1 &726117635
@@ -9204,7 +9206,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1827153918
 MonoBehaviour:
   m_ObjectHideFlags: 0

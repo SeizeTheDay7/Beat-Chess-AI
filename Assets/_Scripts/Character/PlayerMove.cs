@@ -12,7 +12,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] float amplitudeGain_run = 3f;
     [SerializeField] float frequencyGain_run = 2.2f;
     [SerializeField] AudioClip[] footstepSounds;
-    AudioSource footstep;
+    [SerializeField] private AudioSource footstep;
     public float moveSpeed = 5f;
     [SerializeField] float runMult = 1.5f;
     private CharacterController characterController;
@@ -27,9 +27,14 @@ public class PlayerMove : MonoBehaviour
     {
         characterController = GetComponent<CharacterController>();
         noise = player_vcam.GetComponent<CinemachineBasicMultiChannelPerlin>();
-        footstep = gameObject.AddComponent<AudioSource>();
+        footstep = GetComponent<AudioSource>();
         Cursor.lockState = CursorLockMode.Locked; // 마우스를 화면 중앙에 고정
         Cursor.visible = false; // 마우스 커서 숨김
+    }
+
+    void OnEnable()
+    {
+        wait_nextFootstep = false;
     }
 
     void Update()
