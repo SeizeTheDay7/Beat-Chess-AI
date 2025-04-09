@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     private InputHandler inputHandler;
     private TerminalText terminalText;
     private AIManager aiManager;
+    private MonitorManager monitorManager;
     [SerializeField] private AudioSource stageClaerSound;
     [SerializeField] private AudioSource gameClearSound;
     [SerializeField] private RoboticArm roboticArm;
@@ -52,6 +53,7 @@ public class GameManager : MonoBehaviour
         inputHandler = serviceLocator.GetComponentInChildren<InputHandler>();
         terminalText = serviceLocator.GetComponentInChildren<TerminalText>();
         aiManager = serviceLocator.GetComponentInChildren<AIManager>();
+        monitorManager = serviceLocator.GetComponentInChildren<MonitorManager>();
     }
 
     void Update()
@@ -107,22 +109,19 @@ public class GameManager : MonoBehaviour
     {
         spotLight.enabled = false;
         ChangeToWaitingState();
-        terminalText.SetTerminalText("Stage Clear!");
+        // terminalText.SetTerminalText("Stage Clear!");
+        stageClaerSound.Play();
 
         stage++;
 
-        if (stage > 3)
-        {
-            QuitChess();
-            return;
-        }
+        if (stage == 2) monitorManager.StartTerminalSequence(ScriptType.winFirstStage, null);
+        else if (stage == 3) monitorManager.StartTerminalSequence(ScriptType.winSecondStage, null);
+        else if (stage == 4) monitorManager.StartTerminalSequence(ScriptType.winLastStage, null);
 
-        stageClaerSound.Play();
-
-        Invoke("ResetGame", 3f);
+        // Invoke("ResetGame", 3f);
     }
 
-    private void QuitChess()
+    public void QuitChess()
     {
         endingTrigger.SetActive(true);
 

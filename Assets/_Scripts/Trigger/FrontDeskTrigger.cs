@@ -10,7 +10,7 @@ public class FrontDeskTrigger : MonoBehaviour
     {
         if (triggered) return;
         triggered = true;
-        MonitorManager.StartTerminalSequence(introScript, other.gameObject);
+        MonitorManager.StartTerminalSequence(ScriptType.Intro, other.gameObject);
         Destroy(gameObject);
     }
 }

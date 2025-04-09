@@ -17,6 +17,8 @@ public class MonitorManager : MonoBehaviour
     [SerializeField] private CinemachineCamera monitor_vcam;
     [SerializeField] private CinemachineCamera playing_vcam;
     [SerializeField] private DeskLight deskLight;
+    [SerializeField] private ScriptContainer[] scripts;
+    private int scriptIdx;
     private ScriptContainer currentScript;
     private GameObject walking_player;
 
@@ -34,7 +36,7 @@ public class MonitorManager : MonoBehaviour
     /// <summary>
     /// 호출하여 터미널 시퀀스 시작
     /// </summary>
-    public void StartTerminalSequence(ScriptContainer script, GameObject bumped_player)
+    public void StartTerminalSequence(ScriptType scriptType, GameObject bumped_player)
     {
         if (bumped_player != null)
         {
@@ -42,6 +44,8 @@ public class MonitorManager : MonoBehaviour
             walking_player.SetActive(false);
         }
 
+        scriptIdx = (int)scriptType;
+        ScriptContainer script = scripts[scriptIdx];
         currentScript = script;
         textStrings = script.Texts;
         lineEffects = script.lineEffect;
@@ -91,8 +95,11 @@ public class MonitorManager : MonoBehaviour
             Cursor.visible = true;
             isWatchingMonitor = false;
             ChangeVcam(playing_vcam);
-            gameManager.StartGame(1);
-            // StartCoroutine(StartLightOnOff());
+
+            if (scriptIdx == (int)ScriptType.Intro) gameManager.StartGame(1);
+            else if (scriptIdx == (int)ScriptType.winFirstStage) gameManager.ResetGame();
+            else if (scriptIdx == (int)ScriptType.winSecondStage) gameManager.ResetGame();
+            else if (scriptIdx == (int)ScriptType.winLastStage) gameManager.QuitChess();
             return;
         }
 

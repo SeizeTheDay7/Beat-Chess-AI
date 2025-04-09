@@ -10,7 +10,7 @@ public class SecondMatchTrigger : MonoBehaviour
     {
         if (isTriggered) return;
         isTriggered = true;
-        monitorManager.StartTerminalSequence(secondMatchScript, other.gameObject);
+        // monitorManager.StartTerminalSequence(secondMatchScript, other.gameObject);
         Destroy(gameObject);
     }
 }

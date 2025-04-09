@@ -1,6 +1,7 @@
 public enum ScriptType
 {
     Intro,
-    EnterSecondGame,
-    CakeEnding
+    winFirstStage,
+    winSecondStage,
+    winLastStage
 }
